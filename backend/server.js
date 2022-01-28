@@ -7,6 +7,11 @@ const port = conf.get('serverConfig.port')
 app.use(cors());
 app.use(bodyParser.json());
 
+// Define routes.
+app.get('/', (req, res) => {
+    res.send('API running...');
+});
+
 app.listen(port, () => {
-    console.log('Server is listening...');
+    console.log(`Server is listening on port ${port}...`);
 });
