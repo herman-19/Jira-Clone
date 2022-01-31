@@ -117,7 +117,6 @@ const updateIssue = async (issueId, issueData) => {
             title,
             description,
             reporterId,
-            last_updated_timestamp,
             assigneeIDs
         } = issueData;
 
