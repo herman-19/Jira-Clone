@@ -2,7 +2,7 @@ const app = require('express')();
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const conf = require("config");
-const port = conf.get('serverConfig.port')
+const port = conf.get('serverConfig.port');
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -11,6 +11,7 @@ app.use(bodyParser.json());
 app.get('/', (req, res) => {
     res.send('API running...');
 });
+app.use('/api/users', require('./routes/api/users'));
 
 app.listen(port, () => {
     console.log(`Server is listening on port ${port}...`);

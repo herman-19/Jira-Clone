@@ -24,6 +24,11 @@ const getUser = async (id) => {
     return rows[0];
 };
 
+const getUserByEmail = async (email) => {
+    const { rows } = await pool.query('SELECT * FROM person WHERE email = $1', [email]);
+    return rows[0];
+};
+
 const deleteUser = async (id) => {
     const { rows } = await pool.query('DELETE FROM person WHERE person_id = $1 RETURNING *', [id]);
     return rows[0];
@@ -196,6 +201,7 @@ const updateProject = async (projectData, projectId) => {
 module.exports = {
     getUsers,
     getUser,
+    getUserByEmail,
     deleteUser,
     createUser,
     updateUser,
