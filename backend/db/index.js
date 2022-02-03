@@ -1,6 +1,7 @@
 const conf = require('config');
 const { Pool } = require('pg');
 const format = require('pg-format');
+const bcrypt = require('bcryptjs');
 
 // Create pool of connections.
 const pool = new Pool({
@@ -40,8 +41,26 @@ const createUser = async (name, email, password) => {
 };
 
 const updateUser = async (id, name, password) => {
-    const { rows } = await pool.query('UPDATE person SET name = $2, password = $3 WHERE person_id = $1 RETURNING *', [id, name, password]);
-    return rows[0];
+    let row;
+    if (name && password) {
+        // Hash password before storing.
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(password, salt);
+
+        const res = await pool.query('UPDATE person SET name = $2, password = $3 WHERE person_id = $1 RETURNING name, email, image_s3_url', [id, name, hashedPassword]);
+        row = res.rows[0];
+    } else if (!name) {
+        // Only password will be updated.
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(password, salt);
+        const res = await pool.query('UPDATE person SET password = $2 WHERE person_id = $1 RETURNING name, email, image_s3_url', [id, hashedPassword]);
+        row = res.rows[0];
+    } else {
+        // Only name will be updated.
+        const res = await pool.query('UPDATE person SET name = $2 WHERE person_id = $1 RETURNING name, email, image_s3_url', [id, name]);
+        row = res.rows[0];
+    }
+    return row;
 };
 
 // Issues.
