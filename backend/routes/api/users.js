@@ -152,20 +152,6 @@ router.get('/', auth, async (req, res) => {
     }
 });
 
-// @route   DELETE api/users
-// @desc    DELETE user
-// @access  Private
-router.delete("/", auth, async (req, res) => {
-    try {
-        // Delete user and related entries in other tables.
-        await db.deleteUser(req.user.id);
-        res.json({ msg: "User deleted." });
-    } catch (error) {
-        console.error(error.message);
-        res.status(500).send("Server Error.");
-    }
-});
-
 // @route   UPDATE api/users
 // @desc    UPDATE user information
 // @access  Private
@@ -180,6 +166,20 @@ router.put('/', auth, async (req, res) => {
         const user = await db.updateUser(req.user.id, name, password);
         console.log(user);
         res.json(user);
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).send("Server Error.");
+    }
+});
+
+// @route   DELETE api/users
+// @desc    DELETE user
+// @access  Private
+router.delete("/", auth, async (req, res) => {
+    try {
+        // Delete user and related entries in other tables.
+        await db.deleteUser(req.user.id);
+        res.json({ msg: "User deleted." });
     } catch (error) {
         console.error(error.message);
         res.status(500).send("Server Error.");

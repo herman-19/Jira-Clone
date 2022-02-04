@@ -45,19 +45,6 @@ router.get('/:id', auth, async (req, res) => {
     }
 });
 
-// @route  DELETE api/issues/:id
-// @desc   Delete an issue
-// @access Private
-router.delete('/:id', async (req, res) => {
-    try {
-        const deletedIssue = await db.deleteIssue(req.params.id);
-        return res.json(deletedIssue);
-    } catch (error) {
-        console.log(error.message);
-        res.status(500).send('Server Error.');
-    }
-});
-
 // @route  POST api/issues
 // @desc   Create a new issue
 // @access Private
@@ -105,7 +92,7 @@ router.post(
     }
 );
 
-// @route  POST api/issues/:id
+// @route  PUT api/issues/:id
 // @desc   Update an issue
 // @access Private
 router.put('/:id', auth, async (req, res) => {
@@ -117,6 +104,19 @@ router.put('/:id', auth, async (req, res) => {
     try {
         const query = await db.updateIssue(req.params.id, req.body);
         res.json(query);
+    } catch (error) {
+        console.log(error.message);
+        res.status(500).send('Server Error.');
+    }
+});
+
+// @route  DELETE api/issues/:id
+// @desc   Delete an issue
+// @access Private
+router.delete('/:id', auth, async (req, res) => {
+    try {
+        const deletedIssue = await db.deleteIssue(req.params.id);
+        return res.json(deletedIssue);
     } catch (error) {
         console.log(error.message);
         res.status(500).send('Server Error.');
