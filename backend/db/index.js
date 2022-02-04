@@ -74,6 +74,16 @@ const getIssue = async (id) => {
     return rows[0];
 };
 
+const getIssueByUserId = async (userId) => {
+    const { rows } = await pool.query(
+        'SELECT ia.issue_id, i.type, i.status, i.priority, i.title, i.description, i.reporter_id, i.created_at, i.last_updated_at \
+         FROM issue_assignee AS ia \
+         INNER JOIN issue AS i \
+         ON ia.issue_id = i.issue_id \
+         WHERE person_id = $1', [userId]);
+    return rows;
+};
+
 const deleteIssue = async (id) => {
     const { rows } = await pool.query('DELETE FROM issue WHERE issue_id = $1 RETURNING *', [id]);
     return rows[0];
@@ -131,31 +141,29 @@ const updateIssue = async (issueId, issueData) => {
 
     // PostgreSQL isolates a transaction to individual clients.
     const client = await pool.connect();
+    const query = constructUpdateIssueQuery(issueId, issueData);
+
+    // Extract list of values from issueData.
+    // Skip assigneeIDs if provided since this is used only for
+    // updating bridge table.
+    const values = Object.keys(issueData).filter(key => key !== "assigneeIDs").map(key => issueData[key]);
 
     try {
         await client.query('BEGIN');
-        const {
-            type,
-            status,
-            priority,
-            title,
-            description,
-            reporterId,
-            assigneeIDs
-        } = issueData;
 
         // Update record in issue table.
-        const { rows } = await client.query('UPDATE issue SET type = $2, status = $3, priority = $4, title = $5, description = $6, reporter_id = $7 WHERE issue_id = $1 RETURNING *', [issueId, type, status, priority, title, description, reporterId]);
+        const { rows } = await client.query(query, values);
 
-        // TODO: Research for a better way to update bridge table.
-        // For now, simply remove records with current issue ID and
-        // then insert new <issueID, userID> pair entry.
-        let issueAssignees = [];
-        for (let assigneedID of assigneeIDs) {
-            issueAssignees.push([issueId, assigneedID]);
+        // Update bridge table if assignees were updated.
+        const { assigneeIDs } = issueData;
+        if (assigneeIDs) {
+            let issueAssignees = [];
+            for (let assigneedID of assigneeIDs) {
+                issueAssignees.push([issueId, assigneedID]);
+            }
+            await client.query('DELETE FROM issue_assignee WHERE issue_id = $1', [issueId]);
+            await client.query(format('INSERT INTO issue_assignee(issue_id, person_id) VALUES %L', issueAssignees), []);
         }
-        await client.query('DELETE FROM issue_assignee WHERE issue_id = $1', [issueId]);
-        await client.query(format('INSERT INTO issue_assignee(issue_id, person_id) VALUES %L', issueAssignees), []);
 
         await client.query('COMMIT');
         return rows[0];
@@ -166,6 +174,31 @@ const updateIssue = async (issueId, issueData) => {
         console.log('Releasing client -- updateIssue');
         client.release();
     }
+};
+
+const constructUpdateIssueQuery = (issueId, cols) => {
+    // Setup static beginning of query
+    const query = ['UPDATE issue'];
+    query.push('SET');
+
+    // Create list storing each set command
+    // and assigning a number value for parameterized query
+    const set = [];
+    Object.keys(cols).forEach((key, i) => {
+        // Skip assigneeIDs list, since it's
+        // used to update the bridge table only.
+        if (key !== 'assigneeIDs') {
+            set.push(key + ' = $' + (i + 1));
+        }
+    });
+    query.push(set.join(', '));
+
+    // Add the WHERE statement to look up by id
+    query.push('WHERE issue_id = ' + issueId);
+    query.push('RETURNING *');
+
+    // Return a complete query string
+    return query.join(' ');
 };
 
 // Comments.
@@ -226,6 +259,7 @@ module.exports = {
     updateUser,
     getIssues,
     getIssue,
+    getIssueByUserId,
     deleteIssue,
     createIssue,
     updateIssue,
