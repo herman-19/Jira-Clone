@@ -109,9 +109,14 @@ router.post(
 // @desc   Update an issue
 // @access Private
 router.put('/:id', auth, async (req, res) => {
+    // Check if received data to update issue.
+    if (Object.keys(req.body).length === 0) {
+        return res.json({ msg: "No data provided." })
+    }
+
     try {
-        const query = db.updateIssue(req.params.id, req.body);
-        res.send(query);
+        const query = await db.updateIssue(req.params.id, req.body);
+        res.json(query);
     } catch (error) {
         console.log(error.message);
         res.status(500).send('Server Error.');
