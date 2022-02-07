@@ -234,7 +234,14 @@ const updateComment = async (commentId, content) => {
 };
 
 // Projects.
-const updateProject = async (projectData, projectId) => {
+const getProject = async () => {
+    const { rows } = await pool.query('SELECT * FROM project');
+
+    // Only one project.
+    return rows[0];
+};
+
+const updateProject = async (projectId, projectData) => {
     const {
         name,
         url,
@@ -242,7 +249,7 @@ const updateProject = async (projectData, projectId) => {
         description
     } = projectData;
 
-    const { rows } = await pool.query('UPDATE project SET name = $2, url = $3, category = $3, description = $4 WHERE project_id = $1 RETURNING *', [projectId, name, url, category, description]);
+    const { rows } = await pool.query('UPDATE project SET name = $2, url = $3, category = $4, description = $5 WHERE project_id = $1 RETURNING *', [projectId, name, url, category, description]);
     return rows[0];
 };
 
@@ -264,5 +271,6 @@ module.exports = {
     deleteComment,
     createComment,
     updateComment,
+    getProject,
     updateProject
 };
