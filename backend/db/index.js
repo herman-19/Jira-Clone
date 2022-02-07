@@ -228,11 +228,7 @@ const createComment = async (commentData) => {
     return rows[0];
 };
 
-const updateComment = async (commentId, commentData) => {
-    const {
-        content
-    } = commentData;
-
+const updateComment = async (commentId, content) => {
     const { rows } = await pool.query('UPDATE comment SET content = $2 WHERE comment_id = $1 RETURNING *', [commentId, content]);
     return rows[0];
 };

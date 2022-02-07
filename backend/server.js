@@ -13,6 +13,7 @@ app.get('/', (req, res) => {
 });
 app.use('/api/users', require('./routes/api/users'));
 app.use('/api/issues', require('./routes/api/issues'));
+app.use('/api/comments', require('./routes/api/comments'));
 
 app.listen(port, () => {
     console.log(`Server is listening on port ${port}...`);
