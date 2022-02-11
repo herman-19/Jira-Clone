@@ -94,3 +94,11 @@ body {
   display: inline;
   content: "⚠ ";
 }
+
+.landing p {
+  color: #0052cc;
+}
+
+.underline-hover:hover {
+  text-decoration: underline;
+}
