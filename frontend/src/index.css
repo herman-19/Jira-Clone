@@ -1,13 +1,96 @@
-body {
+* {
+  box-sizing: border-box;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  padding: 0;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+body {
+  font-family: 'Source Sans Pro', sans-serif;
+  background-color: #fafbfc;
+  height: 100%;
+}
+
+.landing {
+  height: 100vh;
+}
+
+.landing h1 {
+  text-align: center;
+  padding: 40px 0px;
+  font-size: 2.5em;
+  color: #0052cc;
+}
+
+.landing-box {
+  display: flex;
+  flex-direction: column;
+  margin: 0px auto ;
+  width: 400px;
+  padding: 32px 40px;
+  background: rgb(255, 255, 255);
+  border-radius: 3px;
+  box-shadow: rgb(0 0 0 / 10%) 0px 0px 10px;
+  box-sizing: border-box;
+  text-align: center;
+}
+
+.box-title {
+  font-weight: 800;
+  font-size: 1.1em;
+  margin-bottom: 0px;
+  color: rgb(94, 108, 132);
+}
+
+.submit-sign-up {
+  height: 40px;
+  line-height: 40px;
+  width: 100%;
+  max-width: 100%;
+  margin: 28px auto;
+  padding: 0px 10px;
+  border-width: 0px;
+  border-radius: 3px;
+  box-sizing: border-box;
+  font-weight: 500;
+  vertical-align: middle;
+  background-color: #0052cc;
+  color: #ffffff;
+}
+
+.landing-box button:hover {
+  background-color: #0099e0;
+}
+
+.text-field-container {
+  align-items: center;
+  background-color: #FAFBFC;
+  border-color: #DFE1E6;
+  border-radius: 3px;
+  border-width: 2px;
+  border-style: solid;
+  box-sizing: border-box;
+  display: flex;
+  flex: 1 1 100%;
+  font-size: 14px;
+  justify-content: space-between;
+  height: 39px;
+  width: 100%;
+  margin-top: 16px;
+  padding: 10px;
+  color: #091E42;
+}
+
+.landing input {
+  padding: 8px 6px;
+  height: 2.57em;
+  text-align: start;
+}
+
+.landing h5 {
+  margin-top: 5px;
+}
+
+.landing h5::before {
+  display: inline;
+  content: "⚠ ";
 }

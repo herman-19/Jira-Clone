@@ -1,20 +1,20 @@
-import React from "react";
-// import {
-//   BrowserRouter as Router,
-//   Route,
-//   Switch,
-//   Redirect,
-// } from "react-router-dom";
+import React from 'react';
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes
+} from 'react-router-dom';
 
+import Landing from '../src/components/Landing';
 
 function App() {
   return (
     <div>
-      <header>
-        <p>
-          Jira Clone under construction...
-        </p>
-      </header>
+      <Router>
+        <Routes>
+          <Route exact path='/' element={<Landing />} />
+        </Routes>
+      </Router>
     </div>
   );
 }
