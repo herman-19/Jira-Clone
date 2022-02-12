@@ -41,7 +41,7 @@ body {
   color: rgb(94, 108, 132);
 }
 
-.submit-sign-up {
+.submit-button-landing {
   height: 40px;
   line-height: 40px;
   width: 100%;
@@ -59,6 +59,7 @@ body {
 
 .landing-box button:hover {
   background-color: #0099e0;
+  cursor: pointer;
 }
 
 .text-field-container {
@@ -101,4 +102,5 @@ body {
 
 .underline-hover:hover {
   text-decoration: underline;
+  cursor: pointer;
 }
