@@ -59,8 +59,8 @@ const Register = ({ loginDisplayed }) => {
                     ...register("password", {
                         required: "Password is required.",
                         minLength: {
-                            value: 6,
-                            message: "Must exceed 6 characters.",
+                            value: 8,
+                            message: "Must exceed 8 characters.",
                         },
                     })}
                     placeholder="Enter password"
