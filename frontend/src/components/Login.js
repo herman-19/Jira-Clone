@@ -1,13 +1,16 @@
 import React, { useState, Fragment } from 'react';
 import { useForm } from 'react-hook-form';
+import { userLogin } from "../api/UserAPI";
 
 const Login = ({ loginDisplayed }) => {
     const { register, handleSubmit, formState: { errors } } = useForm();
     const [message, setMessage] = useState();
 
-    const onSubmit = (loginCredentials, e) => {
+    const onSubmit = async (loginCredentials, e) => {
         try {
             console.log('Logging in...');
+            const res = await userLogin(loginCredentials);
+            console.log(res);
             setMessage({ info: `Logging in...`, type: `success` });
         } catch (error) {
             setMessage({ info: `${error}`, type: `warning` });
@@ -39,8 +42,8 @@ const Login = ({ loginDisplayed }) => {
                     ...register('password', {
                         required: 'Password is required.',
                         minLength: {
-                            value: 6,
-                            message: 'Must exceed 6 characters.'
+                            value: 8,
+                            message: 'Must exceed 8 characters.'
                         },
                     })}
                     placeholder='Enter password'
