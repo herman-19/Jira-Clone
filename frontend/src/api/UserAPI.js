@@ -12,4 +12,17 @@ const userLogin = async (loginCredentials) => {
     }
 };
 
-export { userLogin };
+const userRegistration = async (registrationData) => {
+    try {
+        console.log(registrationData);
+        return registrationData;
+    } catch (error) {
+        const errMsg = error.response.data.errors[0].msg;
+        throw errMsg;
+    }
+};
+
+export {
+    userLogin,
+    userRegistration
+};
