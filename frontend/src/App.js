@@ -6,6 +6,7 @@ import {
 } from 'react-router-dom';
 
 import Landing from '../src/components/Landing';
+import Board from '../src/components/Board';
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
       <Router>
         <Routes>
           <Route exact path='/' element={<Landing />} />
+          <Route exact path='/project' element={<Board />} />
         </Routes>
       </Router>
     </div>
