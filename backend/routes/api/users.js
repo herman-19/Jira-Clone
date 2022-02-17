@@ -1,7 +1,5 @@
 const express = require('express');
-const conf = require('config');
 const router = express.Router();
-const jwt = require('jsonwebtoken');
 const { check, validationResult } = require('express-validator');
 const bcrypt = require('bcryptjs');
 const db = require('../../db/index');
@@ -41,25 +39,10 @@ router.post(
             const hashedPassword = await bcrypt.hash(password, salt);
             user = await db.createUser(name, email, hashedPassword);
 
-            // Return jsonwebtoken so user is logged in after registration.
-            const payload = {
-                user: {
-                    id: user.person_id,
-                    email: user.email
-                },
-            };
-
-            // Sign the payload into the JSON web token and return it to client.
-            jwt.sign(
-                payload,
-                conf.get('jwtSecret'),
-                { expiresIn: 360000 },
-                (err, token) => {
-                    if (err) throw err;
-                    console.log(`User created: ${name}!`);
-                    res.json({ token });
-                }
-            );
+            // Populate session object and save in store.
+            req.session.userId = user.person_id;
+            req.session.email = user.email;
+            res.status(400).send('Registration successful.');
         } catch (error) {
             console.error(error.message);
             res.status(500).send('Server Error.');
@@ -68,7 +51,7 @@ router.post(
 );
 
 // @route   POST api/users/login
-// @desc    Authenticate user and get token--i.e., user login.
+// @desc    Authenticate user--i.e., user login
 // @access  Public
 router.post(
     '/login',
@@ -89,7 +72,7 @@ router.post(
             const user = await db.getUserByEmail(email);
             if (!user) {
                 return res
-                    .status(400)
+                    .status(401)
                     .json({ errors: [{ msg: 'Invalid credentials' }] });
             }
 
@@ -97,28 +80,16 @@ router.post(
             const isMatch = await bcrypt.compare(password, user.password);
             if (!isMatch) {
                 return res
-                    .status(400)
+                    .status(401)
                     .json({ errors: [{ msg: 'Invalid credentials.' }] });
             }
 
-            // Return jsonwebtoken for user login.
-            const payload = {
-                user: {
-                    id: user.person_id,
-                    email: user.email
-                },
-            };
+            // Populate session object and save in store.
+            req.session.userId = user.person_id;
+            req.session.email = user.email;
 
-            // Sign the payload into the JSON web token and return it to client.
-            jwt.sign(
-                payload,
-                conf.get('jwtSecret'),
-                { expiresIn: 360000 },
-                (err, token) => {
-                    if (err) throw err;
-                    res.json({ token });
-                }
-            );
+            console.log(`User login: ${req.session.email}`);
+            res.status(400).send('Login successful.');
         } catch (error) {
             console.error(error.message);
             res.status(500).send('Server error.');
@@ -126,12 +97,21 @@ router.post(
     }
 );
 
+// @route   GET api/users/logout
+// @desc    Logout the current user
+// @access  Private
+router.get('/logout', auth, (req, res) => {
+    console.log(`User logout: ${req.session.email}`);
+    req.session.destroy();
+    res.status(400).send('Logged out.');
+});
+
 // @route   GET api/users/current
-// @desc    Return the current user based on token.
+// @desc    Return the current user
 // @access  Private
 router.get('/current', auth, async (req, res) => {
     try {
-        const user = await db.getUser(req.user.id);
+        const user = await db.getUser(req.session.userId);
         res.json(user);
     } catch (error) {
         console.error(error.message);
@@ -163,7 +143,7 @@ router.put('/', auth, async (req, res) => {
             return res.json({ msg: "No fields provided for update." });
         }
 
-        const user = await db.updateUser(req.user.id, name, password);
+        const user = await db.updateUser(req.session.userId, name, password);
         console.log(user);
         res.json(user);
     } catch (error) {
@@ -178,7 +158,7 @@ router.put('/', auth, async (req, res) => {
 router.delete("/", auth, async (req, res) => {
     try {
         // Delete user and related entries in other tables.
-        await db.deleteUser(req.user.id);
+        await db.deleteUser(req.session.userId);
         res.json({ msg: "User deleted." });
     } catch (error) {
         console.error(error.message);

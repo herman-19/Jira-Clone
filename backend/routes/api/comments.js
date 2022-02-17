@@ -42,7 +42,7 @@ router.post(
 
             // Create comment object.
             const commentData = {
-                personId: req.user.id,
+                personId: req.session.userId,
                 issueId: req.body.issueId,
                 content: req.body.content
             };
@@ -79,7 +79,7 @@ router.put(
             // User should only be able to update own comments.
             // Check if comment being updated is owned by current user.
             const comment = await db.getComment(req.params.id);
-            if (req.user.id !== comment.person_id) {
+            if (req.session.userId !== comment.person_id) {
                 return res.status(400).json({ errors: [{ msg: 'Cannot update comment of other user.' }] });
             }
 
@@ -101,7 +101,7 @@ router.delete('/:id', auth, async (req, res) => {
         // User should only be able to delete own comments.
         // Check if comment being deleted is owned by current user.
         const comment = await db.getComment(req.params.id);
-        if (req.user.id !== comment.person_id) {
+        if (req.session.userId !== comment.person_id) {
             return res.status(400).json({ errors: [{ msg: 'Cannot delete comment of other user.' }] });
         }
 

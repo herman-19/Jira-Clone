@@ -3,9 +3,24 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const conf = require("config");
 const port = conf.get('serverConfig.port');
+const session = require('express-session');
 
 app.use(cors());
 app.use(bodyParser.json());
+
+// TODO: Set secure for https only. And revisit store type.
+app.use(session({
+    secret: conf.get('sessionSecret'),
+    name: 'sessionID',
+    saveUninitialized: false,
+    resave: false,
+    cookie: {
+        httpOnly: true,
+        // secure: true,
+        sameSite: 'strict',
+        maxAge: 1000 * 60 * 15 // 15 minutes
+    }
+}));
 
 // Define routes.
 app.get('/', (req, res) => {

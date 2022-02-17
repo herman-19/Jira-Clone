@@ -24,7 +24,7 @@ router.get('/', auth, async (req, res) => {
 // @access Private
 router.get('/me', auth, async (req, res) => {
     try {
-        const issues = await db.getIssueByUserId(req.user.id);
+        const issues = await db.getIssueByUserId(req.session.userId);
         return res.json(issues);
     } catch (error) {
         console.log(error.message);
