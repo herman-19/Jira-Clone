@@ -42,7 +42,7 @@ router.post(
             // Populate session object and save in store.
             req.session.userId = user.person_id;
             req.session.email = user.email;
-            res.status(400).send('Registration successful.');
+            res.status(200).send('Registration successful.');
         } catch (error) {
             console.error(error.message);
             res.status(500).send('Server Error.');
@@ -89,7 +89,7 @@ router.post(
             req.session.email = user.email;
 
             console.log(`User login: ${req.session.email}`);
-            res.status(400).send('Login successful.');
+            res.status(200).send('Login successful.');
         } catch (error) {
             console.error(error.message);
             res.status(500).send('Server error.');
@@ -103,7 +103,7 @@ router.post(
 router.get('/logout', auth, (req, res) => {
     console.log(`User logout: ${req.session.email}`);
     req.session.destroy();
-    res.status(400).send('Logged out.');
+    res.status(200).send('Logged out.');
 });
 
 // @route   GET api/users/current
