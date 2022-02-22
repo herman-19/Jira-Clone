@@ -1,17 +1,22 @@
 import React, { useState, Fragment } from 'react';
 import { useForm } from 'react-hook-form';
-import { userLogin } from "../api/UserAPI";
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../useAuth';
 
 const Login = ({ loginDisplayed }) => {
     const { register, handleSubmit, formState: { errors } } = useForm();
     const [message, setMessage] = useState();
+    const navigate = useNavigate();
+    const auth = useAuth();
 
     const onSubmit = async (loginCredentials, e) => {
         try {
             console.log('Logging in...');
-            const res = await userLogin(loginCredentials);
-            console.log(res);
-            setMessage({ info: `Logging in...`, type: `success` });
+            const data = await auth.login(loginCredentials, () => {
+                navigate('/project');
+            });
+            console.log(data);
+            e.target.reset();
         } catch (error) {
             setMessage({ info: `${error}`, type: `warning` });
         }
@@ -36,8 +41,8 @@ const Login = ({ loginDisplayed }) => {
                 />
                 {errors.email && <h5 className='error'>{errors.email.message}</h5>}
                 <input className='text-field-container'
-                    type="password"
-                    name="password"
+                    type='password'
+                    name='password'
                     {
                     ...register('password', {
                         required: 'Password is required.',
@@ -49,16 +54,16 @@ const Login = ({ loginDisplayed }) => {
                     placeholder='Enter password'
                 />
                 {errors.password && (
-                    <h5 className="error">{errors.password.message} </h5>
+                    <h5 className='error'>{errors.password.message} </h5>
                 )}
                 {message && (
                     <div>
                         <h5 className={`${message.type}`}>{message.info}</h5>
                     </div>
                 )}
-                <button className="submit-button-landing" type="submit">Log in</button>
+                <button className='submit-button-landing' type='submit'>Log in</button>
             </form>
-            <p className="underline-hover"
+            <p className='underline-hover'
                 onClick={() => {
                     loginDisplayed(false);
                 }}
