@@ -5,12 +5,23 @@ const userLogin = async (loginCredentials) => {
         const res = await http.post("/api/users/login", loginCredentials, {
             headers: { "Content-Type": "application/json" },
         });
+        console.log(res);
         return res.data;
     } catch (error) {
         const errMsg = error.response.data.errors[0].msg;
         throw errMsg;
     }
 };
+
+const userLogout = async () => {
+    try {
+        const res = await await http.get('api/users/logout');
+        console.log(res);
+        return true;
+    } catch (error) {
+        throw error;
+    }
+}
 
 const userRegistration = async (registrationData) => {
     try {
@@ -24,5 +35,6 @@ const userRegistration = async (registrationData) => {
 
 export {
     userLogin,
+    userLogout,
     userRegistration
 };
