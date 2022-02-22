@@ -2,7 +2,6 @@
 // and re-render if it changes.
 import React, { useState, createContext, useContext } from 'react';
 import { userLogin, userLogout } from './api/UserAPI';
-import { useNavigate } from 'react-router-dom';
 
 const authContext = createContext();
 const useAuth = () => {
@@ -21,14 +20,15 @@ const ProvideAuth = ({ children }) => {
 // Hook that helps determine whether user is logged in or not.
 // Wraps functions and uses context 
 const useProvideAuth = () => {
-    const [loggedIn, setLoggedIn] = useState(false);
-    // const navigate = useNavigate();
+    // Use local storage to persist loggedIn value after a refresh.
+    const localStorageVal = JSON.parse(localStorage.getItem('loggedIn'));
+    const [loggedIn, setLoggedIn] = useState(localStorageVal);
 
     const login = async (loginCredentials, cb) => {
         try {
             const data = await userLogin(loginCredentials);
             setLoggedIn(true);
-            // navigate('/project');
+            localStorage.setItem('loggedIn', true);
             cb();
         } catch (error) {
             throw (error);
@@ -39,7 +39,7 @@ const useProvideAuth = () => {
         try {
             const data = await userLogout();
             setLoggedIn(false);
-            // navigate('/project');
+            localStorage.setItem('loggedIn', false);
             cb();
         } catch (error) {
             throw (error);
