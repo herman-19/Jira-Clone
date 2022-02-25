@@ -1,12 +1,18 @@
-import React, { Fragment } from 'react';
+import React from 'react';
+import Navbar from './Navbar';
+import Sidebar from './Sidebar';
 
 const Board = () => {
-
     return (
-        <Fragment>
-            <h1>This is the Kanban Board.</h1>
-            <p>Let's get to work!</p>
-        </Fragment>
+        <div className='container'>
+            <Navbar />
+            <Sidebar />
+            <div id='strip' />
+            <div id='kanban-board'>
+                <h1>Kanban Board</h1>
+                <p>Issues are here...</p>
+            </div>
+        </div>
     );
 };
 

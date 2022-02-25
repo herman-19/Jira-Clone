@@ -104,3 +104,83 @@ body {
   text-decoration: underline;
   cursor: pointer;
 }
+
+.container {
+  display: flex;
+  flex-direction: row;
+}
+
+#navbar-left {
+  padding-top: 1.5rem;
+  padding-bottom: 1.25rem;
+  height: 100vh;
+  width: 64px;
+  background-color: #0847a6;
+  color: #d8e2f0;
+  display: flex;
+  flex-direction: column;
+}
+
+#navbar-left-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 15px 0.5rem 15px;
+  margin-bottom: 2px;
+}
+
+#atlassian-white-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 15px 0.5rem 15px;
+}
+
+#sidebar {
+  width: 240px;
+  background-color: #f4f5f7;
+  color: #2c3e5d;
+  padding: 0 1rem;
+  border-right: ;
+}
+
+#sidebar-title {
+  padding: 1.5rem 0px;
+}
+
+.sidebar-item {
+  padding: .5rem .75rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.sidebar-icon {
+  margin-right: 1rem;
+  height: 22px;
+  width: 22px;
+}
+
+#sidebar-divider {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    display: block;
+    height: 1px;
+    border: 0;
+    border-top: 1px solid rgb(190, 189, 189);
+}
+
+#strip {
+      background: linear-gradient(
+270deg
+,rgba(0,0,0,.2) 0,rgba(0,0,0,.2) 1px,rgba(0,0,0,.1) 0,transparent);
+    bottom: 0;
+    left: -3px;
+    opacity: .5;
+    pointer-events: none;
+    top: 0;
+    transition-duration: .22s;
+    transition-property: left,opacity,width;
+    transition-timing-function: cubic-bezier(.2,0,0,1);
+    width: 3px;
+}
