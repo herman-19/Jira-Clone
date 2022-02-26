@@ -184,3 +184,163 @@ body {
     transition-timing-function: cubic-bezier(.2,0,0,1);
     width: 3px;
 }
+
+#kanban-board {
+  flex-grow: 1;
+  background-color: #ffffff;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+}
+
+#kanban-path {
+  color: #5e6c84;
+}
+
+#kanban-path span {
+  margin-right: .75rem;
+  font-weight: 600;
+}
+
+#kanban-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 0.75rem;
+  color: #172b4d;
+}
+
+#kanban-header p {
+  font-size: 1.5rem;
+  font-weight: 800;
+}
+#kanban-header a {
+  text-decoration: none;
+}
+
+#kanban-header button {
+  display: inline-flex;
+  height: 2rem;
+  vertical-align: middle;
+  white-space: nowrap;
+  border-radius: 0.125rem;
+  background-color: #f4f5f7;
+  color: #42526e;
+  align-items: center;
+  border-width: 0;
+  padding: 0 0.75rem;
+  margin-right: 0.5rem;
+  font-size: 14.5px;
+  cursor: pointer;
+  font-weight: 800;
+}
+
+#kanban-header button:hover {
+  background-color: #f4f5f7;
+}
+
+#kanban-filters {
+  margin-top: 1.5rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+#input-container {
+  display: flex;
+  height: 32px;
+  width: 10rem;
+  margin-right: 1rem;
+  align-items: center;
+  position: relative;
+}
+
+#icon-container {
+  position: absolute;
+  width: 32px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#kanban-filters input {
+  width: 10rem;
+  margin-right: 1rem;
+  display: flex;
+  height: 32px;
+  padding-left: 32px;
+  border: 1px solid #ddd;
+  color: #172b4d;
+  font-size: 15px;
+}
+
+#kanban-filters button {
+  display: inline-flex;
+  height: 2rem;
+  vertical-align: middle;
+  white-space: nowrap;
+  border-radius: 0.125rem;
+  background-color: inherit;
+  color: #42526e;
+  align-items: center;
+  border-width: 0;
+  padding: 0 0.75rem;
+  margin-right: 0.5rem;
+  font-size: 14.5px;
+  cursor: pointer;
+}
+
+#kanban-filters button:hover {
+  background-color: #f4f5f7;
+}
+
+#filter-user-icons-container {
+  display: flex;
+  flex-direction: row;
+  margin: 0px 12px 0px 2px;
+}
+
+.filter-user-icon-container {
+    display: inline-flex;
+    margin-left: -2px;
+    border-radius: 50%;
+    cursor: pointer;
+    user-select: none;
+}
+
+.filter-user-icon {
+  box-shadow: rgb(255 255 255) 0px 0px 0px 2px;
+  display: inline-block;
+  width: 36px;
+  height: 36px;
+  border-radius: 100%;
+  background-image: url(https://cdn.dribbble.com/users/2591291/screenshots/6158597/media/925e65e38adeea6ffc455df381a9ee79.png);
+  background-position: 50% 50%;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-color: rgb(235, 236, 240);
+  transition: transform 0.1s ease 0s;
+}
+.filter-user-icon:hover {
+    transform: translateY(-5px);
+}
+/* Note: When filter user icon is selected, must
+         change box-shadow. Switch to*/
+.filter-user-icon-selected {
+  box-shadow: rgb(255 255 255) 0px 0px 0px 2px;
+  display: inline-block;
+  width: 32px;
+  height: 32px;
+  border-radius: 100%;
+  background-image: url(https://cdn.dribbble.com/users/2591291/screenshots/6158597/media/925e65e38adeea6ffc455df381a9ee79.png);
+  background-position: 50% 50%;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-color: rgb(235, 236, 240);
+  transition: transform 0.1s ease 0s;
+}
+.filter-user-icon-selected:hover {
+    transform: translateY(-5px);
+}
