@@ -344,3 +344,32 @@ body {
 .filter-user-icon-selected:hover {
     transform: translateY(-5px);
 }
+
+#columns-container {
+  display: flex;
+  flex-direction: row;
+  margin: 1.75rem -5px 0px;
+  width: 100%;
+  max-width: 1280px;
+}
+
+.single-column {
+  display: flex;
+  flex-direction: column;
+  flex: 25%;
+  margin: 0 5px;
+  min-height: 400px;
+  min-width: 200px;
+  border-radius: 3px;
+  background-color: #f4f5f7;
+}
+
+.single-column p {
+  padding: 13px 10px 17px 10px;
+  color: rgb(94, 108, 132);
+  font-size: 14.5px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+

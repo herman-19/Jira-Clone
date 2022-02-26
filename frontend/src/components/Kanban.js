@@ -1,6 +1,7 @@
 import React from 'react';
 import SearchIcon from './icons/Search';
 import GithubIcon from './icons/Github';
+import Columns from './Columns';
 
 const Kanban = () => {
     return (
@@ -32,10 +33,10 @@ const Kanban = () => {
                         <div className='filter-user-icon' />
                     </div>
                 </div>
-
                 <button >Only My Issues</button>
                 <button>Ignore Resolved</button>
             </div>
+            <Columns />
         </div >
     );
 };
