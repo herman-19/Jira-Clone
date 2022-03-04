@@ -33,7 +33,6 @@ const getIssueTypeIcon = (type) => {
 };
 
 const IssueCard = ({ title, type, prio }) => {
-    let assigneeImgs = ['https://cdn.dribbble.com/users/2591291/screenshots/6158597/media/925e65e38adeea6ffc455df381a9ee79.png', 'https://cdn.dribbble.com/users/2591291/screenshots/6158597/media/925e65e38adeea6ffc455df381a9ee79.png'];
     return (
         <div className='issue-card'>
             {title}
@@ -42,6 +41,14 @@ const IssueCard = ({ title, type, prio }) => {
                     {getIssueTypeIcon(type)}
                     {getIssuePrioIcon(prio)}
                 </div>
+
+                <div className='issue-card-user-icons-container'>
+                    <div className='issue-card-user-icon-container'>
+                        <div className='card-user-icon' />
+                        <div className='card-user-icon' />
+                    </div>
+                </div>
+
             </div>
         </div>
     );
