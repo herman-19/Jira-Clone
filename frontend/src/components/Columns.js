@@ -4,10 +4,56 @@ import { v4 as uuid } from 'uuid';
 import IssueCard from './IssueCard';
 
 // Temporary data. Will be fetched from server.
-const backlogIssues = [{ title: 'Implement client API for fetching issue data.', id: uuid() }, { title: 'Research Intel vs M1.', id: uuid() }];
-const selForDevIssues = [{ title: 'Filtered issue search.', id: uuid() }];
-const inProgressIssues = [{ title: 'Kanban drag-n-drop functionality.', id: uuid() }];
-const doneIssues = [{ title: 'Server API.', id: uuid() }, { title: 'Setup postgresql database.', id: uuid() }, { title: 'Refill water bottle.', id: uuid() }];
+const backlogIssues = [
+    {
+        title: 'Implement client API for fetching issue data.',
+        id: uuid(),
+        type: 'BUG',
+        prio: 'HIGHEST',
+    },
+    {
+        title: 'Research Intel vs M1.',
+        id: uuid(),
+        type: 'TASK',
+        prio: 'MEDIUM',
+    }
+];
+const selForDevIssues = [
+    {
+        title: 'Filtered issue search.',
+        id: uuid(),
+        type: 'BUG',
+        prio: 'LOW',
+    }
+];
+const inProgressIssues = [
+    {
+        title: 'Kanban drag-n-drop functionality.',
+        id: uuid(),
+        type: 'STORY',
+        prio: 'LOWEST',
+    }
+];
+const doneIssues = [
+    {
+        title: 'Implement Server API.',
+        id: uuid(),
+        type: 'TASK',
+        prio: 'MEDIUM',
+    },
+    {
+        title: 'Setup postgresql database.',
+        id: uuid(),
+        type: 'STORY',
+        prio: 'HIGHEST',
+    },
+    {
+        title: 'Refill water bottle.',
+        id: uuid(),
+        type: 'BUG',
+        prio: 'LOWEST',
+    }
+];
 
 const issuesColumns = {
     [uuid()]: {
@@ -99,7 +145,11 @@ const Columns = () => {
                                                                         {...provided.draggableProps}
                                                                         {...provided.dragHandleProps}
                                                                     >
-                                                                        <IssueCard title={item.title} />
+                                                                        <IssueCard
+                                                                            title={item.title}
+                                                                            type={item.type}
+                                                                            prio={item.prio}
+                                                                        />
                                                                     </div>
                                                                 );
                                                             }}
