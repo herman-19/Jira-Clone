@@ -393,3 +393,18 @@ body {
   transition: background 0.1s ease 0s;
   /* background-color: #ffffff; */
 }
+
+.issue-card-info {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.issue-card-status {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
