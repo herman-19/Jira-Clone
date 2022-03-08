@@ -11,7 +11,11 @@ const Sidebar = () => {
     return (
         <div id='sidebar'>
             <div id='sidebar-title'>
-                <p>Jira Clone | Software Project</p>
+                <div>IMG</div>
+                <span>
+                    <p>Jira Clone</p>
+                    <p>Software Project</p>
+                </span>
             </div>
             <div className='sidebar-item'>
                 <KanbanIcon />

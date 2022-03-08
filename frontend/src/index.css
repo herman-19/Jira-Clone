@@ -115,6 +115,7 @@ body {
   padding-bottom: 1.25rem;
   height: 100vh;
   width: 64px;
+  min-width: 64px;
   background-color: #0847a6;
   color: #d8e2f0;
   display: flex;
@@ -146,7 +147,13 @@ body {
 }
 
 #sidebar-title {
-  padding: 1.5rem 0px;
+  display: flex;
+  flex-direction: row;
+  padding: 24px 4px;
+}
+
+#sidebar-title span {
+  padding: 3px 0px 0px 10px
 }
 
 .sidebar-item {
