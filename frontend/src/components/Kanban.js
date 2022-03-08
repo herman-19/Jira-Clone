@@ -22,7 +22,7 @@ const Kanban = () => {
                 <form>
                     <div id='input-container'>
                         <div id='icon-container'>
-                            <SearchIcon />
+                            <SearchIcon w='14' h='14' />
                         </div>
                         <input type='text' />
                     </div>

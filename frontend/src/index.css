@@ -125,15 +125,15 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0 15px 0.5rem 15px;
-  margin-bottom: 2px;
+  margin-bottom: 18px;
 }
 
 #atlassian-white-logo {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0 15px 0.5rem 15px;
+  padding: 0 15px 0 15px;
+  margin-bottom: 18px;
 }
 
 #sidebar {

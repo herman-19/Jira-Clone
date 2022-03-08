@@ -1,12 +1,14 @@
 import React from 'react';
 import AtlassianLogo from './AtlassianLogoWhite';
+import SearchIcon from './icons/Search';
+import AddIcon from './icons/Add';
 
 const Navbar = () => {
     return (
         <div id='navbar-left'>
             <AtlassianLogo />
-            <p id='navbar-left-item'>SEARCH</p>
-            <h2 id='navbar-left-item'>+</h2>
+            <p id='navbar-left-item'><SearchIcon w='20' h='20' /></p>
+            <p id='navbar-left-item'><AddIcon /></p>
         </div>
     );
 };
