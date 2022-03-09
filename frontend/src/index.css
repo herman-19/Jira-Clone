@@ -143,7 +143,7 @@ body {
   background-color: #f4f5f7;
   color: #2c3e5d;
   padding: 0 1rem;
-  border-right: ;
+  border-right: 1px solid rgb(223, 225, 230);
 }
 
 #sidebar-title {
@@ -152,8 +152,18 @@ body {
   padding: 24px 4px;
 }
 
-#sidebar-title span {
-  padding: 3px 0px 0px 10px
+#project-title {
+  padding: 3px 0px 0px 10px;
+  color: #42526e;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+#project-type {
+  padding: 3px 0px 0px 10px;
+  color: #42526e;
+  font-size: 14px;
+  font-weight: 200;
 }
 
 .sidebar-item {

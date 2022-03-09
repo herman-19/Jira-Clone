@@ -11,10 +11,10 @@ const Sidebar = () => {
     return (
         <div id='sidebar'>
             <div id='sidebar-title'>
-                <div>IMG</div>
+                <img width='48' height='48' src="https://img.icons8.com/external-flatart-icons-lineal-color-flatarticons/64/000000/external-milk-coffee-shop-flatart-icons-lineal-color-flatarticons-1.png" />
                 <span>
-                    <p>Jira Clone</p>
-                    <p>Software Project</p>
+                    <p id='project-title'>Jira Clone</p>
+                    <p id='project-type'>Software Project</p>
                 </span>
             </div>
             <div className='sidebar-item'>
