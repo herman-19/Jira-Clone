@@ -26,7 +26,7 @@ const ReporterDropdown = () => {
         },
     ];
 
-    // Handle selected dropdown issue type.
+    // Handle selected reporter.
     const onChange = async (e, { value }) => {
         // Update reporter here...
         e.persist();
