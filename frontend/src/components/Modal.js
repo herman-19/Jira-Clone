@@ -4,6 +4,7 @@ import { Form } from 'semantic-ui-react';
 import TextareaAutosize from "react-textarea-autosize";
 import IssueTypeDropdown from './IssueTypeDropdown';
 import IssueStatusDropdown from './IssueStatusDropdown';
+import ReporterDropdown from './ReporterDropdown';
 import TrashIcon from './icons/Trash';
 import Expand from './icons/Expand';
 import Comment from './Comment';
@@ -135,6 +136,7 @@ const Modal = ({ isDiplayed, toggleModal, data }) => {
                     <div className='issue-modal-info-label'>STATUS</div>
                     <IssueStatusDropdown />
                     <div className='issue-modal-info-label'>REPORTER</div>
+                    <ReporterDropdown />
 
                 </div>
             </div>
