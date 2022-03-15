@@ -259,7 +259,6 @@ body {
 }
 
 #kanban-filters {
-  margin-top: 1.5rem;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -449,4 +448,239 @@ body {
   background-size: cover;
   background-color: rgb(235, 236, 240);
   transition: transform 0.1s ease 0s;
+}
+
+.myoverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  min-height: 100%;
+  background: rgba(9, 30, 66, 0.54);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 50px;
+}
+
+.ReactModal__Overlay {
+  opacity: 0;
+  transition: opacity 100ms ease-in-out;
+}
+
+.ReactModal__Overlay--after-open {
+  opacity: 1;
+}
+
+.ReactModal__Overlay--before-close {
+  opacity: 0;
+}
+
+.mymodal {
+  display: inline-block;
+  position: relative;
+  width: 100%;
+  min-height: 100%;
+  background: rgb(255, 255, 255);
+  max-width: 1040px;
+  vertical-align: middle;
+  border-radius: 4px;
+  box-shadow: rgb(0 0 0 / 10%) 0px 5px 10px 0px;
+}
+
+.issue-modal-top {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 21px 18px 0px;
+  font-family: 'Source Sans Pro', sans-serif;
+}
+
+#dropdown-issue-type {
+  border: 1px solid transparent;
+  min-width: 10em;
+}
+
+#dropdown-issue-status {
+  border: 1px solid transparent;
+  /* min-width: 10em; */
+  background-color: #dfe1e6;
+
+  position: relative;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  display: inline-block;
+}
+
+.issue-options {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.issue-modal-body {
+  display: flex;
+  padding: 0px 30px 60px;
+}
+
+.issue-modal-desc-comments {
+  width: 65%;
+  padding-right: 50px;
+}
+
+.issue-modal-info {
+  width: 35%;
+  padding-top: 5px;
+}
+
+.issue-modal-info-label {
+  margin: 24px 0px 5px;
+  color: rgb(94, 108, 132);
+  font-size: 12.5px;
+  font-weight: bolder;
+}
+
+.issue-modal-title {
+  margin: 18px 0px 0px -8px;
+  height: 44px;
+  width: 100%;
+}
+
+#issue-modal-title-text  {
+  color: rgb(23, 43, 77);
+  border-radius: 3px;
+  height: auto;
+  width: 100%;
+  overflow-y: hidden;
+  padding: 7px 7px 8px;
+  line-height: 1.28;
+  resize: none;
+  background: rgb(255, 255, 255);
+  border: 1px solid transparent;
+  box-shadow: transparent 0px 0px 0px 1px;
+  transition: background 0.1s ease 0s;
+  font-size: 22px;
+  font-weight: normal;
+  min-height: 2em;
+}
+#issue-modal-title-text:hover {
+  background-color: #dfe1e6;
+}
+#issue-modal-title-text:focus {
+  background: rgb(255, 255, 255);
+  border: 1px solid rgb(76, 154, 255);
+  box-shadow: rgb(76 154 255) 0px 0px 0px 1px;
+}
+
+#issue-modal-label {
+  padding: 20px 0px 6px;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+#desc-editor-buttons {
+  display: flex;
+  padding-top: 12px;
+}
+#desc-save-button {
+  height: 32px;
+  vertical-align: middle;
+  line-height: 1;
+  padding: 0px 12px;
+  font-size: 14.5px;
+  color: #ffffff;
+  background-color: #0052cc;
+  border-radius: 3px;
+  margin-right: 6px;
+  cursor: pointer;
+  font-weight: lighter;
+}
+#desc-cancel-button {
+  background-color: inherit;
+  height: 32px;
+  vertical-align: middle;
+  line-height: 1;
+  padding: 0px 12px;
+  font-size: 14.5px;
+  border-radius: 3px;
+  margin-right: 6px;
+  cursor: pointer;
+  font-weight: lighter;
+}
+#desc-cancel-button:hover {
+  background-color: #dfe1e6;
+}
+
+#new-comment-container {
+  position: relative;
+  margin-top: 25px;
+  font-size: 15px;
+}
+
+#new-comment-user-img {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+
+  display: inline-block;
+  width: 32px;
+  height: 32px;
+  border-radius: 100%;
+  background-image: url(https://cdn.dribbble.com/users/2591291/screenshots/6158597/media/925e65e38adeea6ffc455df381a9ee79.png);
+  background-position: 50% 50%;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-color: rgb(235, 236, 240);
+}
+
+#pad-left {
+  padding-left: 44px;
+}
+
+#comment-text-input {
+  padding: 12px 16px;
+  border-radius: 3px;
+  border: 1px solid rgb(223, 225, 230);
+  color: rgb(137, 147, 164);
+  user-select: none;
+  height: auto;
+  width: 100%;
+  min-height: 64px;
+  line-height: 1.28;
+  resize: none;
+  background: rgb(255, 255, 255);
+  box-shadow: transparent 0px 0px 0px 1px;
+  transition: background 0.1s ease 0s;
+  font-size: 14px;
+  font-weight: normal;
+  overflow-y: hidden;
+}
+#comment-text-input:hover {
+  background-color: #dfe1e6;
+}
+#comment-text-input:focus {
+  background: rgb(255, 255, 255);
+  border: 1px solid rgb(76, 154, 255);
+  box-shadow: rgb(76 154 255) 0px 0px 0px 1px;
+  color: rgb(23, 43, 77);
+}
+
+#user-comment-author {
+  display: inline-block;
+  padding-right: 12px;
+  padding-bottom: 10px;
+  color: rgb(66, 82, 110);
+  font-weight: bolder;
+}
+#user-comment-timestamp {
+  display: inline-block;
+  padding-bottom: 10px;
+  color: rgb(66, 82, 110);
+  font-size: 14.5px;
+}
+#user-comment {
+  padding-bottom: 10px;
+  white-space: pre-wrap;
 }
