@@ -11,6 +11,12 @@ import Board from '../src/components/Board';
 import PrivateRoute from '../src/components/PrivateRoute';
 import NotFound from '../src/components/NotFound';
 
+// Styling for semantic-ui-react components.
+const styleLink = document.createElement("link");
+styleLink.rel = "stylesheet";
+styleLink.href = "https://cdn.jsdelivr.net/npm/semantic-ui/dist/semantic.min.css";
+document.head.appendChild(styleLink);
+
 function App() {
   return (
     <ProvideAuth>
