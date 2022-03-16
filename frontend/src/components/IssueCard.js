@@ -17,12 +17,12 @@ const cardIconStyle = {
 const getIssuePrioIcon = (prio) => {
     let icon;
     switch (prio) {
-        case 'LOWEST': icon = <LowestPrioIcon />; break;
-        case 'LOW': icon = <LowPrioIcon />; break;
-        case 'MEDIUM': icon = <MedPrioIcon />; break;
-        case 'HIGH': icon = <HighPrioIcon />; break;
-        case 'HIGHEST': icon = <HighestPrioIcon />; break;
-        default: icon = <LowestPrioIcon />; break;
+        case 'LOWEST': icon = <LowestPrioIcon style={cardIconStyle} />; break;
+        case 'LOW': icon = <LowPrioIcon style={cardIconStyle} />; break;
+        case 'MEDIUM': icon = <MedPrioIcon style={cardIconStyle} />; break;
+        case 'HIGH': icon = <HighPrioIcon style={cardIconStyle} />; break;
+        case 'HIGHEST': icon = <HighestPrioIcon style={cardIconStyle} />; break;
+        default: icon = <LowestPrioIcon style={cardIconStyle} />; break;
     }
     return icon;
 };
