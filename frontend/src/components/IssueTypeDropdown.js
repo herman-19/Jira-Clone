@@ -11,11 +11,11 @@ import TaskIcon from './icons/IssueTypeTask';
 
 const dropdownIconStyle = {
     marginRight: '0.78571429rem',
-    height: 28,
-    width: 28,
+    height: 18,
+    width: 18,
     display: 'inline-block',
     verticalAlign: 'top',
-    marginTop: '-0.5em',
+    marginTop: '0px',
     marginBottom: '-0.5em',
     maxHeight: '2em'
 };
@@ -60,6 +60,7 @@ const IssueTypeDropdown = () => {
             button={true}
             onChange={onChange}
             style={{ maxHeight: "2px" }}
+            icon='none'
         />
     );
 };
