@@ -60,7 +60,7 @@ const AssigneeDropdown = () => {
                     search={true}
                     icon='none'
                     onBlur={() => setDisplayDropdown(false)}
-                    placeholder='Search assignee...'
+                    placeholder='Search assignee(s)'
                 />
             }
         </div >
