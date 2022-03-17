@@ -494,7 +494,7 @@ body {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  padding: 21px 18px 0px;
+  padding: 16px 12px 0px;
   font-family: 'Source Sans Pro', sans-serif;
 }
 
