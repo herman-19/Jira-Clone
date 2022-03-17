@@ -58,7 +58,7 @@ const Modal = ({ isDiplayed, toggleModal, data }) => {
                 <div className='issue-options'>
                     <Delete onClick={deleteIssue} />
                     <Expand />
-                    <Close />
+                    <Close toggleModal={toggleModal} />
                 </div>
             </div>
             <div className='issue-modal-body'>
