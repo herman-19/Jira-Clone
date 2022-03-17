@@ -36,7 +36,7 @@ const ReporterDropdown = () => {
 
     return (
         <Dropdown
-            id='dropdown-issue-status'
+            id='dropdown-issue'
             selection
             defaultValue={selected} // Note, this corresponds to the 'value' attribute in the types.
             options={reporterOptions}

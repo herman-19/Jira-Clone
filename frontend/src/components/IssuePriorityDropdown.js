@@ -64,7 +64,7 @@ const IssuePriorityDropdown = () => {
 
     return (
         <Dropdown
-            id='dropdown-issue-status'
+            id='dropdown-issue'
             selection
             defaultValue={selected} // Note, this corresponds to the 'value' attribute in the options.
             options={issueTypes}

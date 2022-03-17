@@ -516,8 +516,12 @@ body {
   border: 1px solid transparent;
   min-width: 8em;
 }
+#dropdown-issue-type:hover {
+  background-color: #ebecf0;
+  border-radius: 2px;
+}
 
-#dropdown-issue-status {
+#dropdown-issue {
   border: 1px solid transparent;
   background-color: #ebecf0;
   position: relative;
@@ -525,6 +529,10 @@ body {
   cursor: pointer;
   font-size: 12px;
   display: inline-block;
+}
+#dropdown-issue:hover {
+  background-color: #cacaca;
+  border-radius: 2px;
 }
 
 .font-size-12px {
