@@ -484,6 +484,7 @@ body {
   min-height: 100%;
   background: rgb(255, 255, 255);
   max-width: 1040px;
+  min-width: 800px;
   vertical-align: middle;
   border-radius: 4px;
   box-shadow: rgb(0 0 0 / 10%) 0px 5px 10px 0px;
@@ -504,14 +505,16 @@ body {
 
 #dropdown-issue-status {
   border: 1px solid transparent;
-  /* min-width: 10em; */
-  background-color: #dfe1e6;
-
+  background-color: #ebecf0;
   position: relative;
   border-radius: 4px;
   cursor: pointer;
-  font-size: 14px;
+  font-size: 12px;
   display: inline-block;
+}
+
+.font-size-12px {
+  font-size: 12px;
 }
 
 #dropdown-issue-reporter {
@@ -538,6 +541,11 @@ body {
 }
 #dropdown-issue-assignees:focus {
   box-shadow: rgb(9 30 66 / 25%) 0px 4px 8px -2px, rgb(9 30 66 / 31%) 0px 0px 1px;
+}
+
+.issue-timestamps-container {
+  color: rgb(94, 108, 132);
+  font-size: 13px;
 }
 
 #unassigned-issue-text {
