@@ -7,8 +7,9 @@ import IssueStatusDropdown from './IssueStatusDropdown';
 import AssigneesDropdown from './AssigneesDropdown';
 import ReporterDropdown from './ReporterDropdown';
 import IssuePriorityDropdown from './IssuePriorityDropdown';
-import TrashIcon from './icons/Trash';
+import Delete from './icons/Trash';
 import Expand from './icons/Expand';
+import Close from './icons/Close';
 import Comment from './Comment';
 
 ReactModal.setAppElement("#root");
@@ -55,8 +56,9 @@ const Modal = ({ isDiplayed, toggleModal, data }) => {
             <div className='issue-modal-top'>
                 <IssueTypeDropdown />
                 <div className='issue-options'>
-                    <TrashIcon onClick={deleteIssue} />
+                    <Delete onClick={deleteIssue} />
                     <Expand />
+                    <Close />
                 </div>
             </div>
             <div className='issue-modal-body'>
