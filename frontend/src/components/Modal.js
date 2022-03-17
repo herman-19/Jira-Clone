@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import ReactModal from 'react-modal';
-import { Form } from 'semantic-ui-react';
+import { Form, Divider } from 'semantic-ui-react';
 import TextareaAutosize from "react-textarea-autosize";
 import IssueTypeDropdown from './IssueTypeDropdown';
 import IssueStatusDropdown from './IssueStatusDropdown';
 import AssigneesDropdown from './AssigneesDropdown';
 import ReporterDropdown from './ReporterDropdown';
+import IssuePriorityDropdown from './IssuePriorityDropdown';
 import TrashIcon from './icons/Trash';
 import Expand from './icons/Expand';
 import Comment from './Comment';
@@ -140,6 +141,13 @@ const Modal = ({ isDiplayed, toggleModal, data }) => {
                     <ReporterDropdown />
                     <div className='issue-modal-info-label'>ASSIGNEES</div>
                     <AssigneesDropdown />
+                    <div className='issue-modal-info-label'>PRIORITY</div>
+                    <IssuePriorityDropdown />
+                    < Divider />
+                    <div className='issue-timestamps-container'>
+                        <div>Created at 3 months ago</div>
+                        <div>Updated at 1 month ago</div>
+                    </div>
                 </div>
             </div>
         </ReactModal>
