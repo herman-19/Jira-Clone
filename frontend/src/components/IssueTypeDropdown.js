@@ -60,7 +60,7 @@ const IssueTypeDropdown = () => {
             button={true}
             onChange={onChange}
             style={{ maxHeight: "2px" }}
-            icon='none'
+            icon={null}
         />
     );
 };

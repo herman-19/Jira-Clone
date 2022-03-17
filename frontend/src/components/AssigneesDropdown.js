@@ -58,7 +58,7 @@ const AssigneeDropdown = () => {
                     button={true}
                     onChange={onChange}
                     search={true}
-                    icon='none'
+                    icon={null}
                     onBlur={() => setDisplayDropdown(false)}
                     placeholder='Search assignee(s)'
                 />

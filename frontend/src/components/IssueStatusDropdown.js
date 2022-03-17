@@ -47,7 +47,7 @@ const IssueStatusDropdown = () => {
             options={issueStatuses}
             button={true}
             onChange={onChange}
-            style={{ maxHeight: "2px" }}
+            style={{ maxHeight: "4px" }}
         />
     );
 };
