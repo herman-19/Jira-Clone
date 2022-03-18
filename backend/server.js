@@ -5,7 +5,10 @@ const conf = require("config");
 const port = conf.get('serverConfig.port');
 const session = require('express-session');
 
-app.use(cors());
+app.use(cors({
+    origin: 'http://localhost:3000', // TODO: update allowed origin based on production environment
+    credentials: true
+}));
 app.use(bodyParser.json());
 
 // TODO: Set secure for https only. And revisit store type.
