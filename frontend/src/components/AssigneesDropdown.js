@@ -46,7 +46,7 @@ const AssigneeDropdown = () => {
 
     return (
         <div>
-            {(!displayDropdown && selected.length == 0) && <div id='unassigned-issue-text' onClick={() => setDisplayDropdown(true)}>Unassigned</div>}
+            {(!displayDropdown && selected.length === 0) && <div id='unassigned-issue-text' onClick={() => setDisplayDropdown(true)}>Unassigned</div>}
             {
                 (selected.length > 0 || displayDropdown)
                 &&
