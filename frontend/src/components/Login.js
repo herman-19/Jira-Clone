@@ -15,7 +15,6 @@ const Login = ({ loginDisplayed }) => {
             const data = await auth.login(loginCredentials, () => {
                 navigate('/project');
             });
-            console.log(data);
             e.target.reset();
         } catch (error) {
             setMessage({ info: `${error}`, type: `warning` });
