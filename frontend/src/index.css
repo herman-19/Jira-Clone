@@ -409,6 +409,9 @@ body {
   transition: background 0.1s ease 0s;
   /* background-color: #ffffff; */
 }
+.issue-card:hover {
+  background-color: inherit;
+}
 
 .issue-card-info {
   margin-top: 10px;
