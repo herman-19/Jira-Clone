@@ -12,7 +12,7 @@ const Login = ({ loginDisplayed }) => {
     const onSubmit = async (loginCredentials, e) => {
         try {
             console.log('Logging in...');
-            const data = await auth.login(loginCredentials, () => {
+            await auth.login(loginCredentials, () => {
                 navigate('/project');
             });
             e.target.reset();
