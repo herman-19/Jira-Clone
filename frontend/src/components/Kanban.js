@@ -15,7 +15,7 @@ const Kanban = () => {
             </div>
             <div id='kanban-header'>
                 <p>Kanban Board</p>
-                <a target='_blank' href='https://github.com/herman-19/Jira-Clone'>
+                <a target='_blank' rel='noopener noreferrer' href='https://github.com/herman-19/Jira-Clone'>
                     <button><GithubIcon />Github Repo</button></a >
             </div>
             <div id='kanban-filters'>
