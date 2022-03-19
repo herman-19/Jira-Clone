@@ -11,7 +11,7 @@ const Sidebar = () => {
     return (
         <div id='sidebar'>
             <div id='sidebar-title'>
-                <img width='48' height='48' src="https://img.icons8.com/external-flatart-icons-lineal-color-flatarticons/64/000000/external-milk-coffee-shop-flatart-icons-lineal-color-flatarticons-1.png" />
+                <img width='48' height='48' src="https://img.icons8.com/external-flatart-icons-lineal-color-flatarticons/64/000000/external-milk-coffee-shop-flatart-icons-lineal-color-flatarticons-1.png" alt='milk' />
                 <span>
                     <div id='project-title'>The Boys</div>
                     <p id='project-type'>Software Project</p>
