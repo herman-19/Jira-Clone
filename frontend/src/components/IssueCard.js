@@ -38,26 +38,20 @@ const getIssueTypeIcon = (type) => {
     return icon;
 };
 
-const IssueCard = ({ title, type, prio }) => {
+const IssueCard = ({ issue }) => {
     const [displayModal, setDisplayModal] = useState(false);
     const toggleModal = () => {
         setDisplayModal(!displayModal);
     };
 
-    const data = {
-        title: title,
-        type: type,
-        prio: prio
-    };
-
     return (
         <div>
             <div className='issue-card' onClick={toggleModal}>
-                {title}
+                {issue.title}
                 <div className='issue-card-info'>
                     <div className='issue-card-status'>
-                        {getIssueTypeIcon(type)}
-                        {getIssuePrioIcon(prio)}
+                        {getIssueTypeIcon(issue.type)}
+                        {getIssuePrioIcon(issue.priority)}
                     </div>
 
                     <div className='issue-card-user-icons-container'>
@@ -68,7 +62,7 @@ const IssueCard = ({ title, type, prio }) => {
                     </div>
                 </div>
             </div>
-            <Modal isDiplayed={displayModal} toggleModal={toggleModal} data={data} />
+            <Modal isDiplayed={displayModal} toggleModal={toggleModal} issue={issue} />
         </div>
     );
 };

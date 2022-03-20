@@ -14,12 +14,13 @@ import Comment from './Comment';
 
 ReactModal.setAppElement("#root");
 
-const Modal = ({ isDiplayed, toggleModal, data }) => {
-    const [title, setTitle] = useState('');
+const Modal = ({ isDiplayed, toggleModal, issue }) => {
+    const [title, setTitle] = useState(issue.title);
+
     // Description
     const [inEditMode, setInEditMode] = useState(false);
-    const [description, setDescription] = useState({ value: '' });
-    const [pendingDesc, setPendingDesc] = useState({ value: '' });
+    const [description, setDescription] = useState(issue.description);
+    const [pendingDesc, setPendingDesc] = useState(issue.description);
     const saveEdit = () => {
         setDescription(pendingDesc);
         setInEditMode(false);
@@ -70,8 +71,8 @@ const Modal = ({ isDiplayed, toggleModal, data }) => {
                                 id='issue-modal-title-text'
                                 control={TextareaAutosize}
                                 placeholder="Issue Title"
-                                onChange={e => setTitle({ value: e.target.value })}
-                                value={title.value}
+                                onChange={e => setTitle(e.target.value)}
+                                value={title}
                             />
                         </Form>
                         <Form>
@@ -81,8 +82,8 @@ const Modal = ({ isDiplayed, toggleModal, data }) => {
                                 id='issue-modal-title-text'
                                 control={TextareaAutosize}
                                 placeholder="Description of issue"
-                                onChange={e => setPendingDesc({ value: e.target.value })}
-                                value={inEditMode ? pendingDesc.value : description.value}
+                                onChange={e => setPendingDesc(e.target.value)}
+                                value={inEditMode ? pendingDesc : description}
                                 style={{ fontSize: '14px' }}
                                 onFocus={() => setInEditMode(true)}
                             />

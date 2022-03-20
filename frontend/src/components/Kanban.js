@@ -1,9 +1,24 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import SearchIcon from './icons/Search';
 import GithubIcon from './icons/Github';
 import Columns from './Columns';
+import { fetchAllIssues } from '../api/UserAPI';
 
 const Kanban = () => {
+    const [issues, setIssues] = useState([]);
+    useEffect(() => {
+        const fetchIssues = async () => {
+            try {
+                const allIssues = await fetchAllIssues();
+                setIssues(allIssues);
+            } catch (error) {
+                // TODO: Show warning.
+                console.log(error);
+            }
+        };
+        fetchIssues();
+    }, []);
+
     return (
         <div id='kanban-board'>
             <div id='kanban-path'>
@@ -36,7 +51,7 @@ const Kanban = () => {
                 <button >Only My Issues</button>
                 <button>Ignore Resolved</button>
             </div>
-            <Columns />
+            <Columns issues={issues} />
         </div >
     );
 };
