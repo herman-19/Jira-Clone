@@ -15,7 +15,7 @@ const userLogin = async (loginCredentials) => {
 
 const userLogout = async () => {
     try {
-        const res = await await http.get('api/users/logout');
+        const res = await http.get('api/users/logout');
         console.log(res);
         return true;
     } catch (error) {
@@ -33,8 +33,19 @@ const userRegistration = async (registrationData) => {
     }
 };
 
+const fetchAllIssues = async () => {
+    try {
+        const res = await http.get('api/issues');
+        return res.data;
+    } catch (error) {
+        const errMsg = error.response.data.errors[0].msg;
+        throw errMsg;
+    }
+};
+
 export {
     userLogin,
     userLogout,
-    userRegistration
+    userRegistration,
+    fetchAllIssues
 };
