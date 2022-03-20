@@ -10,7 +10,6 @@ const Board = () => {
             <Sidebar />
             <div id='strip' />
             <Kanban />
-
         </div>
     );
 };
