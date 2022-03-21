@@ -1,34 +1,26 @@
 import React, { useState, useEffect } from 'react';
 import { Dropdown } from 'semantic-ui-react';
-import { fetchUsers } from '../api/UserAPI';
 
-const ReporterDropdown = ({ reporter_id }) => {
+const ReporterDropdown = ({ reporter_id, users }) => {
     const [reporter, setReporter] = useState(null);
     const [reporterOptions, setReporterOptions] = useState(null);
 
     useEffect(() => {
-        const fetchReporter = async () => {
-            try {
-                const reporters = await fetchUsers();
-                const options = [];
-                for (let user of reporters) {
-                    if (user.person_id === reporter_id) {
-                        setReporter(user.name);
-                    }
-                    options.push({
-                        name: user.person_id,
-                        text: user.name,
-                        value: user.name
-                    });
+        if (users) {
+            const options = [];
+            for (let user of users) {
+                if (user.person_id === reporter_id) {
+                    setReporter(user.name);
                 }
-                setReporterOptions(options);
-            } catch (error) {
-                // TODO: Show warning.
-                console.log(error);
+                options.push({
+                    name: user.person_id,
+                    text: user.name,
+                    value: user.name
+                });
             }
-        };
-        fetchReporter();
-    }, [reporter_id]);
+            setReporterOptions(options);
+        }
+    }, [users]);
 
     // Handle selected reporter.
     const onChange = async (e, { value }) => {
