@@ -124,8 +124,14 @@ router.get('/current', auth, async (req, res) => {
 // @access  Private
 router.get('/', auth, async (req, res) => {
     try {
-        const users = await db.getUsers();
-        res.json(users);
+        const issueId = req.query.issueId;
+        if (issueId) {
+            const users = await db.getUsersForIssue(issueId);
+            return res.json(users);
+        } else {
+            const users = await db.getUsers();
+            return res.json(users);
+        }
     } catch (error) {
         console.error(error.message);
         res.status(500).send("Server Error.");

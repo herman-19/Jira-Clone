@@ -74,6 +74,11 @@ const getIssue = async (id) => {
     return rows[0];
 };
 
+const getUsersForIssue = async (id) => {
+    const { rows } = await pool.query('SELECT person_id FROM issue_assignee WHERE issue_id = $1', [id]);
+    return rows;
+};
+
 const getIssueByUserId = async (userId) => {
     const { rows } = await pool.query(
         'SELECT ia.issue_id, i.type, i.status, i.priority, i.title, i.description, i.reporter_id, i.created_at, i.last_updated_at \
@@ -262,6 +267,7 @@ module.exports = {
     updateUser,
     getIssues,
     getIssue,
+    getUsersForIssue,
     getIssueByUserId,
     deleteIssue,
     createIssue,
