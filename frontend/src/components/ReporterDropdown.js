@@ -1,36 +1,40 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Dropdown } from 'semantic-ui-react';
+import { fetchUsers } from '../api/UserAPI';
 
-const ReporterDropdown = () => {
-    const [selected, setSelected] = useState('A-Train');
-    const reporterOptions = [
-        {
-            key: 'Lord Venom',
-            text: 'Lord Venom',
-            value: 'Lord Venom'
-        },
-        {
-            key: 'Homelander',
-            text: 'Homelander',
-            value: 'Homelander'
-        },
-        {
-            key: 'A-Train',
-            text: 'A-Train',
-            value: 'A-Train'
-        },
-        {
-            key: 'Mothers Milk',
-            text: 'Mothers Milk',
-            value: 'Mothers Milk'
-        },
-    ];
+const ReporterDropdown = ({ reporter_id }) => {
+    const [reporter, setReporter] = useState(null);
+    const [reporterOptions, setReporterOptions] = useState(null);
+
+    useEffect(() => {
+        const fetchReporter = async () => {
+            try {
+                const reporters = await fetchUsers();
+                const options = [];
+                for (let user of reporters) {
+                    if (user.person_id === reporter_id) {
+                        setReporter(user.name);
+                    }
+                    options.push({
+                        name: user.person_id,
+                        text: user.name,
+                        value: user.name
+                    });
+                }
+                setReporterOptions(options);
+            } catch (error) {
+                // TODO: Show warning.
+                console.log(error);
+            }
+        };
+        fetchReporter();
+    }, [reporter_id]);
 
     // Handle selected reporter.
     const onChange = async (e, { value }) => {
         // Update reporter here...
         e.persist();
-        setSelected(value);
+        setReporter(value);
         console.log(value);
     };
 
@@ -38,7 +42,7 @@ const ReporterDropdown = () => {
         <Dropdown
             id='dropdown-issue'
             selection
-            defaultValue={selected} // Note, this corresponds to the 'value' attribute in the types.
+            value={reporter}
             options={reporterOptions}
             button={true}
             onChange={onChange}
