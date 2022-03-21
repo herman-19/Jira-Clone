@@ -55,7 +55,7 @@ const Modal = ({ isDiplayed, toggleModal, issue }) => {
             closeTimeoutMS={100}
         >
             <div className='issue-modal-top'>
-                <IssueTypeDropdown />
+                <IssueTypeDropdown type={issue.type} />
                 <div className='issue-options'>
                     <Delete onClick={deleteIssue} />
                     <Expand />
@@ -139,9 +139,9 @@ const Modal = ({ isDiplayed, toggleModal, issue }) => {
                 </div>
                 <div className='issue-modal-info'>
                     <div className='issue-modal-info-label'>STATUS</div>
-                    <IssueStatusDropdown />
+                    <IssueStatusDropdown status={issue.status} />
                     <div className='issue-modal-info-label'>REPORTER</div>
-                    <ReporterDropdown />
+                    <ReporterDropdown reporter_id={issue.reporter_id} />
                     <div className='issue-modal-info-label'>ASSIGNEES</div>
                     <AssigneesDropdown />
                     <div className='issue-modal-info-label'>PRIORITY</div>
