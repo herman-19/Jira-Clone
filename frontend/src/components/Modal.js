@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import ReactModal from 'react-modal';
 import { Form, Divider } from 'semantic-ui-react';
 import TextareaAutosize from "react-textarea-autosize";
@@ -11,11 +11,13 @@ import Delete from './icons/Trash';
 import Expand from './icons/Expand';
 import Close from './icons/Close';
 import Comment from './Comment';
+import { fetchIssue, fetchUsers } from '../api/UserAPI';
 
 ReactModal.setAppElement("#root");
 
 const Modal = ({ isDiplayed, toggleModal, issue }) => {
     const [title, setTitle] = useState(issue.title);
+    const [users, setUsers] = useState(null);
 
     // Description
     const [inEditMode, setInEditMode] = useState(false);
@@ -44,6 +46,23 @@ const Modal = ({ isDiplayed, toggleModal, issue }) => {
     const deleteIssue = () => {
         console.log('Deleting issue...');
     };
+
+    useEffect(() => {
+        const getIssueInfo = async () => {
+            const data = await fetchIssue(issue.issue_id);
+            setTitle(data.title);
+            setDescription(data.description);
+            setPendingDesc(data.description);
+        };
+        const getUsers = async () => {
+            const data = await fetchUsers();
+            setUsers(data);
+        };
+        if (isDiplayed) {
+            getIssueInfo();
+            getUsers();
+        }
+    }, [isDiplayed]);
 
     return (
         <ReactModal
@@ -141,9 +160,9 @@ const Modal = ({ isDiplayed, toggleModal, issue }) => {
                     <div className='issue-modal-info-label'>STATUS</div>
                     <IssueStatusDropdown status={issue.status} />
                     <div className='issue-modal-info-label'>REPORTER</div>
-                    <ReporterDropdown reporter_id={issue.reporter_id} />
+                    <ReporterDropdown reporter_id={issue.reporter_id} users={users} />
                     <div className='issue-modal-info-label'>ASSIGNEES</div>
-                    <AssigneesDropdown />
+                    <AssigneesDropdown issueId={issue.issue_id} users={users} />
                     <div className='issue-modal-info-label'>PRIORITY</div>
                     <IssuePriorityDropdown />
                     < Divider />
