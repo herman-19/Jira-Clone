@@ -20,8 +20,8 @@ const dropdownIconStyle = {
     maxHeight: '2em'
 };
 
-const IssueTypeDropdown = () => {
-    const [selected, setSelected] = useState('STORY');
+const IssueTypeDropdown = ({ type }) => {
+    const [selected, setSelected] = useState(type);
     const issueTypes = [
         {
             key: 'BUG',
@@ -59,7 +59,7 @@ const IssueTypeDropdown = () => {
             options={issueTypes}
             button={true}
             onChange={onChange}
-            style={{ maxHeight: "2px" }}
+            style={{ maxHeight: '2px' }}
             icon={null}
         />
     );
