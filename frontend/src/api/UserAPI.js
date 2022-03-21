@@ -43,6 +43,27 @@ const fetchAllIssues = async () => {
     }
 };
 
+const fetchIssue = async (id) => {
+    try {
+        const res = await http.get(`api/issues/${id}`);
+        return res.data;
+    } catch (error) {
+        const errMsg = error.response.data.errors[0].msg;
+        throw errMsg;
+    }
+};
+
+const fetchIssueAssignees = async (id) => {
+    try {
+        const res = await http.get(`api/users?issueId=${id}`);
+        const assignees = res.data.map((obj) => obj.person_id);
+        return assignees;
+    } catch (error) {
+        const errMsg = error.response.data.errors[0].msg;
+        throw errMsg;
+    }
+};
+
 const fetchUsers = async () => {
     try {
         const res = await http.get('api/users');
@@ -58,5 +79,7 @@ export {
     userLogout,
     userRegistration,
     fetchAllIssues,
+    fetchIssue,
+    fetchIssueAssignees,
     fetchUsers
 };
