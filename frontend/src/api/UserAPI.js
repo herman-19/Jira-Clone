@@ -43,9 +43,20 @@ const fetchAllIssues = async () => {
     }
 };
 
+const fetchUsers = async () => {
+    try {
+        const res = await http.get('api/users');
+        return res.data;
+    } catch (error) {
+        const errMsg = error.response.data.errors[0].msg;
+        throw errMsg;
+    }
+};
+
 export {
     userLogin,
     userLogout,
     userRegistration,
-    fetchAllIssues
+    fetchAllIssues,
+    fetchUsers
 };
