@@ -46,6 +46,8 @@ const Modal = ({ isDiplayed, toggleModal, issue }) => {
     const deleteIssue = () => {
         console.log('Deleting issue...');
     };
+    // Priority
+    const [priority, setPriority] = useState(issue.priority);
 
     useEffect(() => {
         const getIssueInfo = async () => {
@@ -53,6 +55,7 @@ const Modal = ({ isDiplayed, toggleModal, issue }) => {
             setTitle(data.title);
             setDescription(data.description);
             setPendingDesc(data.description);
+            setPriority(data.priority);
         };
         const getUsers = async () => {
             const data = await fetchUsers();
@@ -164,7 +167,7 @@ const Modal = ({ isDiplayed, toggleModal, issue }) => {
                     <div className='issue-modal-info-label'>ASSIGNEES</div>
                     <AssigneesDropdown issueId={issue.issue_id} users={users} />
                     <div className='issue-modal-info-label'>PRIORITY</div>
-                    <IssuePriorityDropdown />
+                    <IssuePriorityDropdown priority={priority} />
                     < Divider />
                     <div className='issue-timestamps-container'>
                         <div>Created at 3 months ago</div>

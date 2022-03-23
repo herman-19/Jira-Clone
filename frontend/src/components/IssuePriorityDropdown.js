@@ -6,33 +6,33 @@ import { Dropdown } from 'semantic-ui-react';
 // See for progress: https://github.com/Semantic-Org/Semantic-UI-React/pull/4233
 // To be fixed in semantic ui react v3.
 
-const IssuePriorityDropdown = () => {
-    const [selected, setSelected] = useState('Highest');
+const IssuePriorityDropdown = ({ priority }) => {
+    const [selected, setSelected] = useState(priority);
     const issueTypes = [
         {
-            key: 'Highest',
-            text: 'Highest',
-            value: 'Highest'
+            key: 'HIGHEST',
+            text: 'HIGHEST',
+            value: 'HIGHEST'
         },
         {
-            key: 'High',
-            text: 'High',
-            value: 'High'
+            key: 'HIGH',
+            text: 'HIGH',
+            value: 'HIGH'
         },
         {
-            key: 'Medium',
-            text: 'Medium',
-            value: 'Medium'
+            key: 'MEDIUM',
+            text: 'MEDIUM',
+            value: 'MEDIUM'
         },
         {
-            key: 'Low',
-            text: 'Low',
-            value: 'Low'
+            key: 'LOW',
+            text: 'LOW',
+            value: 'LOW'
         },
         {
-            key: 'Lowest',
-            text: 'Lowest',
-            value: 'Lowest'
+            key: 'LOWEST',
+            text: 'LOWEST',
+            value: 'LOWEST'
         },
     ];
 
