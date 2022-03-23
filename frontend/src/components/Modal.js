@@ -11,21 +11,30 @@ import Delete from './icons/Trash';
 import Expand from './icons/Expand';
 import Close from './icons/Close';
 import Comment from './Comment';
-import { fetchIssue, fetchUsers } from '../api/UserAPI';
+import { fetchIssue, fetchUsers, updateIssue } from '../api/UserAPI';
 
 ReactModal.setAppElement("#root");
 
 const Modal = ({ isDiplayed, toggleModal, issue }) => {
+    // Title
     const [title, setTitle] = useState(issue.title);
+
+    // Users
     const [users, setUsers] = useState(null);
 
     // Description
     const [inEditMode, setInEditMode] = useState(false);
     const [description, setDescription] = useState(issue.description);
     const [pendingDesc, setPendingDesc] = useState(issue.description);
-    const saveEdit = () => {
-        setDescription(pendingDesc);
-        setInEditMode(false);
+    const saveEdit = async () => {
+        try {
+            await doUpdate({ description: pendingDesc });
+            setDescription(pendingDesc);
+            setInEditMode(false);
+        } catch (error) {
+            // TODO: Display warning.
+            console.log(error);
+        }
     };
     const cancelEdit = () => {
         setInEditMode(false);
@@ -48,6 +57,15 @@ const Modal = ({ isDiplayed, toggleModal, issue }) => {
     };
     // Priority
     const [priority, setPriority] = useState(issue.priority);
+
+    const doUpdate = async (data) => {
+        try {
+            await updateIssue(issue.issue_id, data);
+        } catch (error) {
+            // TODO: Display warning.
+            console.log(error);
+        }
+    };
 
     useEffect(() => {
         const getIssueInfo = async () => {
@@ -94,6 +112,7 @@ const Modal = ({ isDiplayed, toggleModal, issue }) => {
                                 control={TextareaAutosize}
                                 placeholder="Issue Title"
                                 onChange={e => setTitle(e.target.value)}
+                                onBlur={() => doUpdate({ title })}
                                 value={title}
                             />
                         </Form>
