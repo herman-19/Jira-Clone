@@ -74,6 +74,16 @@ const fetchUsers = async () => {
     }
 };
 
+const updateIssue = async (issueId, data) => {
+    try {
+        const res = await http.put(`/api/issues/${issueId}`, data);
+        return res.data;
+    } catch (error) {
+        const errMsg = error.response.data.errors[0].msg;
+        throw errMsg;
+    }
+};
+
 export {
     userLogin,
     userLogout,
@@ -81,5 +91,6 @@ export {
     fetchAllIssues,
     fetchIssue,
     fetchIssueAssignees,
-    fetchUsers
+    fetchUsers,
+    updateIssue
 };
