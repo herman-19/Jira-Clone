@@ -19,6 +19,13 @@ const Modal = ({ isDiplayed, toggleModal, issue }) => {
     // Title
     const [title, setTitle] = useState(issue.title);
 
+    // Type & Status
+    const [type, setType] = useState(issue.type);
+    const [status, setStatus] = useState(issue.status);
+
+    // Reporter ID
+    const [reporterId, setReporterId] = useState(issue.reporter_id);
+
     // Users
     const [users, setUsers] = useState(null);
 
@@ -60,6 +67,8 @@ const Modal = ({ isDiplayed, toggleModal, issue }) => {
 
     const doUpdate = async (data) => {
         try {
+            console.log('do Update...');
+            console.log(data);
             await updateIssue(issue.issue_id, data);
         } catch (error) {
             // TODO: Display warning.
@@ -71,6 +80,9 @@ const Modal = ({ isDiplayed, toggleModal, issue }) => {
         const getIssueInfo = async () => {
             const data = await fetchIssue(issue.issue_id);
             setTitle(data.title);
+            setType(data.type);
+            setStatus(data.status);
+            setReporterId(data.reporter_id);
             setDescription(data.description);
             setPendingDesc(data.description);
             setPriority(data.priority);
@@ -95,7 +107,7 @@ const Modal = ({ isDiplayed, toggleModal, issue }) => {
             closeTimeoutMS={100}
         >
             <div className='issue-modal-top'>
-                <IssueTypeDropdown type={issue.type} />
+                <IssueTypeDropdown type={type} updateIssue={doUpdate} />
                 <div className='issue-options'>
                     <Delete onClick={deleteIssue} />
                     <Expand />
@@ -180,13 +192,13 @@ const Modal = ({ isDiplayed, toggleModal, issue }) => {
                 </div>
                 <div className='issue-modal-info'>
                     <div className='issue-modal-info-label'>STATUS</div>
-                    <IssueStatusDropdown status={issue.status} />
+                    <IssueStatusDropdown status={status} updateIssue={doUpdate} />
                     <div className='issue-modal-info-label'>REPORTER</div>
-                    <ReporterDropdown reporter_id={issue.reporter_id} users={users} />
+                    <ReporterDropdown reporter_id={reporterId} users={users} updateIssue={doUpdate} />
                     <div className='issue-modal-info-label'>ASSIGNEES</div>
-                    <AssigneesDropdown issueId={issue.issue_id} users={users} />
+                    <AssigneesDropdown issueId={issue.issue_id} users={users} updateIssue={doUpdate} />
                     <div className='issue-modal-info-label'>PRIORITY</div>
-                    <IssuePriorityDropdown priority={priority} />
+                    <IssuePriorityDropdown priority={priority} updateIssue={doUpdate} />
                     < Divider />
                     <div className='issue-timestamps-container'>
                         <div>Created at 3 months ago</div>

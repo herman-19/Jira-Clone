@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Dropdown } from 'semantic-ui-react';
 
 // Note the semantic-ui-react Dropdown component warns of findDomNode deprecation.
@@ -6,8 +6,10 @@ import { Dropdown } from 'semantic-ui-react';
 // See for progress: https://github.com/Semantic-Org/Semantic-UI-React/pull/4233
 // To be fixed in semantic ui react v3.
 
-const IssuePriorityDropdown = ({ priority }) => {
+const IssuePriorityDropdown = ({ priority, updateIssue }) => {
     const [selected, setSelected] = useState(priority);
+    useEffect(() => setSelected(priority), [priority]);
+
     const issueTypes = [
         {
             key: 'HIGHEST',
@@ -41,14 +43,14 @@ const IssuePriorityDropdown = ({ priority }) => {
         // Update issue type here...
         e.persist();
         setSelected(value);
-        console.log(value);
+        await updateIssue({ priority: value });
     };
 
     return (
         <Dropdown
             id='dropdown-issue'
             selection
-            defaultValue={selected} // Note, this corresponds to the 'value' attribute in the options.
+            value={selected}
             options={issueTypes}
             button={true}
             onChange={onChange}

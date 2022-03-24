@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Dropdown } from 'semantic-ui-react';
 import BugIcon from './icons/IssueTypeBug';
 import StoryIcon from './icons/IssueTypeStory';
@@ -20,8 +20,10 @@ const dropdownIconStyle = {
     maxHeight: '2em'
 };
 
-const IssueTypeDropdown = ({ type }) => {
+const IssueTypeDropdown = ({ type, updateIssue }) => {
     const [selected, setSelected] = useState(type);
+    useEffect(() => setSelected(type), [type]);
+
     const issueTypes = [
         {
             key: 'BUG',
@@ -45,17 +47,16 @@ const IssueTypeDropdown = ({ type }) => {
 
     // Handle selected dropdown issue type.
     const onChange = async (e, { value }) => {
-        // Update issue type here...
         e.persist();
         setSelected(value);
-        console.log(value);
+        await updateIssue({ type: value });
     };
 
     return (
         <Dropdown
             id='dropdown-issue-type'
             selection
-            defaultValue={selected} // Note, this corresponds to the 'value' attribute in the types.
+            value={selected}
             options={issueTypes}
             button={true}
             onChange={onChange}

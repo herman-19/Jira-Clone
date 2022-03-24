@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Dropdown } from 'semantic-ui-react';
 import { fetchIssueAssignees } from '../api/UserAPI';
 
-const AssigneeDropdown = ({ issueId, users }) => {
+const AssigneeDropdown = ({ issueId, users, updateIssue }) => {
     const [selected, setSelected] = useState([]);
     const [displayDropdown, setDisplayDropdown] = useState(false);
 
@@ -43,6 +43,17 @@ const AssigneeDropdown = ({ issueId, users }) => {
         e.persist();
         setSelected(value);
         console.log(value);
+
+        // Find assignee ids to update issue.
+        let newAssigneesReporterIDs = [];
+        for (let assigneeName of value) {
+            let idx = users.findIndex(u => u.name === assigneeName);
+            if (idx !== -1) {
+                newAssigneesReporterIDs.push(users[idx].person_id);
+            }
+        }
+        console.log(newAssigneesReporterIDs);
+        await updateIssue({ assigneeIDs: newAssigneesReporterIDs });
     };
 
     return (

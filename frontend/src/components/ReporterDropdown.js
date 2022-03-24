@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Dropdown } from 'semantic-ui-react';
 
-const ReporterDropdown = ({ reporter_id, users }) => {
+const ReporterDropdown = ({ reporter_id, users, updateIssue }) => {
     const [reporter, setReporter] = useState(null);
     const [reporterOptions, setReporterOptions] = useState(null);
 
@@ -20,14 +20,18 @@ const ReporterDropdown = ({ reporter_id, users }) => {
             }
             setReporterOptions(options);
         }
-    }, [users]);
+    }, [reporter_id, users]);
 
     // Handle selected reporter.
     const onChange = async (e, { value }) => {
-        // Update reporter here...
         e.persist();
         setReporter(value);
-        console.log(value);
+        // Find reporter id of selected value.
+        let idx = reporterOptions.findIndex(r => r.value === value);
+        if (idx !== -1) {
+            let reporterId = reporterOptions[idx].name;
+            await updateIssue({ reporter_id: reporterId });
+        }
     };
 
     return (
