@@ -157,7 +157,11 @@ const updateIssue = async (issueId, issueData) => {
         await client.query('BEGIN');
 
         // Update record in issue table.
-        const { rows } = await client.query(query, values);
+        let res;
+        if (values.length > 0) {
+            const { rows } = await client.query(query, values);
+            res = rows[0];
+        }
 
         // Update bridge table if assignees were updated.
         const { assigneeIDs } = issueData;
@@ -166,12 +170,18 @@ const updateIssue = async (issueId, issueData) => {
             for (let assigneedID of assigneeIDs) {
                 issueAssignees.push([issueId, assigneedID]);
             }
-            await client.query('DELETE FROM issue_assignee WHERE issue_id = $1', [issueId]);
-            await client.query(format('INSERT INTO issue_assignee(issue_id, person_id) VALUES %L', issueAssignees), []);
+
+            const { rows } = await client.query('DELETE FROM issue_assignee WHERE issue_id = $1', [issueId]);
+            res = rows;
+
+            if (issueAssignees.length > 0) {
+                const { rows } = await client.query(format('INSERT INTO issue_assignee(issue_id, person_id) VALUES %L', issueAssignees), []);
+                res = rows;
+            }
         }
 
         await client.query('COMMIT');
-        return rows[0];
+        return res;
     } catch (error) {
         await client.query('ROLLBACK');
         throw error;
