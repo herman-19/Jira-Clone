@@ -10,8 +10,8 @@ import IssuePriorityDropdown from './IssuePriorityDropdown';
 import Delete from './icons/Trash';
 import Expand from './icons/Expand';
 import Close from './icons/Close';
-import Comment from './Comment';
-import { fetchIssue, fetchUsers, updateIssue } from '../api/UserAPI';
+import Comments from './Comments';
+import { fetchIssue, fetchUsers, updateIssue, fetchComments, createComment } from '../api/UserAPI';
 
 ReactModal.setAppElement("#root");
 
@@ -48,12 +48,29 @@ const Modal = ({ isDiplayed, toggleModal, issue }) => {
         setPendingDesc(description);
     };
     // Comment
+    const [comments, setComments] = useState([]);
     const [inEditComMode, setInEditComMode] = useState(false);
     const [comment, setComment] = useState({ value: '' });
     const [pendingCom, setPendingCom] = useState({ value: '' });
-    const saveCommentEdit = () => {
-        setComment(pendingCom);
-        setInEditComMode(false);
+    const saveCommentEdit = async () => {
+        try {
+            // Create new comment here...
+            const newComment = {
+                issueId: issue.issue_id,
+                content: pendingCom.value
+            };
+            const storedComment = await createComment(newComment);
+            const newComments = [...comments];
+            newComments.push(storedComment);
+
+            // Update comments displayed and clear text area.
+            setComments(newComments);
+            setComment({value: ''});
+            setPendingCom({value: ''});
+            setInEditComMode(false);
+        } catch (error) {
+            console.log(error);
+        }
     };
     const cancelCommentEdit = () => {
         setInEditComMode(false);
@@ -91,9 +108,14 @@ const Modal = ({ isDiplayed, toggleModal, issue }) => {
             const data = await fetchUsers();
             setUsers(data);
         };
+        const getComments = async () => {
+             const data = await fetchComments(issue.issue_id);
+             setComments(data);
+        };
         if (isDiplayed) {
             getIssueInfo();
             getUsers();
+            getComments();
         }
     }, [isDiplayed]);
 
@@ -186,8 +208,9 @@ const Modal = ({ isDiplayed, toggleModal, issue }) => {
                                 </div>
                             </div>
                         </Form>
-                        <Comment author='Lord Venom' timestamp='a month ago' text='Shake it.' />
-                        <Comment author='Lord Venom' timestamp='two months ago' text='Shake it. NOWWW.' />
+                        {
+                            (comments.length > 0) && users && isDiplayed && <Comments comments={comments} users={users} />
+                        }
                     </div>
                 </div>
                 <div className='issue-modal-info'>
