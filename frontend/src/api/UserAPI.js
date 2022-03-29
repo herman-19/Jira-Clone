@@ -77,7 +77,6 @@ const fetchUsers = async () => {
 const fetchComments = async (id) => {
     try {
         const res = await http.get(`api/comments?issueId=${id}`);
-        console.log(res.data);
         return res.data;
     } catch (error) {
         const errMsg = error.response.data.errors[0].msg;
@@ -88,7 +87,6 @@ const fetchComments = async (id) => {
 const createComment = async (data) => {
     try {
         const res = await http.post('api/comments', data);
-        console.log(res.data);
         return res.data;
     } catch (error) {
         const errMsg = error.response.data.errors[0].msg;
