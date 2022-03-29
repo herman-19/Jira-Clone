@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import ReactModal from 'react-modal';
 import { Form, Divider } from 'semantic-ui-react';
 import TextareaAutosize from "react-textarea-autosize";
+import { formatDistance } from 'date-fns';
 import IssueTypeDropdown from './IssueTypeDropdown';
 import IssueStatusDropdown from './IssueStatusDropdown';
 import AssigneesDropdown from './AssigneesDropdown';
@@ -81,12 +82,15 @@ const Modal = ({ isDiplayed, toggleModal, issue }) => {
     };
     // Priority
     const [priority, setPriority] = useState(issue.priority);
+    // Last updated timestamp.
+    const [lastUpdated, setLastUpdated] = useState(issue.last_updated_at);
 
     const doUpdate = async (data) => {
         try {
             console.log('do Update...');
             console.log(data);
-            await updateIssue(issue.issue_id, data);
+            const res = await updateIssue(issue.issue_id, data);
+            setLastUpdated(res.last_updated_at);
         } catch (error) {
             // TODO: Display warning.
             console.log(error);
@@ -103,6 +107,7 @@ const Modal = ({ isDiplayed, toggleModal, issue }) => {
             setDescription(data.description);
             setPendingDesc(data.description);
             setPriority(data.priority);
+            setLastUpdated(data.last_updated_at);
         };
         const getUsers = async () => {
             const data = await fetchUsers();
@@ -224,8 +229,8 @@ const Modal = ({ isDiplayed, toggleModal, issue }) => {
                     <IssuePriorityDropdown priority={priority} updateIssue={doUpdate} />
                     < Divider />
                     <div className='issue-timestamps-container'>
-                        <div>Created at 3 months ago</div>
-                        <div>Updated at 1 month ago</div>
+                        <div>Created {formatDistance(new Date(), new Date(issue.created_at))} ago</div>
+                        <div>Updated {formatDistance(new Date(), new Date(lastUpdated))} ago</div>
                     </div>
                 </div>
             </div>
