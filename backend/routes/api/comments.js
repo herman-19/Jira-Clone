@@ -9,8 +9,19 @@ const db = require('../../db/index');
 // @desc   Get all comments
 // @access Private
 router.get('/', auth, async (req, res) => {
-    const comments = await db.getComments();
-    return res.json(comments);
+    try {
+        const issueId = req.query.issueId;
+        if (issueId) {
+            const comments = await db.getCommentsForIssue(issueId);
+            return res.json(comments);
+        } else {
+            const comments = await db.getComments();
+            return res.json(comments);
+        }
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).send("Server Error.");
+    }
 });
 
 // @route  GET api/comments/:id

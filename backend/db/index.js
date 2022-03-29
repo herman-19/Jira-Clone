@@ -227,6 +227,11 @@ const getComment = async (id) => {
     return rows[0];
 };
 
+const getCommentsForIssue = async (id) => {
+    const { rows } = await pool.query('SELECT * FROM comment WHERE issue_id = $1', [id]);
+    return rows;
+};
+
 const deleteComment = async (id) => {
     const { rows } = await pool.query('DELETE FROM comment WHERE comment_id = $1 RETURNING *', [id]);
     return rows[0];
@@ -284,6 +289,7 @@ module.exports = {
     updateIssue,
     getComments,
     getComment,
+    getCommentsForIssue,
     deleteComment,
     createComment,
     updateComment,
