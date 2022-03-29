@@ -16,7 +16,7 @@ import { fetchIssue, fetchUsers, updateIssue, fetchComments, createComment } fro
 
 ReactModal.setAppElement("#root");
 
-const Modal = ({ isDiplayed, toggleModal, issue }) => {
+const Modal = ({ isDiplayed, toggleModal, issue, onPrioUpdate, onTypeUpdate }) => {
     // Title
     const [title, setTitle] = useState(issue.title);
 
@@ -134,7 +134,7 @@ const Modal = ({ isDiplayed, toggleModal, issue }) => {
             closeTimeoutMS={100}
         >
             <div className='issue-modal-top'>
-                <IssueTypeDropdown type={type} updateIssue={doUpdate} />
+                <IssueTypeDropdown type={type} updateIssue={doUpdate} onTypeUpdate={onTypeUpdate} />
                 <div className='issue-options'>
                     <Delete onClick={deleteIssue} />
                     <Expand />
@@ -226,7 +226,7 @@ const Modal = ({ isDiplayed, toggleModal, issue }) => {
                     <div className='issue-modal-info-label'>ASSIGNEES</div>
                     <AssigneesDropdown issueId={issue.issue_id} users={users} updateIssue={doUpdate} />
                     <div className='issue-modal-info-label'>PRIORITY</div>
-                    <IssuePriorityDropdown priority={priority} updateIssue={doUpdate} />
+                    <IssuePriorityDropdown priority={priority} updateIssue={doUpdate} onPrioUpdate={onPrioUpdate} />
                     < Divider />
                     <div className='issue-timestamps-container'>
                         <div>Created {formatDistance(new Date(), new Date(issue.created_at))} ago</div>

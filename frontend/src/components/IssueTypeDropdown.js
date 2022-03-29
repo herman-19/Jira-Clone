@@ -20,7 +20,7 @@ const dropdownIconStyle = {
     maxHeight: '2em'
 };
 
-const IssueTypeDropdown = ({ type, updateIssue }) => {
+const IssueTypeDropdown = ({ type, updateIssue, onTypeUpdate }) => {
     const [selected, setSelected] = useState(type);
     useEffect(() => setSelected(type), [type]);
 
@@ -49,6 +49,7 @@ const IssueTypeDropdown = ({ type, updateIssue }) => {
     const onChange = async (e, { value }) => {
         e.persist();
         setSelected(value);
+        onTypeUpdate(value);
         await updateIssue({ type: value });
     };
 

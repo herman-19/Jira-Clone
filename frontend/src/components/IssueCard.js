@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import TaskIcon from './icons/IssueTypeTask';
 import BugIcon from './icons/IssueTypeBug';
 import StoryIcon from './icons/IssueTypeStory';
@@ -43,6 +43,10 @@ const IssueCard = ({ issue }) => {
     const toggleModal = () => {
         setDisplayModal(!displayModal);
     };
+    const [issuePriority, setIssuePriority] = useState(issue.priority);
+    const [issueType, setIssueType] = useState(issue.type);
+    useEffect(()=> {setIssuePriority(issuePriority)}, [issuePriority]);
+    useEffect(()=> {setIssueType(issueType)}, [issueType]);
 
     return (
         <div>
@@ -50,8 +54,8 @@ const IssueCard = ({ issue }) => {
                 {issue.title}
                 <div className='issue-card-info'>
                     <div className='issue-card-status'>
-                        {getIssueTypeIcon(issue.type)}
-                        {getIssuePrioIcon(issue.priority)}
+                        {getIssueTypeIcon(issueType)}
+                        {getIssuePrioIcon(issuePriority)}
                     </div>
 
                     <div className='issue-card-user-icons-container'>
@@ -62,7 +66,7 @@ const IssueCard = ({ issue }) => {
                     </div>
                 </div>
             </div>
-            <Modal isDiplayed={displayModal} toggleModal={toggleModal} issue={issue} />
+            <Modal isDiplayed={displayModal} toggleModal={toggleModal} issue={issue} onPrioUpdate={setIssuePriority} onTypeUpdate={setIssueType} />
         </div>
     );
 };
