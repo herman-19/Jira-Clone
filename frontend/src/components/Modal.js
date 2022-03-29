@@ -150,68 +150,68 @@ const Modal = ({ isDiplayed, toggleModal, issue }) => {
                                 value={title}
                             />
                         </Form>
-                        <Form>
-                            <div id='issue-modal-label'>Description</div>
-                            <TextareaAutosize
-                                // defaultValue="Just a single line..."
-                                id='issue-modal-title-text'
-                                control={TextareaAutosize}
-                                placeholder="Description of issue"
-                                onChange={e => setPendingDesc(e.target.value)}
-                                value={inEditMode ? pendingDesc : description}
-                                style={{ fontSize: '14px' }}
-                                onFocus={() => setInEditMode(true)}
-                            />
-                            {inEditMode &&
-                                <div id='desc-editor-buttons'>
-                                    <Form.Button
-                                        id='desc-save-button'
-                                        content="Save"
-                                        onClick={saveEdit}
-                                    />
-                                    <Form.Button
-                                        id='desc-cancel-button'
-                                        content="Cancel"
-                                        onClick={cancelEdit}
-                                    />
-                                </div>
-                            }
-                        </Form>
-                        <Form>
-                            <div id='issue-modal-label'>Comments</div>
-                            <div id='new-comment-container'>
-                                <div id='new-comment-user-img' />
-                                <div id='pad-left'>
-                                    <TextareaAutosize
-                                        id='comment-text-input'
-                                        control={TextareaAutosize}
-                                        placeholder="Add a comment..."
-                                        onChange={e => setPendingCom({ value: e.target.value })}
-                                        value={inEditComMode ? pendingCom.value : comment.value}
-                                        // style={{ fontSize: '14px' }}
-                                        onFocus={() => setInEditComMode(true)}
-                                    />
-                                    {inEditComMode &&
-                                        <div id='desc-editor-buttons'>
-                                            <Form.Button
-                                                id='desc-save-button'
-                                                content="Save"
-                                                onClick={saveCommentEdit}
-                                            />
-                                            <Form.Button
-                                                id='desc-cancel-button'
-                                                content="Cancel"
-                                                onClick={cancelCommentEdit}
-                                            />
-                                        </div>
-                                    }
-                                </div>
-                            </div>
-                        </Form>
-                        {
-                            (comments.length > 0) && users && isDiplayed && <Comments comments={comments} users={users} />
-                        }
                     </div>
+                    <Form>
+                        <div id='issue-modal-label'>Description</div>
+                        <TextareaAutosize
+                            // defaultValue="Just a single line..."
+                            id='issue-modal-title-text'
+                            control={TextareaAutosize}
+                            placeholder="Description of issue"
+                            onChange={e => setPendingDesc(e.target.value)}
+                            value={inEditMode ? pendingDesc : description}
+                            style={{ fontSize: '14px' }}
+                            onFocus={() => setInEditMode(true)}
+                        />
+                        {inEditMode &&
+                            <div id='desc-editor-buttons'>
+                                <Form.Button
+                                    id='desc-save-button'
+                                    content="Save"
+                                    onClick={saveEdit}
+                                />
+                                <Form.Button
+                                    id='desc-cancel-button'
+                                    content="Cancel"
+                                    onClick={cancelEdit}
+                                />
+                            </div>
+                        }
+                    </Form>
+                    <Form>
+                        <div id='issue-modal-label'>Comments</div>
+                        <div id='new-comment-container'>
+                            <div id='new-comment-user-img' />
+                            <div id='pad-left'>
+                                <TextareaAutosize
+                                    id='comment-text-input'
+                                    control={TextareaAutosize}
+                                    placeholder="Add a comment..."
+                                    onChange={e => setPendingCom({ value: e.target.value })}
+                                    value={inEditComMode ? pendingCom.value : comment.value}
+                                    // style={{ fontSize: '14px' }}
+                                    onFocus={() => setInEditComMode(true)}
+                                />
+                                {inEditComMode &&
+                                    <div id='desc-editor-buttons'>
+                                        <Form.Button
+                                            id='desc-save-button'
+                                            content="Save"
+                                            onClick={saveCommentEdit}
+                                        />
+                                        <Form.Button
+                                            id='desc-cancel-button'
+                                            content="Cancel"
+                                            onClick={cancelCommentEdit}
+                                        />
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </Form>
+                    {
+                        (comments.length > 0) && users && isDiplayed && <Comments comments={comments} users={users} />
+                    }
                 </div>
                 <div className='issue-modal-info'>
                     <div className='issue-modal-info-label'>STATUS</div>
