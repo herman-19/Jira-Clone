@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import { v4 as uuid } from 'uuid';
 import IssueCard from './IssueCard';
+import { updateIssue } from '../api/UserAPI';
 
 const Columns = ({ issues }) => {
     const backlogIssues = issues.filter(issue => issue.status === 'BACKLOG');
@@ -32,6 +33,9 @@ const Columns = ({ issues }) => {
     useEffect(() => { setColumns(issuesColumns) }, [issues]);
 
     const onDragEnd = (result, columns, setColumns) => {
+        // Logic below places the issue card in the dropped column.
+        // It also updates the issue's status according to the column.
+
         if (!result.destination) return;
         const { source, destination } = result;
 
@@ -39,9 +43,16 @@ const Columns = ({ issues }) => {
             // Issue was dragged and dropped to different column.
             const sourceColumn = columns[source.droppableId];
             const destColumn = columns[destination.droppableId];
+
+            // Update to new status.
             const sourceItems = [...sourceColumn.items];
             const destItems = [...destColumn.items];
             const [removed] = sourceItems.splice(source.index, 1);
+
+            doUpdate(removed.issue_id, {status: destColumn.name});
+            removed.status = destColumn.name;
+
+            // Insert to new column.
             destItems.splice(destination.index, 0, removed);
             setColumns({
                 ...columns,
@@ -68,6 +79,60 @@ const Columns = ({ issues }) => {
                 }
             });
         }
+    };
+    const doUpdate = async (issueId, data) => {
+        try {
+            await updateIssue(issueId, data);
+        } catch (error) {
+            // TODO: Display warning.
+            console.log(error);
+        }
+    };
+    const processStatusUpdate = (issueId, oldStatus, newStatus) => {
+        // This function serves to move the issue card to the corresponding column
+        // when there is a change in status via the modal.
+
+        // Steps:
+        //   1. Find issue entry in columns (i.e., source location).
+        //   1. Remove entry from source column.
+        //   1. Update the entry status (e.g., BACKLOG, IN PROGRESS, ETC.).
+        //   1. Find destination column.
+        //   1. Place entry in destination column and update state.
+        let srcDroppableId, srcCol, dstDroppableId, dstCol;
+        for (const [key, value] of Object.entries(columns)) {
+            if (value.name === oldStatus) {
+                srcDroppableId = key;
+                srcCol = value;
+            }
+            if (value.name === newStatus) {
+                dstDroppableId = key;
+                dstCol = value;
+            }
+        }
+
+        const srcIdx = srcCol.items.findIndex(i => i.issue_id === issueId);
+        const dstIdx = dstCol.items.length; // place issue card at end of column
+
+        // Update to new status.
+        const sourceItems = [...srcCol.items];
+        const destItems = [...dstCol.items];
+        const [removed] = sourceItems.splice(srcIdx, 1);
+
+        removed.status = dstCol.name;
+
+        // Insert to new column.
+        destItems.splice(dstIdx, 0, removed);
+        setColumns({
+            ...columns,
+            [srcDroppableId]: {
+                ...srcCol,
+                items: sourceItems
+            },
+            [dstDroppableId]: {
+                ...dstCol,
+                items: destItems
+            }
+        });
     };
 
     return (
@@ -102,6 +167,7 @@ const Columns = ({ issues }) => {
                                                                     >
                                                                         <IssueCard
                                                                             issue={item}
+                                                                            onStatusUpdate={processStatusUpdate}
                                                                         />
                                                                     </div>
                                                                 );

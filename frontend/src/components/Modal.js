@@ -16,7 +16,7 @@ import { fetchIssue, fetchUsers, updateIssue, fetchComments, createComment } fro
 
 ReactModal.setAppElement("#root");
 
-const Modal = ({ isDiplayed, toggleModal, issue, onPrioUpdate, onTypeUpdate }) => {
+const Modal = ({ isDiplayed, toggleModal, issue, onPrioUpdate, onTypeUpdate, setStatusUpdateInfo }) => {
     // Title
     const [title, setTitle] = useState(issue.title);
 
@@ -134,7 +134,7 @@ const Modal = ({ isDiplayed, toggleModal, issue, onPrioUpdate, onTypeUpdate }) =
             closeTimeoutMS={100}
         >
             <div className='issue-modal-top'>
-                <IssueTypeDropdown type={type} updateIssue={doUpdate} onTypeUpdate={onTypeUpdate} />
+                <IssueTypeDropdown type={type} updateIssue={doUpdate} onTypeUpdate={onTypeUpdate} issue={issue}/>
                 <div className='issue-options'>
                     <Delete onClick={deleteIssue} />
                     <Expand />
@@ -220,13 +220,13 @@ const Modal = ({ isDiplayed, toggleModal, issue, onPrioUpdate, onTypeUpdate }) =
                 </div>
                 <div className='issue-modal-info'>
                     <div className='issue-modal-info-label'>STATUS</div>
-                    <IssueStatusDropdown status={status} updateIssue={doUpdate} />
+                    <IssueStatusDropdown issueId={issue.issue_id} status={status} updateIssue={doUpdate} setStatusUpdateInfo={setStatusUpdateInfo} />
                     <div className='issue-modal-info-label'>REPORTER</div>
                     <ReporterDropdown reporter_id={reporterId} users={users} updateIssue={doUpdate} />
                     <div className='issue-modal-info-label'>ASSIGNEES</div>
                     <AssigneesDropdown issueId={issue.issue_id} users={users} updateIssue={doUpdate} />
                     <div className='issue-modal-info-label'>PRIORITY</div>
-                    <IssuePriorityDropdown priority={priority} updateIssue={doUpdate} onPrioUpdate={onPrioUpdate} />
+                    <IssuePriorityDropdown priority={priority} updateIssue={doUpdate} onPrioUpdate={onPrioUpdate} issue={issue}/>
                     < Divider />
                     <div className='issue-timestamps-container'>
                         <div>Created {formatDistance(new Date(), new Date(issue.created_at))} ago</div>

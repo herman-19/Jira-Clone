@@ -6,7 +6,7 @@ import { Dropdown } from 'semantic-ui-react';
 // See for progress: https://github.com/Semantic-Org/Semantic-UI-React/pull/4233
 // To be fixed in semantic ui react v3.
 
-const IssuePriorityDropdown = ({ priority, updateIssue, onPrioUpdate }) => {
+const IssuePriorityDropdown = ({ priority, updateIssue, onPrioUpdate, issue }) => {
     const [selected, setSelected] = useState(priority);
     useEffect(() => setSelected(priority), [priority]);
 
@@ -44,6 +44,7 @@ const IssuePriorityDropdown = ({ priority, updateIssue, onPrioUpdate }) => {
         e.persist();
         setSelected(value);
         onPrioUpdate(value);
+        issue.priority = value;  // update column entry
         await updateIssue({ priority: value });
     };
 

@@ -38,9 +38,19 @@ const getIssueTypeIcon = (type) => {
     return icon;
 };
 
-const IssueCard = ({ issue }) => {
+const IssueCard = ({ issue, onStatusUpdate }) => {
     const [displayModal, setDisplayModal] = useState(false);
+    const [statusUpdateInfo, setStatusUpdateInfo] = useState(null);
     const toggleModal = () => {
+        if (displayModal) {
+            // Modal is being closed.
+            if (statusUpdateInfo) {
+                // Since there was a change in status via the modal, the issue card is moved to the corresponding column.
+                // Note: This logic takes place when the Modal is closed/unmounted to avoid state update of an unmounted component.
+                onStatusUpdate(statusUpdateInfo.issueId, statusUpdateInfo.oldStatus, statusUpdateInfo.newStatus);
+                setStatusUpdateInfo(null);
+            }
+        }
         setDisplayModal(!displayModal);
     };
     const [issuePriority, setIssuePriority] = useState(issue.priority);
@@ -66,7 +76,12 @@ const IssueCard = ({ issue }) => {
                     </div>
                 </div>
             </div>
-            <Modal isDiplayed={displayModal} toggleModal={toggleModal} issue={issue} onPrioUpdate={setIssuePriority} onTypeUpdate={setIssueType} />
+            <Modal isDiplayed={displayModal}
+                   toggleModal={toggleModal}
+                   issue={issue}
+                   onPrioUpdate={setIssuePriority}
+                   onTypeUpdate={setIssueType}
+                   setStatusUpdateInfo={setStatusUpdateInfo} />
         </div>
     );
 };
