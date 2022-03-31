@@ -47,7 +47,9 @@ const IssueCard = ({ issue, onStatusUpdate }) => {
             if (statusUpdateInfo) {
                 // Since there was a change in status via the modal, the issue card is moved to the corresponding column.
                 // Note: This logic takes place when the Modal is closed/unmounted to avoid state update of an unmounted component.
-                onStatusUpdate(statusUpdateInfo.issueId, statusUpdateInfo.oldStatus, statusUpdateInfo.newStatus);
+                if (statusUpdateInfo.oldStatus !== statusUpdateInfo.newStatus) {
+                    onStatusUpdate(statusUpdateInfo.issueId, statusUpdateInfo.oldStatus, statusUpdateInfo.newStatus);
+                }
                 setStatusUpdateInfo(null);
             }
         }
