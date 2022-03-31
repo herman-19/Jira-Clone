@@ -150,7 +150,7 @@ const Modal = ({ isDiplayed, toggleModal, issue, onPrioUpdate, onTypeUpdate, set
                                 id='issue-modal-title-text'
                                 control={TextareaAutosize}
                                 placeholder="Issue Title"
-                                onChange={e => setTitle(e.target.value)}
+                                onChange={e => {setTitle(e.target.value); issue.title = e.target.value;}}
                                 onBlur={() => doUpdate({ title })}
                                 value={title}
                             />
