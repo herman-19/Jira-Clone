@@ -6,11 +6,15 @@ import { fetchAllIssues } from '../api/UserAPI';
 
 const Kanban = () => {
     const [issues, setIssues] = useState([]);
+    const [filteredIssues, setFilteredIssues] = useState([]);
+    const [textFilter, setTextFilter] = useState('');
+    const [filterEnabled, setFilterEnabled] = useState(false);
     useEffect(() => {
         const fetchIssues = async () => {
             try {
                 const allIssues = await fetchAllIssues();
                 setIssues(allIssues);
+                setFilteredIssues(allIssues);
             } catch (error) {
                 // TODO: Show warning.
                 console.log(error);
@@ -18,6 +22,21 @@ const Kanban = () => {
         };
         fetchIssues();
     }, []);
+
+    const onChange = (e) => {
+        const val = e.target.value;
+        setTextFilter(val);
+
+        // Filter issues based on current text in issue search bar.
+        if (val.length > 0) {
+            // Iterate issues and find matches.
+            const filtered = issues.filter((fi) => fi.title.toLowerCase().includes(val.toLowerCase()));
+            setFilteredIssues(filtered);
+            setFilterEnabled(true);
+        } else {
+            setFilterEnabled(false);
+        }
+    };
 
     return (
         <div id='kanban-board'>
@@ -39,7 +58,7 @@ const Kanban = () => {
                         <div id='icon-container'>
                             <SearchIcon w='14' h='14' />
                         </div>
-                        <input type='text' />
+                        <input type='text' value={textFilter} onChange={onChange} />
                     </div>
                 </form>
                 <div id='filter-user-icons-container'>
@@ -51,7 +70,7 @@ const Kanban = () => {
                 <button >Only My Issues</button>
                 <button>Ignore Resolved</button>
             </div>
-            <Columns issues={issues} />
+            <Columns issues={filterEnabled ? filteredIssues : issues} />
         </div >
     );
 };
