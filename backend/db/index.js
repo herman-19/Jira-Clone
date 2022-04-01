@@ -161,6 +161,11 @@ const updateIssue = async (issueId, issueData) => {
         if (values.length > 0) {
             const { rows } = await client.query(query, values);
             res = rows[0];
+        } else {
+            // If no values to udpate, still want to return last_updated_at timestamp.
+            // Thus pass issue info into res for response data uniformity.
+            const { rows } = await pool.query('SELECT * FROM issue WHERE issue_id = $1', [issueId]);
+            res = rows[0];
         }
 
         // Update bridge table if assignees were updated.
@@ -171,12 +176,10 @@ const updateIssue = async (issueId, issueData) => {
                 issueAssignees.push([issueId, assigneedID]);
             }
 
-            const { rows } = await client.query('DELETE FROM issue_assignee WHERE issue_id = $1', [issueId]);
-            res = rows;
+            await client.query('DELETE FROM issue_assignee WHERE issue_id = $1', [issueId]);
 
             if (issueAssignees.length > 0) {
-                const { rows } = await client.query(format('INSERT INTO issue_assignee(issue_id, person_id) VALUES %L', issueAssignees), []);
-                res = rows;
+                await client.query(format('INSERT INTO issue_assignee(issue_id, person_id) VALUES %L', issueAssignees), []);
             }
         }
 
