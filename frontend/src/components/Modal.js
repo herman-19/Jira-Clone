@@ -224,7 +224,7 @@ const Modal = ({ isDiplayed, toggleModal, issue, onPrioUpdate, onTypeUpdate, set
                     <div className='issue-modal-info-label'>REPORTER</div>
                     <ReporterDropdown reporter_id={reporterId} users={users} updateIssue={doUpdate} />
                     <div className='issue-modal-info-label'>ASSIGNEES</div>
-                    <AssigneesDropdown issueId={issue.issue_id} users={users} updateIssue={doUpdate} />
+                    <AssigneesDropdown issueId={issue.issue_id} users={users} updateIssue={doUpdate} issue={issue}/>
                     <div className='issue-modal-info-label'>PRIORITY</div>
                     <IssuePriorityDropdown priority={priority} updateIssue={doUpdate} onPrioUpdate={onPrioUpdate} issue={issue}/>
                     < Divider />

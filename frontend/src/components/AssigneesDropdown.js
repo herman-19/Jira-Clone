@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Dropdown } from 'semantic-ui-react';
 import { fetchIssueAssignees } from '../api/UserAPI';
 
-const AssigneeDropdown = ({ issueId, users, updateIssue }) => {
+const AssigneeDropdown = ({ issueId, users, updateIssue, issue}) => {
     const [selected, setSelected] = useState([]);
     const [displayDropdown, setDisplayDropdown] = useState(false);
 
@@ -53,6 +53,7 @@ const AssigneeDropdown = ({ issueId, users, updateIssue }) => {
             }
         }
         console.log(newAssigneesReporterIDs);
+        issue.assignee_ids = newAssigneesReporterIDs;
         await updateIssue({ assigneeIDs: newAssigneesReporterIDs });
     };
 
