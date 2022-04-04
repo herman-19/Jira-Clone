@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { isThisWeek } from 'date-fns';
 import SearchIcon from './icons/Search';
 import GithubIcon from './icons/Github';
 import Columns from './Columns';
@@ -12,6 +13,7 @@ const Kanban = () => {
 
     const [textFilterEnabled, setTextFilterEnabled] = useState(false);
     const [myIssuesSelected, setmyIssuesSelected] = useState(false);
+    const [recentlyUpdatedSelected, setMyRecentlyUpdatedSelected] = useState(false);
 
     const auth = useAuth();
     useEffect(() => {
@@ -41,19 +43,29 @@ const Kanban = () => {
     const onChange = (e) => {
         const val = e.target.value;
         setTextFilter(val);
-        updateFilteredIssues(val, myIssuesSelected);
+        updateFilteredIssues(val, myIssuesSelected, recentlyUpdatedSelected);
     };
 
     const onMyIssuesClick = (e) => {
         let myIssues = myIssuesSelected;
-        let text = textFilter;
-        updateFilteredIssues(text, !myIssues);
+        updateFilteredIssues(textFilter, !myIssues, recentlyUpdatedSelected);
         if (myIssues) {
             e.target.style.backgroundColor = 'inherit';
         } else {
             e.target.style.backgroundColor = '#a7cff5';
         }
         setmyIssuesSelected(!myIssues);
+    };
+
+    const onRecentlyUpdatedClick = (e) => {
+        let recent   = recentlyUpdatedSelected;
+        updateFilteredIssues(textFilter, myIssuesSelected, !recent);
+        if (recent) {
+            e.target.style.backgroundColor = 'inherit';
+        } else {
+            e.target.style.backgroundColor = '#a7cff5';
+        }
+        setMyRecentlyUpdatedSelected(!recent);
     };
 
     const filterByAssigneeIdHelper = (list, userId) => {
@@ -65,26 +77,24 @@ const Kanban = () => {
         });
     };
 
-    const updateFilteredIssues = (text, myIssues) => {
-        // Zero to two filters can be enabled: text and/or my issues only.
-        if (text.length && !myIssues) {
-            // Iterate issues and find matches.
-            const filtered = issues.filter((fi) => fi.title.toLowerCase().includes(text.toLowerCase()));
-            setFilteredIssues(filtered);
-            setTextFilterEnabled(true);
-        } else if (text.length && myIssues) {
-            let filtered = issues.filter((fi) => fi.title.toLowerCase().includes(text.toLowerCase()));
-            filtered = filterByAssigneeIdHelper(filtered, auth.myUserId);
-            setFilteredIssues(filtered);
-            setTextFilterEnabled(true);
-        } else if (text.length === 0 && myIssues) {
-            // My issues (no text filter).
-            const filtered = filterByAssigneeIdHelper(issues, auth.myUserId);
-            setFilteredIssues(filtered);
-            setTextFilterEnabled(true);
-        } else if (text.length === 0 && !myIssues) {
+    const updateFilteredIssues = (text, myIssues, recent) => {
+        // Layer filters.
+        if (text.length === 0 && !myIssues && !recent) {
             // No filter.
             setTextFilterEnabled(false);
+        } else {
+            let filtered = issues;
+            if (text.length) {
+                filtered = issues.filter((fi) => fi.title.toLowerCase().includes(text.toLowerCase()));
+            }
+            if (myIssues) {
+                filtered = filterByAssigneeIdHelper(filtered, auth.myUserId);
+            }
+            if (recent) {
+                filtered = filtered.filter((fi) => isThisWeek(new Date(fi.last_updated_at)));
+            }
+            setFilteredIssues(filtered);
+            setTextFilterEnabled(true);
         }
     }
 
@@ -118,7 +128,7 @@ const Kanban = () => {
                     </div>
                 </div>
                 <button onClick={onMyIssuesClick}>Only My Issues</button>
-                <button>Ignore Resolved</button>
+                <button onClick={onRecentlyUpdatedClick}>Recently Updated</button>
             </div>
             <Columns issues={textFilterEnabled ? filteredIssues : issues} />
         </div >
