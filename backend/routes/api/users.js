@@ -89,7 +89,7 @@ router.post(
             req.session.email = user.email;
 
             console.log(`User login: ${req.session.email}`);
-            res.status(200).send('Login successful.');
+            res.status(200).json({ person_id: user.person_id});
         } catch (error) {
             console.error(error.message);
             res.status(500).send('Server error.');
@@ -120,7 +120,8 @@ router.get('/current', auth, async (req, res) => {
 });
 
 // @route   GET api/users
-// @desc    Return all the users
+// @desc    Return all the users or users pertaining to
+//          an issue if query parameter is specified.
 // @access  Private
 router.get('/', auth, async (req, res) => {
     try {

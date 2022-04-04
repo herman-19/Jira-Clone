@@ -22,13 +22,17 @@ const ProvideAuth = ({ children }) => {
 const useProvideAuth = () => {
     // Use local storage to persist loggedIn value after a refresh.
     const localStorageVal = JSON.parse(localStorage.getItem('loggedIn'));
+    const localStorageMyUserId = JSON.parse(localStorage.getItem('myUserId'));
     const [loggedIn, setLoggedIn] = useState(localStorageVal);
+    const [myUserId, setMyUserId] = useState(localStorageMyUserId);
 
     const login = async (loginCredentials, cb) => {
         try {
             const data = await userLogin(loginCredentials);
             setLoggedIn(true);
+            setMyUserId(data.person_id);
             localStorage.setItem('loggedIn', true);
+            localStorage.setItem('myUserId', data.person_id);
             cb();
         } catch (error) {
             throw (error);
@@ -48,6 +52,7 @@ const useProvideAuth = () => {
 
     return {
         loggedIn,
+        myUserId,
         login,
         logout
     };
