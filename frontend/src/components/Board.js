@@ -8,7 +8,6 @@ const Board = () => {
         <div className='container'>
             <Navbar />
             <Sidebar />
-            <div id='strip' />
             <Kanban />
         </div>
     );
