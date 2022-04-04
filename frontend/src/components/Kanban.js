@@ -88,10 +88,6 @@ const Kanban = () => {
         }
     }
 
-    const handleButtonClick = (e) => {
-        e.target.style.backgroundColor = "#a7cff5"
-    };
-
     return (
         <div id='kanban-board'>
             <div id='kanban-path'>
