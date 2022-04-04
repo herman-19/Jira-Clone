@@ -43,6 +43,17 @@ const fetchAllIssues = async () => {
     }
 };
 
+const fetchAllIssueAssignees = async () => {
+    try {
+        const res = await http.get('api/issues/assignees');
+        console.log(res.data);
+        return res.data;
+    } catch (error) {
+        const errMsg = error.response.data.errors[0].msg;
+        throw errMsg;
+    }
+};
+
 const fetchIssue = async (id) => {
     try {
         const res = await http.get(`api/issues/${id}`);
@@ -109,6 +120,7 @@ export {
     userLogout,
     userRegistration,
     fetchAllIssues,
+    fetchAllIssueAssignees,
     fetchIssue,
     fetchIssueAssignees,
     fetchUsers,
