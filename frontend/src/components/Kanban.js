@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import * as ReactDOM from 'react-dom';
 import { isThisWeek } from 'date-fns';
 import SearchIcon from './icons/Search';
 import GithubIcon from './icons/Github';
@@ -68,6 +69,17 @@ const Kanban = () => {
         setMyRecentlyUpdatedSelected(!recent);
     };
 
+    const clearFilters = () => {
+        setTextFilterEnabled(false);
+        setTextFilter('');
+        setmyIssuesSelected(false);
+        setMyRecentlyUpdatedSelected(false);
+        let element = document.getElementById('filter-button-1');
+        ReactDOM.findDOMNode(element).style.backgroundColor = 'inherit';
+        element = document.getElementById('filter-button-2');
+        ReactDOM.findDOMNode(element).style.backgroundColor = 'inherit';
+    };
+
     const filterByAssigneeIdHelper = (list, userId) => {
         return list.filter((i) => {
             if (i.assignee_ids) {
@@ -127,8 +139,9 @@ const Kanban = () => {
                         <div className='filter-user-icon' />
                     </div>
                 </div>
-                <button onClick={onMyIssuesClick}>Only My Issues</button>
-                <button onClick={onRecentlyUpdatedClick}>Recently Updated</button>
+                <button id='filter-button-1' onClick={onMyIssuesClick}>Only My Issues</button>
+                <button id='filter-button-2' onClick={onRecentlyUpdatedClick}>Recently Updated</button>
+                { textFilterEnabled && <div onClick={clearFilters} id='clear-all-button'>Clear All </div>}
             </div>
             <Columns issues={textFilterEnabled ? filteredIssues : issues} />
         </div >

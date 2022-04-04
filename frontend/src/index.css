@@ -313,6 +313,23 @@ body {
   background-color: #f4f5f7;
 }
 
+#clear-all-button {
+  display: inline-flex;
+  height: 2rem;
+  line-height: 32px;
+  margin-left: 6px;
+  padding-left: 12px;
+  border-left: 1px solid rgb(223, 225, 230);
+  align-items: center;
+  color: #42526e;
+  font-size: 14.5px;
+  cursor: pointer;
+}
+
+#clear-all-button:hover {
+  color: #a7cff4;
+}
+
 #filter-user-icons-container {
   display: flex;
   flex-direction: row;
