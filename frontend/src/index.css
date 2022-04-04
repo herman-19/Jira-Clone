@@ -384,7 +384,7 @@ body {
 .single-column p {
   padding: 13px 10px 17px 10px;
   color: rgb(94, 108, 132);
-  font-size: 14.5px;
+  font-size: 12.5px;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
