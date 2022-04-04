@@ -79,6 +79,22 @@ const getUsersForIssue = async (id) => {
     return rows;
 };
 
+const getUsersForAllIssues = async () => {
+    const { rows } = await pool.query('SELECT * FROM issue_assignee');
+    let userMap = new Map();
+    for (let r of rows) {
+        if (userMap.has(r.issue_id)) {
+            userMap.get(r.issue_id).push(r.person_id);
+        } else {
+            userMap.set(r.issue_id, [r.person_id]);
+        }
+    }
+    // Convert map to list of objects with issue_id as key and list of assignee ids as value.
+    // e.g., [ { issue_id: 26, person_id: [ 38, 33, 37 ] }, { issue_id: 5, person_id: [ 2 ] }, ...]
+    const res = Array.from(userMap,([issue_id, person_id]) => ({ issue_id, person_id }));
+    return res;
+};
+
 const getIssueByUserId = async (userId) => {
     const { rows } = await pool.query(
         'SELECT ia.issue_id, i.type, i.status, i.priority, i.title, i.description, i.reporter_id, i.created_at, i.last_updated_at \
@@ -286,6 +302,7 @@ module.exports = {
     getIssues,
     getIssue,
     getUsersForIssue,
+    getUsersForAllIssues,
     getIssueByUserId,
     deleteIssue,
     createIssue,

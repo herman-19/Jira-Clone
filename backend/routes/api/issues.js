@@ -32,6 +32,19 @@ router.get('/me', auth, async (req, res) => {
     }
 });
 
+// @route  GET api/issues/assignees
+// @desc   Get issue assignees.
+// @access Private
+router.get('/assignees', auth, async (req, res) => {
+    try {
+        const usersAndIssues = await db.getUsersForAllIssues();
+        return res.json(usersAndIssues);
+    } catch (error) {
+        console.log(error.message);
+        res.status(500).send('Server Error.');
+    }
+});
+
 // @route  GET api/issues/:id
 // @desc   Get issue by id
 // @access Private
