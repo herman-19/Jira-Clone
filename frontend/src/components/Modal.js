@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import ReactModal from 'react-modal';
 import { Form, Divider } from 'semantic-ui-react';
 import TextareaAutosize from "react-textarea-autosize";
@@ -17,6 +18,8 @@ import { fetchIssue, fetchUsers, updateIssue, fetchComments, createComment } fro
 ReactModal.setAppElement("#root");
 
 const Modal = ({ isDiplayed, toggleModal, issue, onPrioUpdate, onTypeUpdate, setStatusUpdateInfo }) => {
+    const navigate = useNavigate();
+
     // Title
     const [title, setTitle] = useState(issue.title);
 
@@ -48,6 +51,7 @@ const Modal = ({ isDiplayed, toggleModal, issue, onPrioUpdate, onTypeUpdate, set
         setInEditMode(false);
         setPendingDesc(description);
     };
+
     // Comment
     const [comments, setComments] = useState([]);
     const [inEditComMode, setInEditComMode] = useState(false);
@@ -77,11 +81,10 @@ const Modal = ({ isDiplayed, toggleModal, issue, onPrioUpdate, onTypeUpdate, set
         setInEditComMode(false);
         setPendingCom(comment);
     };
-    const deleteIssue = () => {
-        console.log('Deleting issue...');
-    };
+
     // Priority
     const [priority, setPriority] = useState(issue.priority);
+
     // Last updated timestamp.
     const [lastUpdated, setLastUpdated] = useState(issue.last_updated_at);
 
@@ -95,6 +98,12 @@ const Modal = ({ isDiplayed, toggleModal, issue, onPrioUpdate, onTypeUpdate, set
             // TODO: Display warning.
             console.log(error);
         }
+    };
+    const expandIssue = () => {
+        navigate(`/project/issue/${issue.issue_id}`);
+    };
+    const deleteIssue = () => {
+        console.log('Deleting issue...');
     };
 
     useEffect(() => {
@@ -137,7 +146,7 @@ const Modal = ({ isDiplayed, toggleModal, issue, onPrioUpdate, onTypeUpdate, set
                 <IssueTypeDropdown type={type} updateIssue={doUpdate} onTypeUpdate={onTypeUpdate} issue={issue}/>
                 <div className='issue-options'>
                     <Delete onClick={deleteIssue} />
-                    <Expand />
+                    <Expand expandIssue={expandIssue}/>
                     <Close toggleModal={toggleModal} />
                 </div>
             </div>
