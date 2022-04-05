@@ -25,7 +25,7 @@ function App() {
           <Route exact path='/' element={<Landing />} />
           <Route exact path='/project' element={<PrivateRoute />}>
             <Route exact path='/project' element={<Board />} />
-          </Route>/>
+          </Route>
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Router>
