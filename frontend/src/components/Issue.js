@@ -100,7 +100,7 @@ const Issue = ({ issueId }) => {
         const getIssueInfo = async () => {
             try {
                 if (isNaN(issueId)) {
-                    throw 'Invalid issue id';
+                    throw new Error('Invalid issue id');
                 }
                 const data = await fetchIssue(issueId);
                 if (data) {
@@ -114,7 +114,7 @@ const Issue = ({ issueId }) => {
                     setCreatedAt(data.created_at);
                     setLastUpdated(data.last_updated_at);
                 } else {
-                    throw 'Issue does not exist';
+                    throw new Error('Issue does not exist');
                 }
             } catch (error) {
                 throw error;
@@ -131,12 +131,12 @@ const Issue = ({ issueId }) => {
         const getComments = async () => {
             try {
                 if (isNaN(issueId)) {
-                    throw 'Invalid issue id';
+                    throw new Error('Invalid issue id');
                 }
                 const data = await fetchComments(issueId);
                 setComments(data);
             } catch (error) {
-                throw 'error with getIssueInfo';
+                throw new Error('error with getIssueInfo');
             }
         };
         Promise.all([getIssueInfo(), getUsers(), getComments()])
