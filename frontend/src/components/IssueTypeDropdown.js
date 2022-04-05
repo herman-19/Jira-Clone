@@ -49,8 +49,12 @@ const IssueTypeDropdown = ({ type, updateIssue, onTypeUpdate, issue }) => {
     const onChange = async (e, { value }) => {
         e.persist();
         setSelected(value);
-        onTypeUpdate(value);
-        issue.type = value;  // update column entry
+        if (onTypeUpdate) {
+            onTypeUpdate(value);
+        }
+        if (issue) {
+            issue.type = value;  // update column entry
+        }
         await updateIssue({ type: value });
     };
 

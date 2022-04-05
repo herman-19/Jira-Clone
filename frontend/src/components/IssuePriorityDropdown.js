@@ -43,8 +43,12 @@ const IssuePriorityDropdown = ({ priority, updateIssue, onPrioUpdate, issue }) =
         // Update issue type here...
         e.persist();
         setSelected(value);
-        onPrioUpdate(value);
-        issue.priority = value;  // update column entry
+        if (onPrioUpdate) {
+            onPrioUpdate(value);
+        }
+        if (issue) {
+            issue.priority = value;  // update column entry
+        }
         await updateIssue({ priority: value });
     };
 

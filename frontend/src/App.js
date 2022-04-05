@@ -8,6 +8,7 @@ import {
 import { ProvideAuth } from './useAuth';
 import Landing from '../src/components/Landing';
 import Board from '../src/components/Board';
+import IssueView from './components/IssueView';
 import PrivateRoute from '../src/components/PrivateRoute';
 import NotFound from '../src/components/NotFound';
 
@@ -25,6 +26,9 @@ function App() {
           <Route exact path='/' element={<Landing />} />
           <Route exact path='/project' element={<PrivateRoute />}>
             <Route exact path='/project' element={<Board />} />
+          </Route>
+          <Route exact path='/project/issue/:id' element={<PrivateRoute />}>
+            <Route exact path='/project/issue/:id' element={<IssueView />} />
           </Route>
           <Route path="*" element={<NotFound />} />
         </Routes>

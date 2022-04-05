@@ -36,7 +36,9 @@ const IssueStatusDropdown = ({ status, updateIssue, issueId, setStatusUpdateInfo
     // Handle selected dropdown issue status.
     const onChange = async (e, { value }) => {
         e.persist();
-        setStatusUpdateInfo({issueId, oldStatus: status, newStatus: value });
+        if (setStatusUpdateInfo) {
+            setStatusUpdateInfo({issueId, oldStatus: status, newStatus: value });
+        }
         setSelected(value);
         await updateIssue({ status: value });
     };

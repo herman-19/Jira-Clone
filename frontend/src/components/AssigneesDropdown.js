@@ -52,8 +52,9 @@ const AssigneeDropdown = ({ issueId, users, updateIssue, issue}) => {
                 newAssigneesReporterIDs.push(users[idx].person_id);
             }
         }
-        console.log(newAssigneesReporterIDs);
-        issue.assignee_ids = newAssigneesReporterIDs;
+        if (issue) {
+            issue.assignee_ids = newAssigneesReporterIDs;
+        }
         await updateIssue({ assigneeIDs: newAssigneesReporterIDs });
     };
 

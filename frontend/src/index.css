@@ -203,6 +203,24 @@ body {
     width: 3px;
 }
 
+#issue-view {
+  background-color: #ffffff;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  width: 880px;
+}
+
+#issue-not-found {
+  margin: 100px auto;
+}
+
+#issue-not-found p {
+  color: #0847a6;
+  text-align: center;
+}
+
+
 #kanban-board {
   flex-grow: 1;
   background-color: #ffffff;
