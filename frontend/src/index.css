@@ -171,6 +171,10 @@ body {
   display: flex;
   flex-direction: row;
   align-items: center;
+  cursor: pointer;
+}
+.sidebar-item:hover {
+  background-color: #ebecf0;
 }
 
 .sidebar-icon {
@@ -783,4 +787,9 @@ body {
 #user-comment {
   padding-bottom: 10px;
   white-space: pre-wrap;
+}
+
+.active-sidebar-text {
+  color: #0052cc;
+  background-color: #ebecf0;
 }

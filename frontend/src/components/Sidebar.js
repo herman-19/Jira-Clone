@@ -1,4 +1,5 @@
 import React from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import KanbanIcon from './icons/Kanban';
 import SettingsIcon from './icons/Settings';
 import ReleaseIcon from './icons/Release';
@@ -8,6 +9,11 @@ import ReportsIcon from './icons/Reports';
 import ComponentsIcon from './icons/Components';
 
 const Sidebar = () => {
+    const navigate = useNavigate();
+    const location = useLocation();
+    const kanbanTextStyle = (location.pathname === "/project") ? 'active-sidebar-text': '';
+    const settingsTextStyle = (location.pathname === "/project/settings")? 'active-sidebar-text': '';;
+
     return (
         <div id='sidebar'>
             <div id='sidebar-title'>
@@ -17,11 +23,11 @@ const Sidebar = () => {
                     <p id='project-type'>Software Project</p>
                 </span>
             </div>
-            <div className='sidebar-item'>
+            <div className={kanbanTextStyle + ' sidebar-item'} onClick={() => navigate('/project')}>
                 <KanbanIcon />
-                <p>Kanban Board</p>
+                <p className={kanbanTextStyle}>Kanban Board</p>
             </div>
-            <div className='sidebar-item'>
+            <div className={settingsTextStyle + ' sidebar-item'}>
                 <SettingsIcon />
                 <p>Project Settings</p>
             </div>
