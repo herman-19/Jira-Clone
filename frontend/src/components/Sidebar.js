@@ -27,7 +27,7 @@ const Sidebar = () => {
                 <KanbanIcon />
                 <p className={kanbanTextStyle}>Kanban Board</p>
             </div>
-            <div className={settingsTextStyle + ' sidebar-item'}>
+            <div className={settingsTextStyle + ' sidebar-item'} onClick={() => navigate('/project/settings')}>
                 <SettingsIcon />
                 <p>Project Settings</p>
             </div>
