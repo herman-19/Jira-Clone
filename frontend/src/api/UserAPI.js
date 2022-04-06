@@ -94,6 +94,16 @@ const fetchComments = async (id) => {
     }
 };
 
+const fetchProjectInfo = async () => {
+    try {
+        const res = await http.get(`api/projects`);
+        return res.data;
+    } catch (error) {
+        const errMsg = error.response.data.errors[0].msg;
+        throw errMsg;
+    }
+}
+
 const createComment = async (data) => {
     try {
         const res = await http.post('api/comments', data);
@@ -114,6 +124,16 @@ const updateIssue = async (issueId, data) => {
     }
 };
 
+const updateProject = async (data) => {
+    try {
+        const res = await http.put('/api/projects/', data);
+        return res.data;
+    } catch (error) {
+        const errMsg = error.response.data.errors[0].msg;
+        throw errMsg;
+    }
+};
+
 export {
     userLogin,
     userLogout,
@@ -124,6 +144,8 @@ export {
     fetchIssueAssignees,
     fetchUsers,
     fetchComments,
+    fetchProjectInfo,
     createComment,
-    updateIssue
+    updateIssue,
+    updateProject
 };
