@@ -7,7 +7,7 @@ import Columns from './Columns';
 import { fetchAllIssues, fetchAllIssueAssignees} from '../api/UserAPI';
 import { useAuth } from '../useAuth';
 
-const Kanban = () => {
+const Kanban = ({ name }) => {
     const [issues, setIssues] = useState([]);
     const [filteredIssues, setFilteredIssues] = useState([]);
     const [textFilter, setTextFilter] = useState('');
@@ -115,7 +115,7 @@ const Kanban = () => {
             <div id='kanban-path'>
                 <span>Projects</span>
                 <span>/</span>
-                <span>Jira Clone</span>
+                <span>{name}</span>
                 <span>/</span>
                 <span>Kanban Board</span>
             </div>

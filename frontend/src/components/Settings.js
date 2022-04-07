@@ -4,7 +4,7 @@ import { Form, Dropdown, Message, Icon } from 'semantic-ui-react';
 import TextareaAutosize from "react-textarea-autosize";
 import { fetchProjectInfo, updateProject } from '../api/UserAPI';
 
-const Settings = () => {
+const Settings = ({pathName, onNameSave, onCategorySave}) => {
     const navigate = useNavigate();
     const [name, setName] = useState('');
     const [url, setUrl] = useState('');
@@ -32,8 +32,7 @@ const Settings = () => {
         }
     ];
 
-    const handleSelect = async (e, { value }) => {
-        e.persist();
+    const handleSelect = (e, { value }) => {
         setCategory(value);
     };
 
@@ -58,13 +57,15 @@ const Settings = () => {
                 description
             };
             await updateProject(info);
+            onNameSave(name);
+            onCategorySave(category);
             setUpdating(false);
             setSuccess(true);
-            setTimeout(() => setSuccess(false), 5000);
+            setTimeout(() => setSuccess(false), 2000);
         } catch (error) {
             setUpdating(false);
             setError(true);
-            setTimeout(() => setError(false), 5000);
+            setTimeout(() => setError(false), 2000);
         }
     };
 
@@ -73,7 +74,7 @@ const Settings = () => {
             <div id='kanban-path'>
                 <span>Projects</span>
                 <span>/</span>
-                <span>Jira Clone</span>
+                <span>{pathName}</span>
                 <span>/</span>
                 <span>Settings</span>
              </div>
