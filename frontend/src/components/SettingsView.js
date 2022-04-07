@@ -10,7 +10,6 @@ const SettingsView = () => {
 
     useEffect(() => {
         const getProjectInfo = async () => {
-            console.log('fetching project info: SettingsView Component');
             const info = await fetchProjectInfo();
             setName(info.name);
             setCategory(info.category);
