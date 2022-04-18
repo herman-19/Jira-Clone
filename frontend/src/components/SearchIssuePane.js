@@ -63,12 +63,8 @@ const SearchIssuePane = ({ isDisplayed, setIsDisplayed }) => {
                 </div>
                 <div>
                     {issues &&
-                       issues.filter((i) => isThisWeek(new Date(i.last_updated_at))).map((i) => <RecentIssue key={i.issue_id} data={i} />)
+                       issues.filter((i) => isThisWeek(new Date(i.last_updated_at))).map((i) => <RecentIssue key={i.issue_id} data={i} onIssueClick={onClose}/>)
                     }
-                    {/* <RecentIssue data={{type: 'BUG'}} />
-                    <RecentIssue data={{type: 'STORY'}} />
-                    <RecentIssue data={{type: 'TASK'}} />
-                    <RecentIssue data={{type: 'BUG'}} /> */}
                 </div>
             </form>
           </SlidingPane>

@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import TaskIcon from './icons/IssueTypeTask';
 import BugIcon from './icons/IssueTypeBug';
 import StoryIcon from './icons/IssueTypeStory';
@@ -19,9 +20,15 @@ const getIssueTypeIcon = (type) => {
     return icon;
 };
 
-const RecentIssue = ({data}) => {
+const RecentIssue = ({data, onIssueClick}) => {
+    const navigate = useNavigate();
+    const loadIssuePage = () => {
+        navigate(`/project/issue/${data.issue_id}`);
+        onIssueClick();
+    };
+
     return (
-        <div className='recent-issue'>
+        <div onClick={loadIssuePage} className='recent-issue'>
             <div className='issue-card-status'>
                 {getIssueTypeIcon(data.type)}
             </div>
