@@ -36,7 +36,7 @@ const AssigneeDropdown = ({ issueId, users, updateIssue, issue}) => {
             setAssigneeOptions(options);
             getAssignees();
         }
-    }, [users]);
+    }, [users, issueId]);
 
     const onChange = async (e, { value }) => {
         // Update assignees here...
@@ -67,7 +67,7 @@ const AssigneeDropdown = ({ issueId, users, updateIssue, issue}) => {
                 <Dropdown
                     id='dropdown-issue-assignees'
                     multiple selection
-                    defaultValue={selected}
+                    value={selected}
                     options={assigneeOptions}
                     button={true}
                     onChange={onChange}
