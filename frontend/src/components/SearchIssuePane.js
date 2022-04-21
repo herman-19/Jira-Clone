@@ -5,20 +5,24 @@ import { isThisWeek } from 'date-fns';
 import { fetchAllIssues } from '../api/UserAPI';
 import SearchIcon from './icons/Search';
 import RecentIssue from './RecentIssue';
+import { Loader } from 'semantic-ui-react'
 
 const SearchIssuePane = ({ isDisplayed, setIsDisplayed }) => {
     const [textFilter, setTextFilter] = useState('');
     const [issues, setIssues] = useState(null);
+    const [searching, setSearching] = useState(false);
+    const [filteredIssues, setFilteredIssues] = useState(null);
 
     const onChange = (e) => {
         const val = e.target.value;
         setTextFilter(val);
-        // updateFilteredIssues(val, myIssuesSelected, recentlyUpdatedSelected);
+        setSearching(val.length > 0);
     };
     const onClose = () => {
         setTextFilter('');
         setIsDisplayed(false);
-    }
+        setSearching(false);
+    };
 
     useEffect(() => {
         const fetchRecentIssues = async () => {
@@ -34,6 +38,23 @@ const SearchIssuePane = ({ isDisplayed, setIsDisplayed }) => {
             fetchRecentIssues();
         }
     }, [isDisplayed]);
+
+    useEffect(() => {
+        let timeoutId = 0;
+        if (searching) {
+            timeoutId = setTimeout(() => {
+                let filtered = issues;
+                if (textFilter.length) {
+                    filtered = issues.filter((fi) => {
+                        return (fi.title.toLowerCase().includes(textFilter.toLowerCase()) || fi.description.toLowerCase().includes(textFilter.toLowerCase()));
+                    });
+                }
+                setFilteredIssues(filtered);
+                setSearching(false);
+            }, 1000);
+        }
+        return () => clearTimeout(timeoutId);
+    }, [textFilter]);
 
     return (
         <div>
@@ -58,14 +79,35 @@ const SearchIssuePane = ({ isDisplayed, setIsDisplayed }) => {
                            autoComplete='off'
                     />
                 </div>
-                <div id='recent-issues-container'>
-                    RECENT ISSUES
-                </div>
-                <div>
-                    {issues &&
-                       issues.filter((i) => isThisWeek(new Date(i.last_updated_at))).map((i) => <RecentIssue key={i.issue_id} data={i} onIssueClick={onClose}/>)
-                    }
-                </div>
+                {
+                    searching ? <Loader active inline='centered' size='huge'>Looking for matches...</Loader> :
+                    <div>
+                        {
+                            (textFilter.length === 0) ?
+                            <div>
+                                <div id='recent-issues-container'>
+                                    RECENT ISSUES
+                                </div>
+                                <div>
+                                    {issues &&
+                                    issues.filter((i) => isThisWeek(new Date(i.last_updated_at))).map((i) => <RecentIssue key={i.issue_id} data={i} onIssueClick={onClose}/>)
+                                    }
+                                </div>
+                            </div>
+                            :
+                            <div>
+                                <div id='recent-issues-container'>
+                                    {(filteredIssues.length > 0) ? <div>MATCHES</div> : <div>NO MATCHES FOUND   :(</div>}
+                                </div>
+                                <div>
+                                    {filteredIssues &&
+                                    filteredIssues.map((i) => <RecentIssue key={i.issue_id} data={i} onIssueClick={onClose}/>)
+                                    }
+                                </div>
+                            </div>
+                        }
+                    </div>
+                }
             </form>
           </SlidingPane>
         </div>
