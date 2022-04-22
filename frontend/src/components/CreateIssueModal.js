@@ -110,7 +110,7 @@ const CreateIssueModal = ({isDiplayed, toggleModal}) => {
                     <Form.Button
                         id='desc-cancel-button'
                         content="Cancel"
-                        // onClick={cancelCommentEdit}
+                        onClick={onModalClose}
                     />
                 </div>
             </div>
