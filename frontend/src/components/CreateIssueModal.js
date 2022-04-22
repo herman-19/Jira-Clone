@@ -7,21 +7,27 @@ import CreateIssuePriorityDropdown from './CreateIssuePriorityDropdown';
 import CreateIssueReporterDropdown from './CreateIssueReporterDropdown';
 import CreateIssueAssigneesDropdown from './CreateIssueAssigneesDropdown';
 import { fetchUsers } from '../api/UserAPI';
+import { useAuth } from '../useAuth';
 
 ReactModal.setAppElement("#root");
 
 const CreateIssueModal = ({isDiplayed, toggleModal}) => {
+    const auth = useAuth();
+    const [type, setType] = useState('TASK');
+    const [priority, setPriority] = useState('MEDIUM');
     const [summary, setSummary] = useState('');
     const [description, setDescription] = useState('');
     const [users, setUsers] = useState(null);
-    const [reporter, setReporter] = useState(null);
+    const [reporter, setReporter] = useState(auth.myUserId);
     const [assignees, setAssignees] = useState([]);
 
     const onTypeUpdate = (val) => {
         console.log(`Selected issue type: ${val}`);
+        setType(val);
     };
     const onPrioUpdate = (val) => {
         console.log(`Selected issue priority: ${val}`);
+        setPriority(val);
     };
     const onSummaryChange = (e) => {
         setSummary(e.target.value);
@@ -41,8 +47,13 @@ const CreateIssueModal = ({isDiplayed, toggleModal}) => {
         console.log(val);
     };
     const onModalClose = () => {
+        // Reset state values.
+        setType('TASK');
+        setPriority('MEDIUM');
         setSummary('');
         setDescription('');
+        setReporter(auth.myUserId);
+        setAssignees([]);
         toggleModal();
     };
 
