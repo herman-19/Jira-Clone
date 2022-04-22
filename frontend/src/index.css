@@ -528,10 +528,9 @@ body {
 .mymodal {
   display: inline-block;
   position: relative;
-  width: 100%;
-  min-height: 100%;
+  width: 75%;
   background: rgb(255, 255, 255);
-  max-width: 1040px;
+  max-width: 1000px;
   min-width: 800px;
   vertical-align: middle;
   border-radius: 4px;
@@ -954,4 +953,38 @@ body {
 .recent-issue-id {
   color: #5e6c84;
   font-size: 12px;
+}
+
+.create-issue-modal-body {
+  display: flex;
+  flex-direction: column;
+  padding: 20px 30px 60px;
+}
+
+.create-issue-title {
+  color: rgb(23, 43, 77);
+  line-height: 1.28;
+  border: 1px solid transparent;
+  font-size: 22px;
+  padding: 10px 0px 20px 0px;
+}
+
+.create-issue-subheader {
+  padding-bottom: 5px;
+  color: rgb(94, 108, 132);
+}
+
+#dropdown-issue-create {
+  border: 1px solid #d9d9d9;
+  border-radius: 2px;
+  margin-bottom: 14px;
+  width: 100%;
+}
+#dropdown-issue-create:hover {
+  background-color: #ebecf0;
+}
+#create-issue-buttons {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 22px;
 }
