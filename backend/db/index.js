@@ -112,7 +112,7 @@ const deleteIssue = async (id) => {
 
 const createIssue = async (issueData) => {
     // Creating an issue consists of two steps:
-    //  1. inserting to the person table.
+    //  1. inserting to the issue table.
     //  2. inserting to issue_assignee bridge table.
     // Since we are updating different tables, this calls
     // for a transaction to ensure both are updated,
