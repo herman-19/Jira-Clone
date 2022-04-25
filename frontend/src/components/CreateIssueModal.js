@@ -11,7 +11,7 @@ import { useAuth } from '../useAuth';
 
 ReactModal.setAppElement("#root");
 
-const CreateIssueModal = ({isDiplayed, toggleModal}) => {
+const CreateIssueModal = ({isDiplayed, toggleModal, afterCreate}) => {
     const auth = useAuth();
     const [type, setType] = useState('TASK');
     const [priority, setPriority] = useState('MEDIUM');
@@ -24,8 +24,7 @@ const CreateIssueModal = ({isDiplayed, toggleModal}) => {
     const [errorMsg, setErrorMsg] = useState('');
     const [isLoading, setIsLoading] = useState(false);
 
-    const onModalClose = () => {
-        // Reset state values.
+    const resetStates = () => {
         setType('TASK');
         setPriority('MEDIUM');
         setSummary('');
@@ -33,6 +32,10 @@ const CreateIssueModal = ({isDiplayed, toggleModal}) => {
         setReporter(auth.myUserId);
         setAssignees([]);
         setIsLoading(false);
+    };
+    const onModalClose = () => {
+        // Reset state values.
+        resetStates();
         toggleModal();
     };
     const onCreateIssueClick = async () => {
@@ -74,7 +77,8 @@ const CreateIssueModal = ({isDiplayed, toggleModal}) => {
             // TODO: Show warning.
             console.log(error);
         } finally {
-            onModalClose();
+            resetStates();
+            afterCreate();
         }
     };
 
