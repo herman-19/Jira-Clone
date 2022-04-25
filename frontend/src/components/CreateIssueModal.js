@@ -6,7 +6,7 @@ import CreateIssueTypeDropdown from './CreateIssueTypeDropdown';
 import CreateIssuePriorityDropdown from './CreateIssuePriorityDropdown';
 import CreateIssueReporterDropdown from './CreateIssueReporterDropdown';
 import CreateIssueAssigneesDropdown from './CreateIssueAssigneesDropdown';
-import { fetchUsers } from '../api/UserAPI';
+import { fetchUsers, createIssue } from '../api/UserAPI';
 import { useAuth } from '../useAuth';
 
 ReactModal.setAppElement("#root");
@@ -20,32 +20,10 @@ const CreateIssueModal = ({isDiplayed, toggleModal}) => {
     const [users, setUsers] = useState(null);
     const [reporter, setReporter] = useState(auth.myUserId);
     const [assignees, setAssignees] = useState([]);
+    const [displayErrorMsg, setDisplayErrorMsg] = useState(false);
+    const [errorMsg, setErrorMsg] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
 
-    const onTypeUpdate = (val) => {
-        console.log(`Selected issue type: ${val}`);
-        setType(val);
-    };
-    const onPrioUpdate = (val) => {
-        console.log(`Selected issue priority: ${val}`);
-        setPriority(val);
-    };
-    const onSummaryChange = (e) => {
-        setSummary(e.target.value);
-        console.log(`Summary: ${e.target.value}`);
-    };
-    const onDescriptionChange = (e) => {
-        setDescription(e.target.value);
-        console.log(`Description: ${e.target.value}`);
-    };
-    const onReporterSelect = (val) => {
-        setReporter(val);
-        console.log(`Reporter: ${val}`);
-    };
-    const onAssigneesSelect = (val) => {
-        setAssignees(val);
-        console.log('Assignees:');
-        console.log(val);
-    };
     const onModalClose = () => {
         // Reset state values.
         setType('TASK');
@@ -54,7 +32,50 @@ const CreateIssueModal = ({isDiplayed, toggleModal}) => {
         setDescription('');
         setReporter(auth.myUserId);
         setAssignees([]);
+        setIsLoading(false);
         toggleModal();
+    };
+    const onCreateIssueClick = async () => {
+        // Validation.
+        // Summary cannot be empty, or exceed 255 characters.
+        // Description can be empty, and cannot exceed 255 characters.
+        setDisplayErrorMsg(false);
+        let messages = [];
+        if (summary.length === 0 || summary.trim() === '') {
+            messages.push('Summary field cannot be empty.');
+        } else if (summary.length > 255) {
+            messages.push('Summary cannot exceed 255 characters.');
+        }
+        if (description.length > 255) {
+            messages.push('Description cannot exceed 255 characters.');
+        }
+        if (messages.length > 0) {
+            setErrorMsg(messages);
+            setDisplayErrorMsg(true);
+            setTimeout(() => {setDisplayErrorMsg(false)}, 3500);
+            return;
+        }
+
+        const newIssue = {
+            type,
+            status: 'BACKLOG',
+            priority,
+            title: summary,
+            description,
+            reporterId: reporter,
+            assigneeIDs: assignees
+        };
+
+        try {
+            // Call new api function here
+            setIsLoading(true);
+            await createIssue(newIssue);
+        } catch (error) {
+            // TODO: Show warning.
+            console.log(error);
+        } finally {
+            onModalClose();
+        }
     };
 
     useEffect(() => {
@@ -81,31 +102,32 @@ const CreateIssueModal = ({isDiplayed, toggleModal}) => {
                     Create Issue
                 </div>
                 <div className='create-issue-subheader'>Issue Type</div>
-                <CreateIssueTypeDropdown onTypeUpdate={onTypeUpdate}/>
+                <CreateIssueTypeDropdown onTypeUpdate={setType}/>
                 <div className='create-issue-subheader'>Issue Priority</div>
-                <CreateIssuePriorityDropdown onPrioUpdate={onPrioUpdate}/>
+                <CreateIssuePriorityDropdown onPrioUpdate={setPriority}/>
                 <div className='create-issue-subheader'>Short Summary</div>
                 <Form style={{marginBottom: '14px'}}>
                     <Form.Field>
-                        <input value={summary} onChange={onSummaryChange} />
+                        <input value={summary} onChange={e => setSummary(e.target.value)} />
                     </Form.Field>
                     <div className='create-issue-subheader'>Description</div>
                     <TextareaAutosize
                         control={TextareaAutosize}
-                        onChange={onDescriptionChange}
+                        onChange={e => setDescription(e.target.value)}
                         value={description}
                         style={{ fontSize: '14px', resize:'none' }}
                     />
                 </Form>
                 <div className='create-issue-subheader'>Reporter</div>
-                <CreateIssueReporterDropdown users={users} onReporterSelect={onReporterSelect} />
+                <CreateIssueReporterDropdown users={users} onReporterSelect={setReporter} />
                 <div className='create-issue-subheader'>Assignees</div>
-                <CreateIssueAssigneesDropdown users={users} onAssigneesSelect={onAssigneesSelect}/>
+                <CreateIssueAssigneesDropdown users={users} onAssigneesSelect={setAssignees}/>
                 <div id='create-issue-buttons'>
                     <Form.Button
                         id='desc-save-button'
                         content="Create Issue"
-                        // onClick={saveCommentEdit}
+                        onClick={onCreateIssueClick}
+                        loading={isLoading}
                     />
                     <Form.Button
                         id='desc-cancel-button'
@@ -113,6 +135,7 @@ const CreateIssueModal = ({isDiplayed, toggleModal}) => {
                         onClick={onModalClose}
                     />
                 </div>
+                {displayErrorMsg && errorMsg.map((m, index) => <div id='create-issue-empty-fields' key={index}>{m}</div>)}
             </div>
         </ReactModal>
     );

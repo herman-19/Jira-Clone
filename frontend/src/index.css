@@ -958,7 +958,7 @@ body {
 .create-issue-modal-body {
   display: flex;
   flex-direction: column;
-  padding: 20px 30px 60px;
+  padding: 20px 30px;
 }
 
 .create-issue-title {
@@ -987,4 +987,15 @@ body {
   display: flex;
   justify-content: flex-end;
   padding-top: 22px;
+  margin-bottom: 20px;
+}
+#create-issue-empty-fields {
+  text-align: center;
+  margin: 2.5px auto 5px;
+  padding: 5px;
+  background-color: rgb(206, 152, 152);
+  color: rgb(124, 43, 43);
+  border-radius: 3px;
+  border: 1px solid rgb(124, 43, 43);
+  width: 50%;
 }
