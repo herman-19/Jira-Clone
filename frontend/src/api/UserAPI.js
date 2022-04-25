@@ -114,6 +114,16 @@ const createComment = async (data) => {
     }
 }
 
+const createIssue = async (data) => {
+    try {
+        const res = await http.post('api/issues', data);
+        return res.data;
+    } catch (error) {
+        const errMsg = error.response.data.errors[0].msg;
+        throw errMsg;
+    }
+}
+
 const updateIssue = async (issueId, data) => {
     try {
         const res = await http.put(`/api/issues/${issueId}`, data);
@@ -146,6 +156,7 @@ export {
     fetchComments,
     fetchProjectInfo,
     createComment,
+    createIssue,
     updateIssue,
     updateProject
 };
