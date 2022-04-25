@@ -70,7 +70,7 @@ router.post(
             check('priority', 'Priority is a required field.').notEmpty(),
             check('title', 'Title is a required field.').notEmpty(),
             check('reporterId', 'Reporter is required.').notEmpty(),
-            check('assigneeIDs', 'Assignee(s) field must be a list.').isArray({ min: 1 })
+            check('assigneeIDs', 'Assignee(s) field must be a list.').isArray()
         ]
     ],
     async (req, res) => {

@@ -141,7 +141,9 @@ const createIssue = async (issueData) => {
         for (let assigneedID of assigneeIDs) {
             issueAssignees.push([issueId, assigneedID]);
         }
-        await client.query(format('INSERT INTO issue_assignee(issue_id, person_id) VALUES %L', issueAssignees), []);
+        if (issueAssignees.length > 0) {
+            await client.query(format('INSERT INTO issue_assignee(issue_id, person_id) VALUES %L', issueAssignees), []);
+        }
 
         await client.query('COMMIT');
         return rows[0];
