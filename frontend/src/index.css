@@ -108,12 +108,12 @@ body {
 .container {
   display: flex;
   flex-direction: row;
+  min-height: 100vh;
 }
 
 #navbar-left {
   padding-top: 1.5rem;
   padding-bottom: 1.25rem;
-  height: 100vh;
   width: 64px;
   min-width: 64px;
   background-color: #0847a6;
