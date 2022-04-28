@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import ReactModal from 'react-modal';
 import { Form } from 'semantic-ui-react';
 import { deleteIssue } from '../api/UserAPI';
@@ -7,12 +8,19 @@ ReactModal.setAppElement("#root");
 
 const DeleteIssueModal = ({ isDisplayed, onDeleteCancel, issueId }) => {
     const [isLoading, setIsLoading] = useState(false);
+    const location = useLocation();
+    const navigate = useNavigate();
     const onDeleteIssueClick = async () => {
         setIsLoading(true);
         await deleteIssue(issueId);
-        // Refresh kanban view.
         setIsLoading(false);
-        window.location.reload();
+        if (location.pathname === '/project') {
+            // Refresh kanban view.
+            window.location.reload();
+        } else {
+            // Go to kanban view.
+            navigate('/');
+        }
     };
 
     return (

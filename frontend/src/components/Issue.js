@@ -10,6 +10,7 @@ import ReporterDropdown from './ReporterDropdown';
 import IssuePriorityDropdown from './IssuePriorityDropdown';
 import Delete from './icons/Trash';
 import Comments from './Comments';
+import DeleteIssueModal from './DeleteIssueModal';
 import { fetchIssue, fetchUsers, updateIssue, fetchComments, createComment } from '../api/UserAPI';
 
 const Issue = ({ issueId }) => {
@@ -95,6 +96,14 @@ const Issue = ({ issueId }) => {
             console.log(error);
         }
     };
+    // Delete issue modal.
+    const [isDeleteModalDisplayed, setIsDeleteModalDisplayed] = useState(false);
+    const expandDelete = () => {
+        setIsDeleteModalDisplayed(true);
+    };
+    const onDeleteCancel = () => {
+        setIsDeleteModalDisplayed(false);
+    };
 
     useEffect(() => {
         const getIssueInfo = async () => {
@@ -165,7 +174,7 @@ const Issue = ({ issueId }) => {
                 <div className='issue-modal-top'>
                     <IssueTypeDropdown type={type} updateIssue={doUpdate} />
                     <div className='issue-options'>
-                        <Delete onClick={deleteIssue} />
+                        <Delete onClick={expandDelete} />
                     </div>
                 </div>
                 <div className='issue-modal-body'>
@@ -276,6 +285,7 @@ const Issue = ({ issueId }) => {
                     </p>
                 </div>
             }
+            <DeleteIssueModal isDisplayed={isDeleteModalDisplayed} onDeleteCancel={onDeleteCancel} issueId={issueId} />
         </div>
     );
 };
