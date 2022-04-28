@@ -13,6 +13,7 @@ import Delete from './icons/Trash';
 import Expand from './icons/Expand';
 import Close from './icons/Close';
 import Comments from './Comments';
+import DeleteIssueModal from './DeleteIssueModal';
 import { fetchIssue, fetchUsers, updateIssue, fetchComments, createComment } from '../api/UserAPI';
 
 ReactModal.setAppElement("#root");
@@ -88,6 +89,9 @@ const Modal = ({ isDiplayed, toggleModal, issue, onPrioUpdate, onTypeUpdate, set
     // Last updated timestamp.
     const [lastUpdated, setLastUpdated] = useState(issue.last_updated_at);
 
+    // Delete issue modal.
+    const [isDeleteModalDisplayed, setIsDeleteModalDisplayed] = useState(false);
+
     const doUpdate = async (data) => {
         try {
             console.log('do Update...');
@@ -102,8 +106,11 @@ const Modal = ({ isDiplayed, toggleModal, issue, onPrioUpdate, onTypeUpdate, set
     const expandIssue = () => {
         navigate(`/project/issue/${issue.issue_id}`);
     };
-    const deleteIssue = () => {
-        console.log('Deleting issue...');
+    const expandDelete = () => {
+        setIsDeleteModalDisplayed(true);
+    };
+    const onDeleteCancel = () => {
+        setIsDeleteModalDisplayed(false);
     };
 
     useEffect(() => {
@@ -145,7 +152,7 @@ const Modal = ({ isDiplayed, toggleModal, issue, onPrioUpdate, onTypeUpdate, set
             <div className='issue-modal-top'>
                 <IssueTypeDropdown type={type} updateIssue={doUpdate} onTypeUpdate={onTypeUpdate} issue={issue}/>
                 <div className='issue-options'>
-                    <Delete onClick={deleteIssue} />
+                    <Delete onClick={expandDelete} />
                     <Expand expandIssue={expandIssue}/>
                     <Close toggleModal={toggleModal} />
                 </div>
@@ -243,6 +250,7 @@ const Modal = ({ isDiplayed, toggleModal, issue, onPrioUpdate, onTypeUpdate, set
                     </div>
                 </div>
             </div>
+            <DeleteIssueModal isDisplayed={isDeleteModalDisplayed} onDeleteCancel={onDeleteCancel} issueId={issue.issue_id} />
         </ReactModal>
     );
 };
