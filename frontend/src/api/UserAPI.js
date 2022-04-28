@@ -63,6 +63,16 @@ const fetchIssue = async (id) => {
     }
 };
 
+const deleteIssue = async (id) => {
+    try {
+        const res = await http.delete(`api/issues/${id}`);
+        return res.data;
+    } catch (error) {
+        const errMsg = error.response.data.errors[0].msg;
+        throw errMsg;
+    }
+};
+
 const fetchIssueAssignees = async (id) => {
     try {
         const res = await http.get(`api/users?issueId=${id}`);
@@ -158,5 +168,6 @@ export {
     createComment,
     createIssue,
     updateIssue,
-    updateProject
+    updateProject,
+    deleteIssue
 };
