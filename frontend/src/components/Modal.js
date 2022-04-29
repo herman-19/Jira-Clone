@@ -38,8 +38,15 @@ const Modal = ({ isDiplayed, toggleModal, issue, onPrioUpdate, onTypeUpdate, set
     const [inEditMode, setInEditMode] = useState(false);
     const [description, setDescription] = useState(issue.description);
     const [pendingDesc, setPendingDesc] = useState(issue.description);
+    const [displayErrorMsg, setDisplayErrorMsg] = useState(false);
     const saveEdit = async () => {
         try {
+            // Description cannot exceed 255 characters.
+            if (pendingDesc.length > 255) {
+                setDisplayErrorMsg(true);
+                setTimeout(() => {setDisplayErrorMsg(false)}, 3500);
+                return;
+            }
             await doUpdate({ description: pendingDesc });
             setDescription(pendingDesc);
             setInEditMode(false);
@@ -199,6 +206,7 @@ const Modal = ({ isDiplayed, toggleModal, issue, onPrioUpdate, onTypeUpdate, set
                             </div>
                         }
                     </Form>
+                    {displayErrorMsg &&  <div id='create-issue-empty-fields'>Description cannot exceed 255 characters.</div>}
                     <Form>
                         <div id='issue-modal-label'>Comments</div>
                         <div id='new-comment-container'>
