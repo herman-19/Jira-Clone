@@ -4,24 +4,12 @@ import Sidebar from './Sidebar';
 import Settings from './Settings';
 import { fetchProjectInfo } from '../api/UserAPI';
 
-const SettingsView = () => {
-    const [name, setName] = useState('');
-    const [category, setCategory] = useState('');
-
-    useEffect(() => {
-        const getProjectInfo = async () => {
-            const info = await fetchProjectInfo();
-            setName(info.name);
-            setCategory(info.category);
-        };
-        getProjectInfo();
-    }, []);
-
+const SettingsView = ({ projectName, projectCategory, onNameSave, onCategorySave }) => {
     return (
         <div className='container'>
             <Navbar />
-            <Sidebar name={name} category={category}/>
-            <Settings pathName={name} onNameSave={setName} onCategorySave={setCategory} />
+            <Sidebar name={projectName} category={projectCategory}/>
+            <Settings pathName={projectName} onNameSave={onNameSave} onCategorySave={onCategorySave} />
         </div>
     );
 };

@@ -5,25 +5,13 @@ import Issue from './Issue';
 import { useParams } from 'react-router-dom';
 import { fetchProjectInfo } from '../api/UserAPI';
 
-const IssueView = () => {
-    const [name, setName] = useState('');
-    const [category, setCategory] = useState('');
-
-    useEffect(() => {
-        const getProjectInfo = async () => {
-            const info = await fetchProjectInfo();
-            setName(info.name);
-            setCategory(info.category);
-        };
-        getProjectInfo();
-    }, []);
-
+const IssueView = ({ projectName, projectCategory }) => {
     let { id } = useParams();
     return (
         <div className='container'>
             <Navbar />
-            <Sidebar name={name} category={category}/>
-            <Issue issueId={id} />
+            <Sidebar name={projectName} category={projectCategory}/>
+            <Issue issueId={id} name={projectName}/>
         </div>
     );
 };

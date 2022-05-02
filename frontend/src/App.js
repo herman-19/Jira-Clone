@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   BrowserRouter as Router,
   Route,
@@ -6,6 +6,7 @@ import {
 } from 'react-router-dom';
 
 import { ProvideAuth } from './useAuth';
+import { fetchProjectInfo } from './api/UserAPI';
 import Landing from '../src/components/Landing';
 import Board from '../src/components/Board';
 import IssueView from './components/IssueView';
@@ -20,19 +21,30 @@ styleLink.href = "https://cdn.jsdelivr.net/npm/semantic-ui/dist/semantic.min.css
 document.head.appendChild(styleLink);
 
 function App() {
+  const [projectName, setProjectName] = useState('');
+  const [projectCategory, setProjectCategory] = useState('');
+  useEffect(() => {
+    const getProjectInfo = async () => {
+        const info = await fetchProjectInfo();
+        setProjectName(info.name);
+        setProjectCategory(info.category);
+    };
+    getProjectInfo();
+}, []);
+
   return (
     <ProvideAuth>
       <Router>
         <Routes>
           <Route exact path='/' element={<Landing />} />
           <Route exact path='/project' element={<PrivateRoute />}>
-            <Route exact path='/project' element={<Board />} />
+            <Route exact path='/project' element={<Board projectName={projectName} projectCategory={projectCategory} />} />
           </Route>
           <Route exact path='/project/issue/:id' element={<PrivateRoute />}>
-            <Route exact path='/project/issue/:id' element={<IssueView />} />
+            <Route exact path='/project/issue/:id' element={<IssueView projectName={projectName} projectCategory={projectCategory} />} />
           </Route>
           <Route exact path='/project/settings' element={<PrivateRoute />}>
-            <Route exact path='/project/settings' element={<SettingsView />} />
+            <Route exact path='/project/settings' element={<SettingsView projectName={projectName} projectCategory={projectCategory} onNameSave={setProjectName} onCategorySave={setProjectCategory} />} />
           </Route>
           <Route path="*" element={<NotFound />} />
         </Routes>

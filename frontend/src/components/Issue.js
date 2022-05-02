@@ -13,7 +13,7 @@ import Comments from './Comments';
 import DeleteIssueModal from './DeleteIssueModal';
 import { fetchIssue, fetchUsers, updateIssue, fetchComments, createComment } from '../api/UserAPI';
 
-const Issue = ({ issueId }) => {
+const Issue = ({ issueId, name }) => {
     const navigate = useNavigate();
 
     const [loaded, setLoaded] = useState(false);
@@ -163,7 +163,7 @@ const Issue = ({ issueId }) => {
                   <div id='kanban-path'>
                       <span>Projects</span>
                       <span>/</span>
-                      <span>Jira Clone</span>
+                      <span>{name}</span>
                       <span>/</span>
                       <span>Issues</span>
                       <span>/</span>
