@@ -2,7 +2,6 @@ import React, {useEffect, useState } from 'react';
 import Navbar from './Navbar';
 import Sidebar from './Sidebar';
 import Settings from './Settings';
-import { fetchProjectInfo } from '../api/UserAPI';
 
 const SettingsView = ({ projectName, projectCategory, onNameSave, onCategorySave }) => {
     return (

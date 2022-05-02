@@ -3,7 +3,6 @@ import Navbar from './Navbar';
 import Sidebar from './Sidebar';
 import Issue from './Issue';
 import { useParams } from 'react-router-dom';
-import { fetchProjectInfo } from '../api/UserAPI';
 
 const IssueView = ({ projectName, projectCategory }) => {
     let { id } = useParams();
