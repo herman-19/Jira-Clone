@@ -39,9 +39,18 @@ const useProvideAuth = () => {
         }
     };
 
-    const logout = async (cb) => {
+    const logout = async () => {
         try {
-            const data = await userLogout();
+            await userLogout();
+            setLoggedIn(false);
+            localStorage.setItem('loggedIn', false);
+        } catch (error) {
+            throw (error);
+        }
+    };
+
+    const unauthorizedLogout = async (cb) => {
+        try {
             setLoggedIn(false);
             localStorage.setItem('loggedIn', false);
             cb();
@@ -54,7 +63,8 @@ const useProvideAuth = () => {
         loggedIn,
         myUserId,
         login,
-        logout
+        logout,
+        unauthorizedLogout
     };
 };
 
