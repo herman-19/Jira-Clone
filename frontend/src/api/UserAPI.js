@@ -8,8 +8,7 @@ const userLogin = async (loginCredentials) => {
         console.log(res);
         return res.data;
     } catch (error) {
-        const errMsg = error.response.data.errors[0].msg;
-        throw errMsg;
+        throw error;
     }
 };
 
@@ -28,8 +27,7 @@ const userRegistration = async (registrationData) => {
         console.log(registrationData);
         return registrationData;
     } catch (error) {
-        const errMsg = error.response.data.errors[0].msg;
-        throw errMsg;
+        throw error;
     }
 };
 
@@ -38,8 +36,7 @@ const fetchAllIssues = async () => {
         const res = await http.get('api/issues');
         return res.data;
     } catch (error) {
-        const errMsg = error.response.data.errors[0].msg;
-        throw errMsg;
+        throw error;
     }
 };
 
@@ -48,8 +45,7 @@ const fetchAllIssueAssignees = async () => {
         const res = await http.get('api/issues/assignees');
         return res.data;
     } catch (error) {
-        const errMsg = error.response.data.errors[0].msg;
-        throw errMsg;
+        throw error;
     }
 };
 
@@ -58,8 +54,7 @@ const fetchIssue = async (id) => {
         const res = await http.get(`api/issues/${id}`);
         return res.data;
     } catch (error) {
-        const errMsg = error.response.data.errors[0].msg;
-        throw errMsg;
+        throw error;
     }
 };
 
@@ -68,8 +63,7 @@ const deleteIssue = async (id) => {
         const res = await http.delete(`api/issues/${id}`);
         return res.data;
     } catch (error) {
-        const errMsg = error.response.data.errors[0].msg;
-        throw errMsg;
+        throw error;
     }
 };
 
@@ -79,8 +73,7 @@ const fetchIssueAssignees = async (id) => {
         const assignees = res.data.map((obj) => obj.person_id);
         return assignees;
     } catch (error) {
-        const errMsg = error.response.data.errors[0].msg;
-        throw errMsg;
+        throw error;
     }
 };
 
@@ -89,8 +82,7 @@ const fetchUsers = async () => {
         const res = await http.get('api/users');
         return res.data;
     } catch (error) {
-        const errMsg = error.response.data.errors[0].msg;
-        throw errMsg;
+        throw error;
     }
 };
 
@@ -99,8 +91,7 @@ const fetchComments = async (id) => {
         const res = await http.get(`api/comments?issueId=${id}`);
         return res.data;
     } catch (error) {
-        const errMsg = error.response.data.errors[0].msg;
-        throw errMsg;
+        throw error;
     }
 };
 
@@ -109,8 +100,7 @@ const fetchProjectInfo = async () => {
         const res = await http.get(`api/projects`);
         return res.data;
     } catch (error) {
-        const errMsg = error.response.data.errors[0].msg;
-        throw errMsg;
+        throw error;
     }
 }
 
@@ -119,8 +109,7 @@ const createComment = async (data) => {
         const res = await http.post('api/comments', data);
         return res.data;
     } catch (error) {
-        const errMsg = error.response.data.errors[0].msg;
-        throw errMsg;
+        throw error;
     }
 }
 
@@ -129,8 +118,7 @@ const createIssue = async (data) => {
         const res = await http.post('api/issues', data);
         return res.data;
     } catch (error) {
-        const errMsg = error.response.data.errors[0].msg;
-        throw errMsg;
+        throw error;
     }
 }
 
@@ -139,8 +127,7 @@ const updateIssue = async (issueId, data) => {
         const res = await http.put(`/api/issues/${issueId}`, data);
         return res.data;
     } catch (error) {
-        const errMsg = error.response.data.errors[0].msg;
-        throw errMsg;
+        throw error;
     }
 };
 
@@ -149,8 +136,7 @@ const updateProject = async (data) => {
         const res = await http.put('/api/projects/', data);
         return res.data;
     } catch (error) {
-        const errMsg = error.response.data.errors[0].msg;
-        throw errMsg;
+        throw error;
     }
 };
 
