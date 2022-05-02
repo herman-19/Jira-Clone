@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import SlidingPane from 'react-sliding-pane';
 import 'react-sliding-pane/dist/react-sliding-pane.css';
 import { isThisWeek } from 'date-fns';
@@ -6,8 +7,11 @@ import { fetchAllIssues } from '../api/UserAPI';
 import SearchIcon from './icons/Search';
 import RecentIssue from './RecentIssue';
 import { Loader } from 'semantic-ui-react'
+import { useAuth } from '../useAuth';
 
 const SearchIssuePane = ({ isDisplayed, setIsDisplayed }) => {
+    const auth = useAuth();
+    const navigate = useNavigate();
     const [textFilter, setTextFilter] = useState('');
     const [issues, setIssues] = useState(null);
     const [searching, setSearching] = useState(false);
@@ -30,9 +34,12 @@ const SearchIssuePane = ({ isDisplayed, setIsDisplayed }) => {
                 const data = await fetchAllIssues();
                 setIssues(data);
             } catch (error) {
-                // TODO: Show warning.
-                console.log(error);
-            }  
+                if (error.response.status === 401) {
+                    await auth.unauthorizedLogout(() => {
+                      navigate('/');
+                    });
+                }
+            }
         };
         if (isDisplayed) {
             fetchRecentIssues();

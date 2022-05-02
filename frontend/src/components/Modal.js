@@ -15,11 +15,13 @@ import Close from './icons/Close';
 import Comments from './Comments';
 import DeleteIssueModal from './DeleteIssueModal';
 import { fetchIssue, fetchUsers, updateIssue, fetchComments, createComment } from '../api/UserAPI';
+import { useAuth } from '../useAuth';
 
 ReactModal.setAppElement("#root");
 
 const Modal = ({ isDiplayed, toggleModal, issue, onPrioUpdate, onTypeUpdate, setStatusUpdateInfo }) => {
     const navigate = useNavigate();
+    const auth = useAuth();
 
     // Title
     const [title, setTitle] = useState(issue.title);
@@ -82,7 +84,11 @@ const Modal = ({ isDiplayed, toggleModal, issue, onPrioUpdate, onTypeUpdate, set
             setPendingCom({value: ''});
             setInEditComMode(false);
         } catch (error) {
-            console.log(error);
+            if (error.response.status === 401) {
+                await auth.unauthorizedLogout(() => {
+                  navigate('/');
+                });
+            }
         }
     };
     const cancelCommentEdit = () => {
@@ -106,8 +112,11 @@ const Modal = ({ isDiplayed, toggleModal, issue, onPrioUpdate, onTypeUpdate, set
             const res = await updateIssue(issue.issue_id, data);
             setLastUpdated(res.last_updated_at);
         } catch (error) {
-            // TODO: Display warning.
-            console.log(error);
+            if (error.response.status === 401) {
+                await auth.unauthorizedLogout(() => {
+                  navigate('/');
+                });
+            }
         }
     };
     const expandIssue = () => {
@@ -122,15 +131,23 @@ const Modal = ({ isDiplayed, toggleModal, issue, onPrioUpdate, onTypeUpdate, set
 
     useEffect(() => {
         const getIssueInfo = async () => {
-            const data = await fetchIssue(issue.issue_id);
-            setTitle(data.title);
-            setType(data.type);
-            setStatus(data.status);
-            setReporterId(data.reporter_id);
-            setDescription(data.description);
-            setPendingDesc(data.description);
-            setPriority(data.priority);
-            setLastUpdated(data.last_updated_at);
+            try {
+                const data = await fetchIssue(issue.issue_id);
+                setTitle(data.title);
+                setType(data.type);
+                setStatus(data.status);
+                setReporterId(data.reporter_id);
+                setDescription(data.description);
+                setPendingDesc(data.description);
+                setPriority(data.priority);
+                setLastUpdated(data.last_updated_at);
+            } catch (error) {
+                if (error.response.status === 401) {
+                    await auth.unauthorizedLogout(() => {
+                      navigate('/');
+                    });
+                }
+            }
         };
         const getUsers = async () => {
             const data = await fetchUsers();

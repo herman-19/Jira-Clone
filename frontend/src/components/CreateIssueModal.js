@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import ReactModal from 'react-modal';
 import { Form } from 'semantic-ui-react';
+import { useNavigate } from 'react-router-dom';
 import TextareaAutosize from "react-textarea-autosize";
 import CreateIssueTypeDropdown from './CreateIssueTypeDropdown';
 import CreateIssuePriorityDropdown from './CreateIssuePriorityDropdown';
@@ -13,6 +14,7 @@ ReactModal.setAppElement("#root");
 
 const CreateIssueModal = ({isDiplayed, toggleModal, afterCreate}) => {
     const auth = useAuth();
+    const navigate = useNavigate();
     const [type, setType] = useState('TASK');
     const [priority, setPriority] = useState('MEDIUM');
     const [summary, setSummary] = useState('');
@@ -74,8 +76,11 @@ const CreateIssueModal = ({isDiplayed, toggleModal, afterCreate}) => {
             setIsLoading(true);
             await createIssue(newIssue);
         } catch (error) {
-            // TODO: Show warning.
-            console.log(error);
+            if (error.response.status === 401) {
+                await auth.unauthorizedLogout(() => {
+                  navigate('/');
+                });
+            }
         } finally {
             resetStates();
             afterCreate();
@@ -84,8 +89,16 @@ const CreateIssueModal = ({isDiplayed, toggleModal, afterCreate}) => {
 
     useEffect(() => {
         const getUsers = async () => {
-            const data = await fetchUsers();
-            setUsers(data);
+            try {
+                const data = await fetchUsers();
+                setUsers(data);
+            } catch (error) {
+                if (error.response.status === 401) {
+                    await auth.unauthorizedLogout(() => {
+                      navigate('/');
+                    });
+                }
+            }
         };
         if (isDiplayed) {
             getUsers();

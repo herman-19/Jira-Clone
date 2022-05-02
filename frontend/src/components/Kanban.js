@@ -36,8 +36,11 @@ const Kanban = ({ name }) => {
                 setIssues(allIssues);
                 setFilteredIssues(allIssues);
             } catch (error) {
-                // TODO: Show warning.
-                console.log(error);
+                if (error.response.status === 401) {
+                    await auth.unauthorizedLogout(() => {
+                      navigate('/');
+                    });
+                }
             }
         };
         fetchIssues();

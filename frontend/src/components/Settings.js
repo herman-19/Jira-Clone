@@ -3,8 +3,10 @@ import { useNavigate } from 'react-router-dom';
 import { Form, Dropdown, Message, Icon } from 'semantic-ui-react';
 import TextareaAutosize from "react-textarea-autosize";
 import { fetchProjectInfo, updateProject } from '../api/UserAPI';
+import { useAuth } from '../useAuth';
 
 const Settings = ({pathName, onNameSave, onCategorySave}) => {
+    const auth = useAuth();
     const navigate = useNavigate();
     const [name, setName] = useState('');
     const [url, setUrl] = useState('');
@@ -38,11 +40,19 @@ const Settings = ({pathName, onNameSave, onCategorySave}) => {
 
     useEffect(() => {
         const getProjectInfo = async () => {
-            const info = await fetchProjectInfo();
-            setName(info.name);
-            setUrl(info.url);
-            setCategory(info.category);
-            setDescription(info.description);
+            try {
+                const info = await fetchProjectInfo();
+                setName(info.name);
+                setUrl(info.url);
+                setCategory(info.category);
+                setDescription(info.description);
+            } catch (error) {
+                if (error.response.status === 401) {
+                    await auth.unauthorizedLogout(() => {
+                      navigate('/');
+                    });
+                }
+            }
         };
         getProjectInfo();
     }, []);
@@ -63,9 +73,15 @@ const Settings = ({pathName, onNameSave, onCategorySave}) => {
             setSuccess(true);
             setTimeout(() => setSuccess(false), 2000);
         } catch (error) {
-            setUpdating(false);
-            setError(true);
-            setTimeout(() => setError(false), 2000);
+            if (error.response.status === 401) {
+                await auth.unauthorizedLogout(() => {
+                  navigate('/');
+                });
+            } else {
+                setUpdating(false);
+                setError(true);
+                setTimeout(() => setError(false), 2000);
+            }
         }
     };
 

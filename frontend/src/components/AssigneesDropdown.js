@@ -1,8 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Dropdown } from 'semantic-ui-react';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../useAuth';
 import { fetchIssueAssignees } from '../api/UserAPI';
 
 const AssigneeDropdown = ({ issueId, users, updateIssue, issue}) => {
+    const auth = useAuth();
+    const navigate = useNavigate();
     const [selected, setSelected] = useState([]);
     const [displayDropdown, setDisplayDropdown] = useState(false);
 
@@ -19,8 +23,11 @@ const AssigneeDropdown = ({ issueId, users, updateIssue, issue}) => {
                 }
                 setSelected(assignees);
             } catch (error) {
-                // TODO: Show warning.
-                console.log(error);
+                if (error.response.status === 401) {
+                    await auth.unauthorizedLogout(() => {
+                      navigate('/');
+                    });
+                }
             }
         };
 

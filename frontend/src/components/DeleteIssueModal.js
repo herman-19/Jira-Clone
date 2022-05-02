@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import ReactModal from 'react-modal';
 import { Form } from 'semantic-ui-react';
+import { useAuth } from '../useAuth';
 import { deleteIssue } from '../api/UserAPI';
 
 ReactModal.setAppElement("#root");
@@ -9,17 +10,26 @@ ReactModal.setAppElement("#root");
 const DeleteIssueModal = ({ isDisplayed, onDeleteCancel, issueId }) => {
     const [isLoading, setIsLoading] = useState(false);
     const location = useLocation();
+    const auth = useAuth();
     const navigate = useNavigate();
     const onDeleteIssueClick = async () => {
-        setIsLoading(true);
-        await deleteIssue(issueId);
-        setIsLoading(false);
-        if (location.pathname === '/project') {
-            // Refresh kanban view.
-            window.location.reload();
-        } else {
-            // Go to kanban view.
-            navigate('/');
+        try {
+            setIsLoading(true);
+            await deleteIssue(issueId);
+            setIsLoading(false);
+            if (location.pathname === '/project') {
+                // Refresh kanban view.
+                window.location.reload();
+            } else {
+                // Go to kanban view.
+                navigate('/');
+            }
+        } catch (error) {
+            if (error.response.status === 401) {
+                await auth.unauthorizedLogout(() => {
+                  navigate('/');
+                });
+            }
         }
     };
 

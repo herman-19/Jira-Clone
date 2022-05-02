@@ -1,11 +1,11 @@
 import React, {useState, useEffect} from 'react';
 import {
-  BrowserRouter as Router,
   Route,
-  Routes
+  Routes,
+  useNavigate
 } from 'react-router-dom';
 
-import { ProvideAuth } from './useAuth';
+import { useAuth } from './useAuth';
 import { fetchProjectInfo } from './api/UserAPI';
 import Landing from '../src/components/Landing';
 import Board from '../src/components/Board';
@@ -21,35 +21,43 @@ styleLink.href = "https://cdn.jsdelivr.net/npm/semantic-ui/dist/semantic.min.css
 document.head.appendChild(styleLink);
 
 function App() {
+  const auth = useAuth();
+  const navigate = useNavigate();
   const [projectName, setProjectName] = useState('');
   const [projectCategory, setProjectCategory] = useState('');
   useEffect(() => {
     const getProjectInfo = async () => {
-        const info = await fetchProjectInfo();
-        setProjectName(info.name);
-        setProjectCategory(info.category);
+      try {
+          const info = await fetchProjectInfo();
+          setProjectName(info.name);
+          setProjectCategory(info.category);
+        } catch (error) {
+          if (error.response.status === 401) {
+            await auth.unauthorizedLogout(() => {
+              navigate('/');
+            });
+          }
+        }
     };
-    getProjectInfo();
+    if (auth.loggedIn) {
+      getProjectInfo();
+    }
 }, []);
 
   return (
-    <ProvideAuth>
-      <Router>
-        <Routes>
-          <Route exact path='/' element={<Landing />} />
-          <Route exact path='/project' element={<PrivateRoute />}>
-            <Route exact path='/project' element={<Board projectName={projectName} projectCategory={projectCategory} />} />
-          </Route>
-          <Route exact path='/project/issue/:id' element={<PrivateRoute />}>
-            <Route exact path='/project/issue/:id' element={<IssueView projectName={projectName} projectCategory={projectCategory} />} />
-          </Route>
-          <Route exact path='/project/settings' element={<PrivateRoute />}>
-            <Route exact path='/project/settings' element={<SettingsView projectName={projectName} projectCategory={projectCategory} onNameSave={setProjectName} onCategorySave={setProjectCategory} />} />
-          </Route>
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </Router>
-    </ProvideAuth>
+    <Routes>
+      <Route exact path='/' element={<Landing />} />
+      <Route exact path='/project' element={<PrivateRoute />}>
+        <Route exact path='/project' element={<Board projectName={projectName} projectCategory={projectCategory} />} />
+      </Route>
+      <Route exact path='/project/issue/:id' element={<PrivateRoute />}>
+        <Route exact path='/project/issue/:id' element={<IssueView projectName={projectName} projectCategory={projectCategory} />} />
+      </Route>
+      <Route exact path='/project/settings' element={<PrivateRoute />}>
+        <Route exact path='/project/settings' element={<SettingsView projectName={projectName} projectCategory={projectCategory} onNameSave={setProjectName} onCategorySave={setProjectCategory} />} />
+      </Route>
+      <Route path="*" element={<NotFound />} />
+    </Routes>
   );
 }
 

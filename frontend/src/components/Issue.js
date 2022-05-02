@@ -12,9 +12,11 @@ import Delete from './icons/Trash';
 import Comments from './Comments';
 import DeleteIssueModal from './DeleteIssueModal';
 import { fetchIssue, fetchUsers, updateIssue, fetchComments, createComment } from '../api/UserAPI';
+import { useAuth } from '../useAuth';
 
 const Issue = ({ issueId, name }) => {
     const navigate = useNavigate();
+    const auth = useAuth();
 
     const [loaded, setLoaded] = useState(false);
     const [issueNotFound, setIssueNotFound] = useState(false);
@@ -134,7 +136,11 @@ const Issue = ({ issueId, name }) => {
                 const data = await fetchUsers();
                 setUsers(data);
             } catch (error) {
-                throw error;
+                if (error.response.status === 401) {
+                    await auth.unauthorizedLogout(() => {
+                      navigate('/');
+                    });
+                }
             }
         };
         const getComments = async () => {
@@ -153,6 +159,7 @@ const Issue = ({ issueId, name }) => {
             setLoaded(true);
         })
         .catch(error => {
+            console.log(error);
             setIssueNotFound(true);
         });
 

@@ -1,10 +1,15 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../useAuth';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import { v4 as uuid } from 'uuid';
 import IssueCard from './IssueCard';
 import { updateIssue } from '../api/UserAPI';
 
 const Columns = ({ issues }) => {
+    const auth = useAuth();
+    const navigate = useNavigate();
+
     const backlogIssues = issues.filter(issue => issue.status === 'BACKLOG');
     const selForDevIssues = issues.filter(issue => issue.status === 'SELECTED FOR DEVELOPMENT');
     const inProgressIssues = issues.filter(issue => issue.status === 'IN PROGRESS');
@@ -84,8 +89,11 @@ const Columns = ({ issues }) => {
         try {
             await updateIssue(issueId, data);
         } catch (error) {
-            // TODO: Display warning.
-            console.log(error);
+            if (error.response.status === 401) {
+                await auth.unauthorizedLogout(() => {
+                  navigate('/');
+                });
+            }
         }
     };
     const processStatusUpdate = (issueId, oldStatus, newStatus) => {
