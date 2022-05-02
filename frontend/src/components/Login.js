@@ -17,7 +17,7 @@ const Login = ({ loginDisplayed }) => {
             });
             e.target.reset();
         } catch (error) {
-            setMessage({ info: `${error}`, type: `warning` });
+            setMessage({ info: `${error.response.data.errors[0].msg}`, type: `warning` });
         }
     };
 
