@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import * as ReactDOM from 'react-dom';
+import { useNavigate } from 'react-router-dom';
 import { isThisWeek } from 'date-fns';
 import SearchIcon from './icons/Search';
 import GithubIcon from './icons/Github';
@@ -17,6 +18,7 @@ const Kanban = ({ name }) => {
     const [recentlyUpdatedSelected, setMyRecentlyUpdatedSelected] = useState(false);
 
     const auth = useAuth();
+    const navigate = useNavigate();
     useEffect(() => {
         const fetchIssues = async () => {
             try {
@@ -108,7 +110,12 @@ const Kanban = ({ name }) => {
             setFilteredIssues(filtered);
             setTextFilterEnabled(true);
         }
-    }
+    };
+    const onLogoutClick = async () => {
+        await auth.logout(() => {
+            navigate('/');
+        });
+    };
 
     return (
         <div id='kanban-board'>
@@ -121,8 +128,12 @@ const Kanban = ({ name }) => {
             </div>
             <div id='kanban-header'>
                 <p>Kanban Board</p>
-                <a target='_blank' rel='noopener noreferrer' href='https://github.com/herman-19/Jira-Clone'>
-                    <button><GithubIcon />Github Repo</button></a >
+                <div>
+                    <a target='_blank' rel='noopener noreferrer' href='https://github.com/herman-19/Jira-Clone'>
+                        <button><GithubIcon />Github Repo</button>
+                    </a >
+                    <button onClick={onLogoutClick}>Log Out</button>
+                </div>
             </div>
             <div id='kanban-filters'>
                 <form>
