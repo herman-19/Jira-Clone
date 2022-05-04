@@ -375,8 +375,8 @@ body {
 .filter-user-icon {
   box-shadow: rgb(255 255 255) 0px 0px 0px 2px;
   display: inline-block;
-  width: 36px;
-  height: 36px;
+  width: 40px;
+  height: 40px;
   border-radius: 100%;
   background-image: url(https://cdn.dribbble.com/users/2591291/screenshots/6158597/media/925e65e38adeea6ffc455df381a9ee79.png);
   background-position: 50% 50%;
@@ -384,14 +384,15 @@ body {
   background-size: cover;
   background-color: rgb(235, 236, 240);
   transition: transform 0.1s ease 0s;
+  margin: 0px -3px;
 }
 .filter-user-icon:hover {
-    transform: translateY(-5px);
+    transform: translateY(-7px);
 }
 /* Note: When filter user icon is selected, must
          change box-shadow. Switch to*/
 .filter-user-icon-selected {
-  box-shadow: rgb(255 255 255) 0px 0px 0px 2px;
+  box-shadow: 0 0 0 3.5px #1255b9;
   display: inline-block;
   width: 32px;
   height: 32px;
@@ -402,6 +403,7 @@ body {
   background-size: cover;
   background-color: rgb(235, 236, 240);
   transition: transform 0.1s ease 0s;
+  margin: 0px 1px;
 }
 .filter-user-icon-selected:hover {
     transform: translateY(-5px);
@@ -891,6 +893,7 @@ body {
   top: 125%;
   left: 80%;
   margin-left: -60px;
+  pointer-events: none;
 }
 
 /* Show the tooltip text when you mouse over the tooltip container */

@@ -81,7 +81,9 @@ const Kanban = ({ name }) => {
         setMyRecentlyUpdatedSelected(!recent);
     };
 
-    const onUserIconClick = (userId) => {
+    const onUserIconClick = (e, userId) => {
+        e.target.classList.toggle('filter-user-icon');
+        e.target.classList.toggle('filter-user-icon-selected');
         let idx = selectedUsers.indexOf(userId);
         let selUsers = [];
         if (idx !== -1) {
@@ -102,10 +104,19 @@ const Kanban = ({ name }) => {
         setmyIssuesSelected(false);
         setMyRecentlyUpdatedSelected(false);
         setSelectedUsers([]);
+
+        //  Reset styles of filter buttons used.
         let element = document.getElementById('filter-button-1');
         ReactDOM.findDOMNode(element).style.backgroundColor = 'inherit';
         element = document.getElementById('filter-button-2');
         ReactDOM.findDOMNode(element).style.backgroundColor = 'inherit';
+
+        // Reset style of user icons to that of unselected.
+        let userIcons = document.getElementsByClassName('filter-user-icon-selected');
+        while (userIcons.length) {
+            userIcons[0].classList.toggle('filter-user-icon');
+            userIcons[0].classList.toggle('filter-user-icon-selected');
+        }
     };
 
     const filterByAssigneeIdHelper = (list, userId) => {
@@ -192,7 +203,7 @@ const Kanban = ({ name }) => {
                     <div className='filter-user-icon-container'>
                         {
                             users && users.map((u, index) =>
-                            <div className='filter-user-icon tooltip' key={index} onClick={() => onUserIconClick(u.person_id)}>
+                            <div className='filter-user-icon tooltip' key={index} onClick={(e) => onUserIconClick(e, u.person_id)}>
                                 <span className='tooltiptext-user-icon'>{u.name}</span>
                             </div>)
                         }
