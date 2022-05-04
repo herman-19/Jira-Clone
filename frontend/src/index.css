@@ -847,7 +847,7 @@ body {
   display: inline-block;
 }
 
-/* Tooltip text */
+/* Tooltip text for Navbar items */
 .tooltip .tooltiptext {
   visibility: hidden;
   width: 100px;
@@ -856,8 +856,6 @@ body {
   text-align: center;
   padding: 4px;
   border-radius: 6px;
-
-  /* Position the tooltip text - see examples below! */
   position: absolute;
   z-index: 1;
   left: 105%;
@@ -877,6 +875,38 @@ body {
   border-width: 5px;
   border-style: solid;
   border-color: transparent black transparent transparent;
+}
+
+/* Tooltip text for User Icons */
+.tooltip .tooltiptext-user-icon {
+  visibility: hidden;
+  width: 100px;
+  background-color: rgb(38, 38, 38);
+  color: #fff;
+  text-align: center;
+  padding: 4px;
+  border-radius: 6px;
+  position: absolute;
+  z-index: 1;
+  top: 125%;
+  left: 80%;
+  margin-left: -60px;
+}
+
+/* Show the tooltip text when you mouse over the tooltip container */
+.tooltip:hover .tooltiptext-user-icon {
+  visibility: visible;
+}
+
+.tooltip .tooltiptext-user-icon::after {
+  content: " ";
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: transparent transparent black transparent;
 }
 
 .searchPane {

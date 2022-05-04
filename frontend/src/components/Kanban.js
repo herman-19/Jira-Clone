@@ -191,7 +191,10 @@ const Kanban = ({ name }) => {
                 <div id='filter-user-icons-container'>
                     <div className='filter-user-icon-container'>
                         {
-                            users && users.map((u, index) => <div className='filter-user-icon' key={index} onClick={() => onUserIconClick(u.person_id)}>{u.person_id}</div> )
+                            users && users.map((u, index) =>
+                            <div className='filter-user-icon tooltip' key={index} onClick={() => onUserIconClick(u.person_id)}>
+                                <span className='tooltiptext-user-icon'>{u.name}</span>
+                            </div>)
                         }
                     </div>
                 </div>
