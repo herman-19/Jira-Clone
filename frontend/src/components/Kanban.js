@@ -5,17 +5,19 @@ import { isThisWeek } from 'date-fns';
 import SearchIcon from './icons/Search';
 import GithubIcon from './icons/Github';
 import Columns from './Columns';
-import { fetchAllIssues, fetchAllIssueAssignees} from '../api/UserAPI';
+import { fetchAllIssues, fetchAllIssueAssignees, fetchUsers } from '../api/UserAPI';
 import { useAuth } from '../useAuth';
 
 const Kanban = ({ name }) => {
     const [issues, setIssues] = useState([]);
+    const [users, setUsers] = useState(null);
     const [filteredIssues, setFilteredIssues] = useState([]);
     const [textFilter, setTextFilter] = useState('');
 
     const [textFilterEnabled, setTextFilterEnabled] = useState(false);
     const [myIssuesSelected, setmyIssuesSelected] = useState(false);
     const [recentlyUpdatedSelected, setMyRecentlyUpdatedSelected] = useState(false);
+    const [selectedUsers, setSelectedUsers] = useState([]);
 
     const auth = useAuth();
     const navigate = useNavigate();
@@ -43,18 +45,23 @@ const Kanban = ({ name }) => {
                 }
             }
         };
+        const getUsers = async () => {
+            const data = await fetchUsers();
+            setUsers(data);
+        };
         fetchIssues();
+        getUsers();
     }, []);
 
     const onChange = (e) => {
         const val = e.target.value;
         setTextFilter(val);
-        updateFilteredIssues(val, myIssuesSelected, recentlyUpdatedSelected);
+        updateFilteredIssues(val, myIssuesSelected, recentlyUpdatedSelected, selectedUsers);
     };
 
     const onMyIssuesClick = (e) => {
         let myIssues = myIssuesSelected;
-        updateFilteredIssues(textFilter, !myIssues, recentlyUpdatedSelected);
+        updateFilteredIssues(textFilter, !myIssues, recentlyUpdatedSelected, selectedUsers);
         if (myIssues) {
             e.target.style.backgroundColor = 'inherit';
         } else {
@@ -65,7 +72,7 @@ const Kanban = ({ name }) => {
 
     const onRecentlyUpdatedClick = (e) => {
         let recent   = recentlyUpdatedSelected;
-        updateFilteredIssues(textFilter, myIssuesSelected, !recent);
+        updateFilteredIssues(textFilter, myIssuesSelected, !recent, selectedUsers);
         if (recent) {
             e.target.style.backgroundColor = 'inherit';
         } else {
@@ -74,11 +81,27 @@ const Kanban = ({ name }) => {
         setMyRecentlyUpdatedSelected(!recent);
     };
 
+    const onUserIconClick = (userId) => {
+        let idx = selectedUsers.indexOf(userId);
+        let selUsers = [];
+        if (idx !== -1) {
+            // Remove from list of selected users.
+            selUsers = selectedUsers.filter((id) => id !== userId);
+            setSelectedUsers(selUsers);
+        } else {
+            // Add to list of selected users.
+            selUsers = [...selectedUsers, userId];
+            setSelectedUsers(oldArray => [...oldArray, userId] );
+        }
+        updateFilteredIssues(textFilter, myIssuesSelected, recentlyUpdatedSelected, selUsers);
+    };
+
     const clearFilters = () => {
         setTextFilterEnabled(false);
         setTextFilter('');
         setmyIssuesSelected(false);
         setMyRecentlyUpdatedSelected(false);
+        setSelectedUsers([]);
         let element = document.getElementById('filter-button-1');
         ReactDOM.findDOMNode(element).style.backgroundColor = 'inherit';
         element = document.getElementById('filter-button-2');
@@ -94,15 +117,33 @@ const Kanban = ({ name }) => {
         });
     };
 
-    const updateFilteredIssues = (text, myIssues, recent) => {
+    const updateFilteredIssues = (text, myIssues, recent, issueAssignees) => {
         // Layer filters.
-        if (text.length === 0 && !myIssues && !recent) {
+        if (text.length === 0 && !myIssues && !recent && issueAssignees.length === 0) {
             // No filter.
             setTextFilterEnabled(false);
         } else {
             let filtered = issues;
             if (text.length) {
                 filtered = issues.filter((fi) => fi.title.toLowerCase().includes(text.toLowerCase()));
+            }
+            if (issueAssignees.length) {
+                // If an issue contains at least one of the selected assignees, display it.
+                filtered = filtered.filter((fi) => {
+                    if (fi.assignee_ids) {
+                        let displayIssue = false;
+                        for (let assignee of issueAssignees) {
+                            if (fi.assignee_ids.includes(assignee)) {
+                                displayIssue = true;
+                                break;
+                            }
+                        }
+                        if (displayIssue) {
+                            return true;
+                        }
+                    }
+                    return false;
+                });
             }
             if (myIssues) {
                 filtered = filterByAssigneeIdHelper(filtered, auth.myUserId);
@@ -149,8 +190,9 @@ const Kanban = ({ name }) => {
                 </form>
                 <div id='filter-user-icons-container'>
                     <div className='filter-user-icon-container'>
-                        <div className='filter-user-icon' />
-                        <div className='filter-user-icon' />
+                        {
+                            users && users.map((u, index) => <div className='filter-user-icon' key={index} onClick={() => onUserIconClick(u.person_id)}>{u.person_id}</div> )
+                        }
                     </div>
                 </div>
                 <button id='filter-button-1' onClick={onMyIssuesClick}>Only My Issues</button>
