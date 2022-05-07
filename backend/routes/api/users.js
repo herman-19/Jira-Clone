@@ -31,7 +31,7 @@ router.post(
             if (user) {
                 return res
                     .status(400)
-                    .json({ errors: [{ msg: 'User already exists.' }] });
+                    .json({ errors: [{ msg: 'This account already exists.' }] });
             }
 
             // If user does not exist, hash password and create user.
@@ -42,7 +42,7 @@ router.post(
             // Populate session object and save in store.
             req.session.userId = user.person_id;
             req.session.email = user.email;
-            res.status(200).send('Registration successful.');
+            res.status(200).json({ person_id: user.person_id});
         } catch (error) {
             console.error(error.message);
             res.status(500).send('Server Error.');
