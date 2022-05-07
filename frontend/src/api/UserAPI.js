@@ -24,8 +24,10 @@ const userLogout = async () => {
 
 const userRegistration = async (registrationData) => {
     try {
-        console.log(registrationData);
-        return registrationData;
+        const res = await http.post("/api/users/register", registrationData, {
+            headers: { "Content-Type": "application/json" },
+        });
+        return res.data;
     } catch (error) {
         throw error;
     }
