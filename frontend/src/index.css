@@ -1050,3 +1050,8 @@ body {
   padding-top: 25px;
   margin-bottom: 12px;
 }
+
+#landing-loader {
+  margin: auto;
+  top: 25%;
+}

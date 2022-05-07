@@ -1,31 +1,39 @@
 import React, { useState, Fragment } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-// import { userRegistration } from '../api/UserAPI';
+import { Dimmer, Loader } from 'semantic-ui-react';
+import { useAuth } from '../useAuth';
 
 const Register = ({ loginDisplayed }) => {
-    // const { register, handleSubmit, errors } = useForm();
-    const { register, handleSubmit, formState: { errors } } = useForm();
+    const { register, handleSubmit, formState: { errors }, clearErrors } = useForm({reValidateMode: "onSubmit"});
     const [message, setMessage] = useState();
+    const [isSigningUp, setSigningUp] = useState(false);
     const navigate = useNavigate();
+    const auth = useAuth();
 
     const onSubmit = async (registrationData, e) => {
-        // try {
-        //     const data = await userRegistration(registrationData);
-        //     localStorage.setItem('token', data.token);
-        //     setMessage({ info: `Creating new account...`, type: `success` });
-        //     e.target.reset();
-        //     setTimeout(() => {
-        //         navigate('/dashboard');
-        //     }, 1000);
-        // } catch (error) {
-        //     const errMsg = error.response.data.errors[0].msg;
-        //     setMessage({ info: `${errMsg}`, type: `warning` });
-        // }
+        // Clear error message if displayed.
+        try {
+            setMessage('');
+            setSigningUp(true);
+            await auth.register(registrationData, () => {
+                navigate('/project');
+            });
+            e.target.reset();
+        } catch (error) {
+            setMessage({ info: `${error.response.data.errors[0].msg}`, type: `warning` });
+            setSigningUp(false);
+        }
     };
 
     return (
         <Fragment>
+            {
+                isSigningUp &&
+                <Dimmer active inverted>
+                    <Loader id='landing-loader' inverted size='big'>Signing up...</Loader>
+                </Dimmer>
+            }
             <h4 className="box-title">Sign up for your account</h4>
             <form onSubmit={handleSubmit(onSubmit)}>
                 <input className="text-field-container"
@@ -40,6 +48,7 @@ const Register = ({ loginDisplayed }) => {
                         },
                     })}
                     placeholder="Enter email address"
+                    onChange={() => clearErrors('email')}
                 />
                 {errors.email && <h5 className="error">{errors.email.message}</h5>}
                 <input className="text-field-container"
@@ -50,6 +59,7 @@ const Register = ({ loginDisplayed }) => {
                         required: "Name is required"
                     })}
                     placeholder="Enter full name"
+                    onChange={() => clearErrors('name')}
                 />
                 {errors.name && <h5 className="error">{errors.name.message}</h5>}
                 <input className="text-field-container"
@@ -64,13 +74,14 @@ const Register = ({ loginDisplayed }) => {
                         },
                     })}
                     placeholder="Enter password"
+                    onChange={() => clearErrors('password')}
                 />
                 {errors.password && (
                     <h5 className="error">{errors.password.message} </h5>
                 )}
                 {message && (
                     <div>
-                        <h5 className={`${message.type}`}>{message.info}</h5>
+                        <h5 className={`${message.type}`} style={{marginTop:'20px'}}>{message.info}</h5>
                     </div>
                 )}
                 <button className="submit-button-landing" type="submit">Sign up</button>
