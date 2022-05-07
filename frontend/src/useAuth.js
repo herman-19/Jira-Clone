@@ -1,7 +1,7 @@
 // Hook which enables any component to get the current auth state
 // and re-render if it changes.
 import React, { useState, createContext, useContext } from 'react';
-import { userLogin, userLogout } from './api/UserAPI';
+import { userLogin, userLogout, userRegistration } from './api/UserAPI';
 
 const authContext = createContext();
 const useAuth = () => {
@@ -39,6 +39,20 @@ const useProvideAuth = () => {
         }
     };
 
+    const register = async (registerInfo, cb) => {
+        try {
+            const data = await userRegistration(registerInfo);
+            setLoggedIn(true);
+            setMyUserId(data.person_id);
+            localStorage.setItem('loggedIn', true);
+            localStorage.setItem('myUserId', data.person_id);
+            cb();
+        } catch (error) {
+            console.log(error.data);
+            throw (error);
+        }
+    };
+
     const logout = async () => {
         try {
             await userLogout();
@@ -63,6 +77,7 @@ const useProvideAuth = () => {
         loggedIn,
         myUserId,
         login,
+        register,
         logout,
         unauthorizedLogout
     };
