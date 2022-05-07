@@ -5,7 +5,7 @@ import { Dimmer, Loader } from 'semantic-ui-react';
 import { useAuth } from '../useAuth';
 
 const Register = ({ loginDisplayed }) => {
-    const { register, handleSubmit, formState: { errors }, clearErrors } = useForm({reValidateMode: "onSubmit"});
+    const { register, handleSubmit, formState: { errors }} = useForm({reValidateMode: "onBlur"});
     const [message, setMessage] = useState();
     const [isSigningUp, setSigningUp] = useState(false);
     const navigate = useNavigate();
@@ -48,7 +48,6 @@ const Register = ({ loginDisplayed }) => {
                         },
                     })}
                     placeholder="Enter email address"
-                    onChange={() => clearErrors('email')}
                 />
                 {errors.email && <h5 className="error">{errors.email.message}</h5>}
                 <input className="text-field-container"
@@ -59,7 +58,6 @@ const Register = ({ loginDisplayed }) => {
                         required: "Name is required"
                     })}
                     placeholder="Enter full name"
-                    onChange={() => clearErrors('name')}
                 />
                 {errors.name && <h5 className="error">{errors.name.message}</h5>}
                 <input className="text-field-container"
@@ -74,7 +72,6 @@ const Register = ({ loginDisplayed }) => {
                         },
                     })}
                     placeholder="Enter password"
-                    onChange={() => clearErrors('password')}
                 />
                 {errors.password && (
                     <h5 className="error">{errors.password.message} </h5>
