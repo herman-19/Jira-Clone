@@ -73,7 +73,7 @@ const IssueCard = ({ issue, onStatusUpdate }) => {
                     <div className='issue-card-user-icons-container'>
                         <div className='issue-card-user-icon-container'>
                             {
-                                issue.assignee_ids && issue.assignee_ids.map((i) => <div className='card-user-icon'/>)
+                                issue.assignee_ids && issue.assignee_ids.map((i, index) => <div className='card-user-icon' key={index}/>)
                             }
                         </div>
                     </div>
