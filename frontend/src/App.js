@@ -11,6 +11,7 @@ import Landing from '../src/components/Landing';
 import Board from '../src/components/Board';
 import IssueView from './components/IssueView';
 import SettingsView from './components/SettingsView';
+import UserSettingsView from './components/UserSettingsView';
 import PrivateRoute from '../src/components/PrivateRoute';
 import NotFound from '../src/components/NotFound';
 
@@ -55,6 +56,9 @@ function App() {
       </Route>
       <Route exact path='/project/settings' element={<PrivateRoute />}>
         <Route exact path='/project/settings' element={<SettingsView projectName={projectName} projectCategory={projectCategory} onNameSave={setProjectName} onCategorySave={setProjectCategory} />} />
+      </Route>
+      <Route exact path='/project/user-settings' element={<PrivateRoute />}>
+        <Route exact path='/project/user-settings' element={<UserSettingsView projectName={projectName} projectCategory={projectCategory} />} />
       </Route>
       <Route path="*" element={<NotFound />} />
     </Routes>
