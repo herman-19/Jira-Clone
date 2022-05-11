@@ -60,6 +60,15 @@ const fetchIssue = async (id) => {
     }
 };
 
+const fetchUserInfo = async () => {
+    try {
+        const res = await http.get(`api/users/current`);
+        return res.data;
+    } catch (error) {
+        throw error;
+    }
+};
+
 const deleteIssue = async (id) => {
     try {
         const res = await http.delete(`api/issues/${id}`);
@@ -142,6 +151,15 @@ const updateProject = async (data) => {
     }
 };
 
+const updateUser = async (data) => {
+    try {
+        const res = await http.put('/api/users', data);
+        return res.data;
+    } catch (error) {
+        throw error;
+    }
+};
+
 export {
     userLogin,
     userLogout,
@@ -149,6 +167,7 @@ export {
     fetchAllIssues,
     fetchAllIssueAssignees,
     fetchIssue,
+    fetchUserInfo,
     fetchIssueAssignees,
     fetchUsers,
     fetchComments,
@@ -157,5 +176,6 @@ export {
     createIssue,
     updateIssue,
     updateProject,
+    updateUser,
     deleteIssue
 };
