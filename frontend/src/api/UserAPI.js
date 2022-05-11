@@ -20,7 +20,7 @@ const userLogout = async () => {
     } catch (error) {
         throw error;
     }
-}
+};
 
 const userRegistration = async (registrationData) => {
     try {
@@ -113,7 +113,7 @@ const fetchProjectInfo = async () => {
     } catch (error) {
         throw error;
     }
-}
+};
 
 const createComment = async (data) => {
     try {
@@ -122,7 +122,7 @@ const createComment = async (data) => {
     } catch (error) {
         throw error;
     }
-}
+};
 
 const createIssue = async (data) => {
     try {
@@ -131,7 +131,7 @@ const createIssue = async (data) => {
     } catch (error) {
         throw error;
     }
-}
+};
 
 const updateIssue = async (issueId, data) => {
     try {
