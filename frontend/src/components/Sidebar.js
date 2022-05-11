@@ -2,6 +2,7 @@ import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import KanbanIcon from './icons/Kanban';
 import SettingsIcon from './icons/Settings';
+import UserIcon from './icons/User';
 import ReleaseIcon from './icons/Release';
 import IssuesFiltersIcon from './icons/IssuesFilters';
 import PagesIcon from './icons/Pages';
@@ -12,7 +13,8 @@ const Sidebar = ({name, category}) => {
     const navigate = useNavigate();
     const location = useLocation();
     const kanbanTextStyle = (location.pathname === "/project") ? 'active-sidebar-text': '';
-    const settingsTextStyle = (location.pathname === "/project/settings")? 'active-sidebar-text': '';;
+    const settingsTextStyle = (location.pathname === "/project/settings")? 'active-sidebar-text': '';
+    const userSettingsTextStyle = (location.pathname === "/project/user-settings")? 'active-sidebar-text': '';;
 
     const catMap = new Map([['BUSINESS','Business'], ['MARKETING', 'Marketing'], ['SOFTWARE', 'Software']]);
 
@@ -32,6 +34,10 @@ const Sidebar = ({name, category}) => {
             <div className={settingsTextStyle + ' sidebar-item'} onClick={() => navigate('/project/settings')}>
                 <SettingsIcon />
                 <p>Project Settings</p>
+            </div>
+            <div className={userSettingsTextStyle + ' sidebar-item'} onClick={() => navigate('/project/user-settings')}>
+                <UserIcon />
+                <p>User Settings</p>
             </div>
             <div id='sidebar-divider' />
             <div className='sidebar-item'>
