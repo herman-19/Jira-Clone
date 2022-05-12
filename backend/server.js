@@ -33,6 +33,7 @@ app.use('/api/users', require('./routes/api/users'));
 app.use('/api/issues', require('./routes/api/issues'));
 app.use('/api/comments', require('./routes/api/comments'));
 app.use('/api/projects', require('./routes/api/projects'));
+app.use('/api/uploads', require('./routes/api/uploads'));
 
 app.listen(port, () => {
     console.log(`Server is listening on port ${port}...`);
