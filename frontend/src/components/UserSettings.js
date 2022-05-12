@@ -1,24 +1,36 @@
 import React, {useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Form, Message, Icon } from 'semantic-ui-react';
-import { fetchUserInfo, updateUser } from '../api/UserAPI';
+import { fetchUserInfo, fetchImageUploadSignedUrl, updateUser, uploadImage } from '../api/UserAPI';
 import { useAuth } from '../useAuth';
 
 const UserSettings = ({ pathName }) => {
     const auth = useAuth();
     const navigate = useNavigate();
     const [name, setName] = useState('');
-    const [url, setUrl] = useState('');
+    const [uploadURL, setUploadURL] = useState('');
     const [updating, setUpdating] = useState(false);
     const [error, setError] = useState(false);
     const [success, setSuccess] = useState(false);
+    const [selectedFile, setSelectedFile] = useState(null);
 
     useEffect(() => {
         const getUserInfo = async () => {
             try {
                 const info = await fetchUserInfo();
                 setName(info.name);
-                setUrl(info.image_s3_url || '');
+            } catch (error) {
+                if (error.response.status === 401) {
+                    await auth.unauthorizedLogout(() => {
+                      navigate('/');
+                    });
+                }
+            }
+        };
+        const getImageUploadURL = async () => {
+            try {
+                const res = await fetchImageUploadSignedUrl();
+                setUploadURL(res.url);
             } catch (error) {
                 if (error.response.status === 401) {
                     await auth.unauthorizedLogout(() => {
@@ -28,18 +40,18 @@ const UserSettings = ({ pathName }) => {
             }
         };
         getUserInfo();
+        getImageUploadURL();
     }, []);
 
     const updateUserInfo = async () => {
         try {
             setUpdating(true);
-            const info = {
-                name,
-                url
-            };
-            console.log('Updating user info with:');
-            console.log(info);
-            await updateUser(info);
+            await updateUser({name});
+
+            // Do image upload to S3 bucket.
+            if (selectedFile) {
+                await uploadImage(uploadURL, selectedFile);
+            }
             setUpdating(false);
             setSuccess(true);
             setTimeout(() => setSuccess(false), 2000);
@@ -54,6 +66,10 @@ const UserSettings = ({ pathName }) => {
                 setTimeout(() => setError(false), 2000);
             }
         }
+    };
+
+    const handleFileChange = (e) => {
+        setSelectedFile(e.target.files[0]);
     };
 
     return (
@@ -78,10 +94,7 @@ const UserSettings = ({ pathName }) => {
                     </Form.Field>
                     <Form.Field>
                         <label style={{color: '#5E6C84'}}>User Image</label>
-                        {/* <input value={url} id='settings-desc-text'
-                               onChange={e => {setUrl(e.target.value)}}
-                        /> */}
-                        <input id="photoupload" type="file" accept="image/*"></input>
+                        <input id="photoupload" type="file" accept="image/*" onChange={handleFileChange}/>
                     </Form.Field>
                     <div id='desc-editor-buttons'>
                         <Form.Button
