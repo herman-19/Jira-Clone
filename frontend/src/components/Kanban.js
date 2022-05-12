@@ -5,7 +5,7 @@ import { isThisWeek } from 'date-fns';
 import SearchIcon from './icons/Search';
 import GithubIcon from './icons/Github';
 import Columns from './Columns';
-import { fetchAllIssues, fetchAllIssueAssignees, fetchUsers } from '../api/UserAPI';
+import { fetchAllIssues, fetchAllIssueAssignees, fetchUsers, fetchListImagesSignedUrls } from '../api/UserAPI';
 import { useAuth } from '../useAuth';
 
 const Kanban = ({ name }) => {
@@ -24,8 +24,9 @@ const Kanban = ({ name }) => {
     useEffect(() => {
         const fetchIssues = async () => {
             try {
-                const allIssues = await fetchAllIssues();
-                const issueAssignees = await fetchAllIssueAssignees();
+                const responses = await Promise.all([fetchAllIssues(), fetchAllIssueAssignees()]);
+                const allIssues = responses[0];
+                const issueAssignees = responses[1];
                 for (let ia of issueAssignees) {
                     // Find corresponding issue in allIssues and add list of assignees to object.
                     for (let issue of allIssues) {
@@ -46,8 +47,15 @@ const Kanban = ({ name }) => {
             }
         };
         const getUsers = async () => {
-            const data = await fetchUsers();
-            setUsers(data);
+            const users = await fetchUsers();
+            const { urlsInfo } = await fetchListImagesSignedUrls();
+            for (let urlInfo of urlsInfo) {
+                const idx = users.findIndex((user) => user.person_id === parseInt(urlInfo.userId));
+                if (idx !== -1) {
+                    users[idx].url = urlInfo.url;
+                }
+            }
+            setUsers(users);
         };
         fetchIssues();
         getUsers();
@@ -203,7 +211,7 @@ const Kanban = ({ name }) => {
                     <div className='filter-user-icon-container'>
                         {
                             users && users.map((u, index) =>
-                            <div className='filter-user-icon tooltip' key={index} onClick={(e) => onUserIconClick(e, u.person_id)}>
+                            <div className='filter-user-icon tooltip' key={index} onClick={(e) => onUserIconClick(e, u.person_id)} style={{backgroundImage:`url(${u.url})`}}>
                                 <span className='tooltiptext-user-icon'>{u.name}</span>
                             </div>)
                         }
