@@ -1,4 +1,5 @@
 import http from "./http-common";
+import axios from "axios";
 
 const userLogin = async (loginCredentials) => {
     try {
@@ -115,6 +116,24 @@ const fetchProjectInfo = async () => {
     }
 };
 
+const fetchListImagesSignedUrls = async () => {
+    try {
+        const res = await http.get(`api/uploads/list-images-url`);
+        return res.data;
+    } catch (error) {
+        throw error;
+    }
+};
+
+const fetchImageUploadSignedUrl = async () => {
+    try {
+        const res = await http.get(`api/uploads/image-upload-url`);
+        return res.data;
+    } catch (error) {
+        throw error;
+    }
+};
+
 const createComment = async (data) => {
     try {
         const res = await http.post('api/comments', data);
@@ -160,6 +179,17 @@ const updateUser = async (data) => {
     }
 };
 
+const uploadImage = async (url, imageFile) => {
+    try {
+        const res = await axios.put(url, imageFile,
+            { headers: { 'Content-Type': imageFile.type }
+        });
+        return res.data;
+    } catch (error) {
+        throw error;
+    }
+};
+
 export {
     userLogin,
     userLogout,
@@ -172,10 +202,13 @@ export {
     fetchUsers,
     fetchComments,
     fetchProjectInfo,
+    fetchListImagesSignedUrls,
+    fetchImageUploadSignedUrl,
     createComment,
     createIssue,
     updateIssue,
     updateProject,
     updateUser,
+    uploadImage,
     deleteIssue
 };
