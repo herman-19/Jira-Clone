@@ -490,11 +490,10 @@ body {
   width: 28px;
   height: 28px;
   border-radius: 100%;
-  background-image: url(https://cdn.dribbble.com/users/2591291/screenshots/6158597/media/925e65e38adeea6ffc455df381a9ee79.png);
   background-position: 50% 50%;
   background-repeat: no-repeat;
   background-size: cover;
-  background-color: rgb(235, 236, 240);
+  background-color: #a7afc0;
   transition: transform 0.1s ease 0s;
 }
 

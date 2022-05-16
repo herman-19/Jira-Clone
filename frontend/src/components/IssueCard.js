@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback, useContext } from 'react';
 import TaskIcon from './icons/IssueTypeTask';
 import BugIcon from './icons/IssueTypeBug';
 import StoryIcon from './icons/IssueTypeStory';
@@ -8,6 +8,7 @@ import MedPrioIcon from './icons/IssuePriorityMedium';
 import HighPrioIcon from './icons/IssuePriorityHigh';
 import HighestPrioIcon from './icons/IssuePriorityHighest';
 import Modal from './Modal';
+import { kanbanContext } from './Kanban';
 
 const cardIconStyle = {
     height: 18,
@@ -39,6 +40,7 @@ const getIssueTypeIcon = (type) => {
 };
 
 const IssueCard = ({ issue, onStatusUpdate }) => {
+    const users = useContext(kanbanContext);
     const [displayModal, setDisplayModal] = useState(false);
     const [statusUpdateInfo, setStatusUpdateInfo] = useState(null);
     const toggleModal = () => {
@@ -73,7 +75,20 @@ const IssueCard = ({ issue, onStatusUpdate }) => {
                     <div className='issue-card-user-icons-container'>
                         <div className='issue-card-user-icon-container'>
                             {
-                                issue.assignee_ids && issue.assignee_ids.map((i, index) => <div className='card-user-icon' key={index}/>)
+                                issue.assignee_ids && issue.assignee_ids.map((id, index) => {
+                                    let url = '';
+                                    if (users) {
+                                        const idx = users.findIndex((u) => u.person_id === id);
+                                        url = (idx !== -1) ? users[idx].url : '';
+                                    }
+                                    return (
+                                        <div
+                                        className='card-user-icon'
+                                        key={index}
+                                        style={{backgroundImage:`url(${url})`}}
+                                    />
+                                    );
+                                })
                             }
                         </div>
                     </div>
