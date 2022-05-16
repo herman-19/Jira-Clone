@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useContext } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import TaskIcon from './icons/IssueTypeTask';
 import BugIcon from './icons/IssueTypeBug';
 import StoryIcon from './icons/IssueTypeStory';
