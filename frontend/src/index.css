@@ -450,9 +450,8 @@ body {
   background: rgb(255, 255, 255);
   box-shadow: rgb(9 30 66 / 25%) 0px 1px 2px 0px;
   display: block;
-
   transition: background 0.1s ease 0s;
-  /* background-color: #ffffff; */
+  word-wrap: break-word;
 }
 .issue-card:hover {
   background-color: inherit;
