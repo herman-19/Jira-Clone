@@ -1,7 +1,7 @@
 import React from 'react';
 import Navbar from './Navbar';
 import Sidebar from './Sidebar';
-import Kanban from './Kanban';
+import { Kanban } from './Kanban';
 
 const Board = ({ projectName, projectCategory }) => {
     return (

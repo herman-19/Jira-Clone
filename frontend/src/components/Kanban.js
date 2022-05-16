@@ -8,6 +8,8 @@ import Columns from './Columns';
 import { fetchAllIssues, fetchAllIssueAssignees, fetchUsers, fetchListImagesSignedUrls } from '../api/UserAPI';
 import { useAuth } from '../useAuth';
 
+const kanbanContext = React.createContext();
+
 const Kanban = ({ name }) => {
     const [issues, setIssues] = useState([]);
     const [users, setUsers] = useState(null);
@@ -181,49 +183,54 @@ const Kanban = ({ name }) => {
     };
 
     return (
-        <div id='kanban-board'>
-            <div id='kanban-path'>
-                <span>Projects</span>
-                <span>/</span>
-                <span>{name}</span>
-                <span>/</span>
-                <span>Kanban Board</span>
-            </div>
-            <div id='kanban-header'>
-                <p>Kanban Board</p>
-                <div>
-                    <a target='_blank' rel='noopener noreferrer' href='https://github.com/herman-19/Jira-Clone'>
-                        <button><GithubIcon />Github Repo</button>
-                    </a >
-                    <button onClick={onLogoutClick}>Log Out</button>
+        <kanbanContext.Provider value={users}>
+            <div id='kanban-board'>
+                <div id='kanban-path'>
+                    <span>Projects</span>
+                    <span>/</span>
+                    <span>{name}</span>
+                    <span>/</span>
+                    <span>Kanban Board</span>
                 </div>
-            </div>
-            <div id='kanban-filters'>
-                <form>
-                    <div id='input-container'>
-                        <div id='icon-container'>
-                            <SearchIcon w='14' h='14' />
+                <div id='kanban-header'>
+                    <p>Kanban Board</p>
+                    <div>
+                        <a target='_blank' rel='noopener noreferrer' href='https://github.com/herman-19/Jira-Clone'>
+                            <button><GithubIcon />Github Repo</button>
+                        </a >
+                        <button onClick={onLogoutClick}>Log Out</button>
+                    </div>
+                </div>
+                <div id='kanban-filters'>
+                    <form>
+                        <div id='input-container'>
+                            <div id='icon-container'>
+                                <SearchIcon w='14' h='14' />
+                            </div>
+                            <input type='text' value={textFilter} onChange={onChange} />
                         </div>
-                        <input type='text' value={textFilter} onChange={onChange} />
+                    </form>
+                    <div id='filter-user-icons-container'>
+                        <div className='filter-user-icon-container'>
+                            {
+                                users && users.map((u, index) =>
+                                <div className='filter-user-icon tooltip' key={index} onClick={(e) => onUserIconClick(e, u.person_id)} style={{backgroundImage:`url(${u.url})`}}>
+                                    <span className='tooltiptext-user-icon'>{u.name}</span>
+                                </div>)
+                            }
+                        </div>
                     </div>
-                </form>
-                <div id='filter-user-icons-container'>
-                    <div className='filter-user-icon-container'>
-                        {
-                            users && users.map((u, index) =>
-                            <div className='filter-user-icon tooltip' key={index} onClick={(e) => onUserIconClick(e, u.person_id)} style={{backgroundImage:`url(${u.url})`}}>
-                                <span className='tooltiptext-user-icon'>{u.name}</span>
-                            </div>)
-                        }
-                    </div>
+                    <button id='filter-button-1' onClick={onMyIssuesClick}>Only My Issues</button>
+                    <button id='filter-button-2' onClick={onRecentlyUpdatedClick}>Recently Updated</button>
+                    { textFilterEnabled && <div onClick={clearFilters} id='clear-all-button'>Clear All </div>}
                 </div>
-                <button id='filter-button-1' onClick={onMyIssuesClick}>Only My Issues</button>
-                <button id='filter-button-2' onClick={onRecentlyUpdatedClick}>Recently Updated</button>
-                { textFilterEnabled && <div onClick={clearFilters} id='clear-all-button'>Clear All </div>}
-            </div>
-            <Columns issues={textFilterEnabled ? filteredIssues : issues} />
-        </div >
+                <Columns issues={textFilterEnabled ? filteredIssues : issues} />
+            </div >
+        </kanbanContext.Provider>
     );
 };
 
-export default Kanban;
+export {
+    Kanban,
+    kanbanContext
+};
