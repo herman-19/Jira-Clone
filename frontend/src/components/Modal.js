@@ -162,7 +162,7 @@ const Modal = ({ isDiplayed, toggleModal, issue, onPrioUpdate, onTypeUpdate, set
             getUsers();
             getComments();
         }
-    }, [isDiplayed]);
+    }, [isDiplayed, auth, navigate, issue.issue_id]);
 
     return (
         <ReactModal

@@ -35,7 +35,9 @@ const Columns = ({ issues }) => {
     };
 
     const [columns, setColumns] = useState(issuesColumns);
-    useEffect(() => { setColumns(issuesColumns) }, [issues]);
+    useEffect(() => { setColumns(issuesColumns) },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [issues]);
 
     const onDragEnd = (result, columns, setColumns) => {
         // Logic below places the issue card in the dropped column.

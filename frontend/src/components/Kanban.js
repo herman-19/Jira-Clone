@@ -61,7 +61,7 @@ const Kanban = ({ name }) => {
         };
         fetchIssues();
         getUsers();
-    }, []);
+    }, [auth, navigate]);
 
     const onChange = (e) => {
         const val = e.target.value;

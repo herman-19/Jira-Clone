@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../useAuth';
 import { fetchIssueAssignees } from '../api/UserAPI';
 
-const AssigneeDropdown = ({ issueId, users, updateIssue, issue}) => {
+const AssigneeDropdown = ({ issueId, users, updateIssue, issue }) => {
     const auth = useAuth();
     const navigate = useNavigate();
     const [selected, setSelected] = useState([]);
@@ -43,7 +43,7 @@ const AssigneeDropdown = ({ issueId, users, updateIssue, issue}) => {
             setAssigneeOptions(options);
             getAssignees();
         }
-    }, [users, issueId]);
+    }, [users, issueId, auth, navigate]);
 
     const onChange = async (e, { value }) => {
         // Update assignees here...

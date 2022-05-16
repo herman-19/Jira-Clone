@@ -44,7 +44,7 @@ const SearchIssuePane = ({ isDisplayed, setIsDisplayed }) => {
         if (isDisplayed) {
             fetchRecentIssues();
         }
-    }, [isDisplayed]);
+    }, [isDisplayed, auth, navigate]);
 
     useEffect(() => {
         let timeoutId = 0;
@@ -61,7 +61,7 @@ const SearchIssuePane = ({ isDisplayed, setIsDisplayed }) => {
             }, 1000);
         }
         return () => clearTimeout(timeoutId);
-    }, [textFilter]);
+    }, [textFilter, searching, issues]);
 
     return (
         <div>

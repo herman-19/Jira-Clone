@@ -41,7 +41,7 @@ const UserSettings = ({ pathName }) => {
         };
         getUserInfo();
         getImageUploadURL();
-    }, []);
+    }, [auth, navigate]);
 
     const updateUserInfo = async () => {
         try {

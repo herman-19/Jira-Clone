@@ -12,7 +12,7 @@ import { useAuth } from '../useAuth';
 
 ReactModal.setAppElement("#root");
 
-const CreateIssueModal = ({isDiplayed, toggleModal, afterCreate}) => {
+const CreateIssueModal = ({ isDiplayed, toggleModal, afterCreate }) => {
     const auth = useAuth();
     const navigate = useNavigate();
     const [type, setType] = useState('TASK');
@@ -103,7 +103,7 @@ const CreateIssueModal = ({isDiplayed, toggleModal, afterCreate}) => {
         if (isDiplayed) {
             getUsers();
         }
-    },[isDiplayed]);
+    },[isDiplayed, auth, navigate]);
 
     return (
         <ReactModal

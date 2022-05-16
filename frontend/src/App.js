@@ -43,7 +43,7 @@ function App() {
     if (auth.loggedIn) {
       getProjectInfo();
     }
-}, [auth.loggedIn]);
+}, [auth, navigate]);
 
   return (
     <Routes>

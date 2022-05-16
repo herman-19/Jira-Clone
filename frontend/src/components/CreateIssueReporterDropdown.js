@@ -23,7 +23,7 @@ const CreateIssueReporterDropdown = ({ users, onReporterSelect }) => {
             }
             setReporterOptions(options);
         }
-    }, [users]);
+    }, [users, auth.myUserId]);
 
     // Handle selected reporter.
     const onChange = async (e, { value }) => {

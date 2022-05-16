@@ -160,7 +160,7 @@ const Issue = ({ issueId, name }) => {
             setIssueNotFound(true);
         });
 
-    }, [issueId]);
+    }, [issueId, auth, navigate]);
 
     return (
         <div id='issue-view'>

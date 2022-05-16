@@ -5,7 +5,7 @@ import TextareaAutosize from "react-textarea-autosize";
 import { fetchProjectInfo, updateProject } from '../api/UserAPI';
 import { useAuth } from '../useAuth';
 
-const Settings = ({pathName, onNameSave, onCategorySave}) => {
+const Settings = ({ pathName, onNameSave, onCategorySave }) => {
     const auth = useAuth();
     const navigate = useNavigate();
     const [name, setName] = useState('');
@@ -55,7 +55,7 @@ const Settings = ({pathName, onNameSave, onCategorySave}) => {
             }
         };
         getProjectInfo();
-    }, []);
+    }, [auth, navigate]);
 
     const updateProjectInfo = async () => {
         try {
