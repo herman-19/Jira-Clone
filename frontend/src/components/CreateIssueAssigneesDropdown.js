@@ -3,8 +3,6 @@ import { Dropdown } from 'semantic-ui-react';
 
 const CreateIssueAssigneesDropdown = ({ users, onAssigneesSelect}) => {
     const [selected, setSelected] = useState([]);
-    const [displayDropdown, setDisplayDropdown] = useState(true);
-
     const [assigneeOptions, setAssigneeOptions] = useState(null);
     useEffect(() => {
         if (users) {
@@ -40,8 +38,6 @@ const CreateIssueAssigneesDropdown = ({ users, onAssigneesSelect}) => {
     return (
         <div>
             {
-                (selected.length > 0 || displayDropdown)
-                &&
                 <Dropdown
                     multiple selection
                     value={selected}
