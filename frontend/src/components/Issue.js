@@ -80,9 +80,6 @@ const Issue = ({ issueId, name }) => {
         setInEditComMode(false);
         setPendingCom(comment);
     };
-    const deleteIssue = () => {
-        console.log('Deleting issue...');
-    };
     // Priority
     const [priority, setPriority] = useState('');
     // Timestamps.
