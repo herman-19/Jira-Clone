@@ -40,23 +40,23 @@ const Sidebar = ({name, category}) => {
                 <p>User Settings</p>
             </div>
             <div id='sidebar-divider' />
-            <div className='sidebar-item'>
+            <div className='sidebar-item not-allowed'>
                 <ReleaseIcon />
                 <p>Releases</p>
             </div>
-            <div className='sidebar-item'>
+            <div className='sidebar-item not-allowed'>
                 <IssuesFiltersIcon />
                 <p>Issues and Filters</p>
             </div>
-            <div className='sidebar-item'>
+            <div className='sidebar-item not-allowed'>
                 <PagesIcon />
                 <p>Pages</p>
             </div>
-            <div className='sidebar-item'>
+            <div className='sidebar-item not-allowed'>
                 <ReportsIcon />
                 <p>Reports</p>
             </div>
-            <div className='sidebar-item'>
+            <div className='sidebar-item not-allowed'>
                 <ComponentsIcon />
                 <p>Components</p>
             </div>
