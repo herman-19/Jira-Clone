@@ -53,7 +53,6 @@ const Modal = ({ isDiplayed, toggleModal, issue, onPrioUpdate, onTypeUpdate, set
             setDescription(pendingDesc);
             setInEditMode(false);
         } catch (error) {
-            // TODO: Display warning.
             console.log(error);
         }
     };

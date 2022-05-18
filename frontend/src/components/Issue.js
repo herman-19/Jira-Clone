@@ -43,7 +43,6 @@ const Issue = ({ issueId, name }) => {
             setDescription(pendingDesc);
             setInEditMode(false);
         } catch (error) {
-            // TODO: Display warning.
             console.log(error);
         }
     };
@@ -91,7 +90,6 @@ const Issue = ({ issueId, name }) => {
             const res = await updateIssue(issueId, data);
             setLastUpdated(res.last_updated_at);
         } catch (error) {
-            // TODO: Display warning.
             console.log(error);
         }
     };
