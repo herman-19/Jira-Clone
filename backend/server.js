@@ -1,9 +1,13 @@
 const app = require('express')();
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const conf = require("config");
+const conf = require('config');
 const port = conf.get('serverConfig.port');
 const session = require('express-session');
+const redisStore = require('connect-redis')(session);
+const { createClient } = require("redis")
+let redisClient = createClient({ legacyMode: true });
+redisClient.connect().catch(console.error);
 
 app.use(cors({
     origin: 'http://localhost:3000', // TODO: update allowed origin based on production environment
@@ -11,7 +15,7 @@ app.use(cors({
 }));
 app.use(bodyParser.json());
 
-// TODO: Set secure for https only. And revisit store type.
+// TODO: Set secure for https only.
 app.use(session({
     secret: conf.get('sessionSecret'),
     name: 'sessionID',
@@ -22,7 +26,12 @@ app.use(session({
         // secure: true,
         sameSite: 'strict',
         maxAge: 1000 * 60 * 60 // 60 minutes
-    }
+    },
+    store: new redisStore({
+        host: conf.get('redis.host'),
+        port: conf.get('redis.port'),
+        client: redisClient
+    })
 }));
 
 // Define routes.
