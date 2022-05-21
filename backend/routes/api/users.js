@@ -151,7 +151,6 @@ router.put('/', auth, async (req, res) => {
         }
 
         const user = await db.updateUser(req.session.userId, name, password);
-        console.log(user);
         res.json(user);
     } catch (error) {
         console.error(error.message);

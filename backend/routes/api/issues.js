@@ -95,8 +95,7 @@ router.post(
             if (!issueData.description) issueData.description = "";
 
             const row = await db.createIssue(issueData);
-            console.log('New issue created:');
-            console.log(row);
+            console.log('New issue created:', row);
             return res.json(row);
         } catch (error) {
             console.log(error.message);

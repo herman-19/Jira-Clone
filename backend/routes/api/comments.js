@@ -59,8 +59,7 @@ router.post(
             };
 
             const comment = await db.createComment(commentData);
-            console.log('New comment created:');
-            console.log(comment);
+            console.log('New comment created:', comment);
             return res.json(comment);
         } catch (error) {
             console.log(error.message);
