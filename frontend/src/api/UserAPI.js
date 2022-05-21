@@ -14,7 +14,7 @@ const userLogin = async (loginCredentials) => {
 
 const userLogout = async () => {
     try {
-        const res = await http.get('api/users/logout');
+        await http.get('api/users/logout');
         return true;
     } catch (error) {
         throw error;
