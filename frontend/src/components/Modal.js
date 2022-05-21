@@ -53,7 +53,7 @@ const Modal = ({ isDiplayed, toggleModal, issue, onPrioUpdate, onTypeUpdate, set
             setDescription(pendingDesc);
             setInEditMode(false);
         } catch (error) {
-            console.log(error);
+            throw error;
         }
     };
     const cancelEdit = () => {
@@ -106,8 +106,6 @@ const Modal = ({ isDiplayed, toggleModal, issue, onPrioUpdate, onTypeUpdate, set
 
     const doUpdate = async (data) => {
         try {
-            console.log('do Update...');
-            console.log(data);
             const res = await updateIssue(issue.issue_id, data);
             setLastUpdated(res.last_updated_at);
         } catch (error) {

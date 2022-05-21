@@ -22,7 +22,6 @@ const CreateIssueAssigneesDropdown = ({ users, onAssigneesSelect}) => {
         // Update assignees here...
         e.persist();
         setSelected(value);
-        console.log(value);
 
         // Find assignee ids of selected assignees.
         let newAssigneeIDs = [];

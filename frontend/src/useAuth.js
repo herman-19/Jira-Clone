@@ -48,7 +48,6 @@ const useProvideAuth = () => {
             localStorage.setItem('myUserId', data.person_id);
             cb();
         } catch (error) {
-            console.log(error.data);
             throw (error);
         }
     };

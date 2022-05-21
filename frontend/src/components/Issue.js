@@ -43,7 +43,7 @@ const Issue = ({ issueId, name }) => {
             setDescription(pendingDesc);
             setInEditMode(false);
         } catch (error) {
-            console.log(error);
+            throw error;
         }
     };
     const cancelEdit = () => {
@@ -72,7 +72,7 @@ const Issue = ({ issueId, name }) => {
             setPendingCom({value: ''});
             setInEditComMode(false);
         } catch (error) {
-            console.log(error);
+            throw error;
         }
     };
     const cancelCommentEdit = () => {
@@ -90,7 +90,7 @@ const Issue = ({ issueId, name }) => {
             const res = await updateIssue(issueId, data);
             setLastUpdated(res.last_updated_at);
         } catch (error) {
-            console.log(error);
+            throw error;
         }
     };
     // Delete issue modal.
@@ -154,8 +154,8 @@ const Issue = ({ issueId, name }) => {
             setLoaded(true);
         })
         .catch(error => {
-            console.log(error);
             setIssueNotFound(true);
+            console.log(error);
         });
 
     }, [issueId, auth, navigate]);

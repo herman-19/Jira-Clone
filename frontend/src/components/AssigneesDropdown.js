@@ -49,7 +49,6 @@ const AssigneeDropdown = ({ issueId, users, updateIssue, issue }) => {
         // Update assignees here...
         e.persist();
         setSelected(value);
-        console.log(value);
 
         // Find assignee ids to update issue.
         let newAssigneesReporterIDs = [];

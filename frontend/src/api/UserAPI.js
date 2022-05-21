@@ -6,7 +6,6 @@ const userLogin = async (loginCredentials) => {
         const res = await http.post("/api/users/login", loginCredentials, {
             headers: { "Content-Type": "application/json" },
         });
-        console.log(res);
         return res.data;
     } catch (error) {
         throw error;
@@ -16,7 +15,6 @@ const userLogin = async (loginCredentials) => {
 const userLogout = async () => {
     try {
         const res = await http.get('api/users/logout');
-        console.log(res);
         return true;
     } catch (error) {
         throw error;
