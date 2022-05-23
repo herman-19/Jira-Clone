@@ -4,6 +4,8 @@
   "description": "Backend for Jira Clone.",
   "main": "server.js",
   "scripts": {
+    "restart": "pm2 startOrRestart ecosystem.config.js",
+    "deploy": "pm2 deploy ecosystem.config.js production",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Herman Pineda-Yanez",
@@ -24,6 +26,7 @@
     "redis": "^4.1.0"
   },
   "devDependencies": {
-    "nodemon": "^2.0.15"
+    "nodemon": "^2.0.15",
+    "pm2": "^5.2.0"
   }
 }
