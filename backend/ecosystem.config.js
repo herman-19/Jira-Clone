@@ -15,7 +15,7 @@ module.exports = {
         ref: 'origin/main',
         repo: 'https://github.com/herman-19/Jira-Clone.git',
         path: '/home/ubuntu/server',
-        'post-deploy': 'npm install && pm2 startOrRestart ecosystem.config.js'
+        'post-deploy': 'cd ./backend && npm install && pm2 startOrRestart ecosystem.config.js'
       }
     }
   };
