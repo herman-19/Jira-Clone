@@ -23,8 +23,8 @@ app.use(session({
     resave: false,
     cookie: {
         httpOnly: true,
-        // secure: true,
-        sameSite: 'strict',
+        secure: false,
+        sameSite: 'lax',
         maxAge: 1000 * 60 * 60 // 60 minutes
     },
     store: new redisStore({
