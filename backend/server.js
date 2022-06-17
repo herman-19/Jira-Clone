@@ -15,7 +15,6 @@ app.use(cors({
 }));
 app.use(bodyParser.json());
 
-// TODO: Set secure for https only.
 app.use(session({
     secret: conf.get('sessionSecret'),
     name: 'sessionID',
