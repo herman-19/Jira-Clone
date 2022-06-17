@@ -182,7 +182,7 @@ const updateIssue = async (issueId, issueData) => {
         } else {
             // If no values to udpate, still want to return last_updated_at timestamp.
             // Thus pass issue info into res for response data uniformity.
-            const { rows } = await pool.query('SELECT * FROM issue WHERE issue_id = $1', [issueId]);
+            const { rows } = await client.query('SELECT * FROM issue WHERE issue_id = $1', [issueId]);
             res = rows[0];
         }
 
