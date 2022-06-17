@@ -14,7 +14,7 @@ import Expand from './icons/Expand';
 import Close from './icons/Close';
 import Comments from './Comments';
 import DeleteIssueModal from './DeleteIssueModal';
-import { fetchIssue, fetchUsers, updateIssue, fetchComments, createComment } from '../api/UserAPI';
+import { fetchIssue, fetchUsers, updateIssue, fetchComments, createComment, fetchListImagesSignedUrls } from '../api/UserAPI';
 import { useAuth } from '../useAuth';
 
 ReactModal.setAppElement("#root");
@@ -35,6 +35,7 @@ const Modal = ({ isDiplayed, toggleModal, issue, onPrioUpdate, onTypeUpdate, set
 
     // Users
     const [users, setUsers] = useState(null);
+    const [myImageUrl, setMyImageUrl] = useState('');
 
     // Description
     const [inEditMode, setInEditMode] = useState(false);
@@ -147,8 +148,18 @@ const Modal = ({ isDiplayed, toggleModal, issue, onPrioUpdate, onTypeUpdate, set
             }
         };
         const getUsers = async () => {
-            const data = await fetchUsers();
-            setUsers(data);
+            const users = await fetchUsers();
+            const { urlsInfo } = await fetchListImagesSignedUrls();
+            for (let urlInfo of urlsInfo) {
+                const idx = users.findIndex((user) => user.person_id === parseInt(urlInfo.userId));
+                if (idx !== -1) {
+                    users[idx].url = urlInfo.url;
+                }
+                if (parseInt(urlInfo.userId) === auth.myUserId) {
+                    setMyImageUrl(urlInfo.url);
+                }
+            }
+            setUsers(users);
         };
         const getComments = async () => {
              const data = await fetchComments(issue.issue_id);
@@ -224,7 +235,7 @@ const Modal = ({ isDiplayed, toggleModal, issue, onPrioUpdate, onTypeUpdate, set
                     <Form>
                         <div id='issue-modal-label'>Comments</div>
                         <div id='new-comment-container'>
-                            <div id='new-comment-user-img' />
+                            <div id='new-comment-user-img' style={{ backgroundImage: `url(${myImageUrl})` }}/>
                             <div id='pad-left'>
                                 <TextareaAutosize
                                     id='comment-text-input'
@@ -232,7 +243,6 @@ const Modal = ({ isDiplayed, toggleModal, issue, onPrioUpdate, onTypeUpdate, set
                                     placeholder="Add a comment..."
                                     onChange={e => setPendingCom({ value: e.target.value })}
                                     value={inEditComMode ? pendingCom.value : comment.value}
-                                    // style={{ fontSize: '14px' }}
                                     onFocus={() => setInEditComMode(true)}
                                 />
                                 {inEditComMode &&

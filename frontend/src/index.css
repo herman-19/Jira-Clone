@@ -384,7 +384,7 @@ body {
   background-position: 50% 50%;
   background-repeat: no-repeat;
   background-size: cover;
-  background-color: #a7afc0;
+  background-color: #d0d4da;
   transition: transform 0.1s ease 0s;
   margin: 0px -3px;
 }
@@ -402,7 +402,7 @@ body {
   background-position: 50% 50%;
   background-repeat: no-repeat;
   background-size: cover;
-  background-color: #a7afc0;
+  background-color: #d0d4da;
   transition: transform 0.1s ease 0s;
   margin: 0px 1px;
 }
@@ -495,7 +495,7 @@ body {
   background-position: 50% 50%;
   background-repeat: no-repeat;
   background-size: cover;
-  background-color: #a7afc0;
+  background-color: #d0d4da;
   transition: transform 0.1s ease 0s;
 }
 
@@ -735,11 +735,10 @@ body {
   width: 32px;
   height: 32px;
   border-radius: 100%;
-  background-image: url(https://cdn.dribbble.com/users/2591291/screenshots/6158597/media/925e65e38adeea6ffc455df381a9ee79.png);
   background-position: 50% 50%;
   background-repeat: no-repeat;
   background-size: cover;
-  background-color: rgb(235, 236, 240);
+  background-color: #d0d4da;
 }
 
 #pad-left {
@@ -1053,4 +1052,8 @@ body {
 #landing-loader {
   margin: auto;
   top: 25%;
+}
+
+*:focus {
+  outline: none;
 }

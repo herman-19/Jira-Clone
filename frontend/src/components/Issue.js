@@ -11,7 +11,7 @@ import IssuePriorityDropdown from './IssuePriorityDropdown';
 import Delete from './icons/Trash';
 import Comments from './Comments';
 import DeleteIssueModal from './DeleteIssueModal';
-import { fetchIssue, fetchUsers, updateIssue, fetchComments, createComment } from '../api/UserAPI';
+import { fetchIssue, fetchUsers, updateIssue, fetchComments, createComment, fetchListImagesSignedUrls } from '../api/UserAPI';
 import { useAuth } from '../useAuth';
 
 const Issue = ({ issueId, name }) => {
@@ -32,6 +32,7 @@ const Issue = ({ issueId, name }) => {
 
     // Users
     const [users, setUsers] = useState(null);
+    const [myImageUrl, setMyImageUrl] = useState('');
 
     // Description
     const [inEditMode, setInEditMode] = useState(false);
@@ -128,8 +129,18 @@ const Issue = ({ issueId, name }) => {
         };
         const getUsers = async () => {
             try {
-                const data = await fetchUsers();
-                setUsers(data);
+                const users = await fetchUsers();
+                const { urlsInfo } = await fetchListImagesSignedUrls();
+                for (let urlInfo of urlsInfo) {
+                    const idx = users.findIndex((user) => user.person_id === parseInt(urlInfo.userId));
+                    if (idx !== -1) {
+                        users[idx].url = urlInfo.url;
+                    }
+                    if (parseInt(urlInfo.userId) === auth.myUserId) {
+                        setMyImageUrl(urlInfo.url);
+                    }
+                }
+                setUsers(users);
             } catch (error) {
                 if (error.response.status === 401) {
                     await auth.unauthorizedLogout(() => {
@@ -224,7 +235,7 @@ const Issue = ({ issueId, name }) => {
                         <Form>
                             <div id='issue-modal-label'>Comments</div>
                             <div id='new-comment-container'>
-                                <div id='new-comment-user-img' />
+                                <div id='new-comment-user-img' style={{ backgroundImage: `url(${myImageUrl})` }}/>
                                 <div id='pad-left'>
                                     <TextareaAutosize
                                         id='comment-text-input'
