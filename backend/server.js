@@ -9,12 +9,7 @@ const { createClient } = require("redis")
 let redisClient = createClient({ legacyMode: true });
 redisClient.connect().catch(console.error);
 
-app.use(cors({
-    origin: 'http://localhost:3000', // TODO: update allowed origin based on production environment
-    credentials: true
-}));
 app.use(bodyParser.json());
-
 app.use(session({
     secret: conf.get('sessionSecret'),
     name: 'sessionID',
